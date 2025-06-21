@@ -1,6 +1,6 @@
 ---
 title: Custom Images
-description: Allows the shader to write up to 8 custom full images of data. 
+description: Allows the shader to write up to 16 custom full images of data. 
 sidebar:
   label: Custom Images
   order: 3
@@ -13,7 +13,7 @@ import { Badge } from '@astrojs/starlight/components';
 
 ### `image.<imageName> = <samplerName> <format> <internalFormat> <pixelType> <shouldClearOnNewFrame> <isRelative> <relativeX/absoluteX> <relativeY/absoluteY> <absoluteZ>`
 
-Custom images allow the shader to write up to 8 custom full images of data. These images are similar to [colortex](/current/reference/buffers/colortex) buffers, except they allow for writing to arbitrary locations and from any shader file. For more info on allowed formats and restrictions, along for their use in shaders, read the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Image_Load_Store). Iris custom images require the [`CUSTOM_IMAGES`](/current/reference/shadersproperties/flags) feature flag.
+Custom images allow the shader to write up to 16 custom full images of data. These images are similar to [colortex](/current/reference/buffers/colortex) buffers, except they allow for writing to arbitrary locations and from any shader file. For more info on allowed formats and restrictions, along for their use in shaders, read the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Image_Load_Store). Iris custom images require the [`CUSTOM_IMAGES`](/current/reference/shadersproperties/flags) feature flag.
 
 :::caution[Warning]
 Custom images require OpenGL 4.2 support, which macOS does not have. For more information, see the [macOS](/current/reference/miscellaneous/macos) page.
