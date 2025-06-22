@@ -175,7 +175,7 @@ option.SSBO = Ambient Occlusion
 ```
 
 #### Value Labels
-Value labels replace the display name of a specific value of a non-boolean shader option. They can be specified with `value.<option_name>.<value> = <value_label>` in a lang file. Replace `<option_name>` with the options name as defined in shaders.properties, `<value>` with value to replace, and `<value_label>` with the user-friendly value label to be displayed in the shader options screen. For example:
+Value labels replace the display name for a value of a non-boolean shader option. They can be specified with `value.<option_name>.<value> = <value_label>` in a lang file. Replace `<option_name>` with the options name as defined in shaders.properties, `<value>` with value to replace, and `<value_label>` with the user-friendly value label to be displayed in the shader options screen. For example:
 
 ```properties title=".lang file"
 value.Shadow_Type.0=off
@@ -189,6 +189,12 @@ A prefix and suffix can be added to before and after the values of an option wit
 ```properties title=".lang file"
 prefix.Shadow_Type = (
 suffix.Shadow_Type = )
+```
+
+#### Screen Labels
+Screen labels replace the display name of a sub-screen. They are specified with `screen.<screen_name> = <title>`. For example
+```properties title=".lang file"
+screen.ATMOSPHERICS = Atmospherics
 ```
 
 #### Option Tooltips
