@@ -6,19 +6,19 @@ sidebar:
   order: 1
 ---
 
-**Buffers** are dedicated areas of memory used to temporarily store color data, depth information, or any other information used for rendering. The following are buffers Iris/OptiFine make available by default, some of which can be written to and read from, and some of which can only be read from.
+**Buffers** are dedicated areas of memory used to temporarily store color data, depth information, or any other information used for rendering. The following are buffers Iris/OptiFine makes available by default, some of which can be written to and read from, and some of which can only be read from.
 
-| Sampler                                                | [Format](/current/reference/buffers/image)         | Size                    |
-| ------------------------------------------------------ | -------------- | ----------------------- |
-| [`colortexN`](/current/reference/buffers/colortex)     | `RGBA`*        | Display Resolution*     |
-| [`depthtexN`](/current/reference/buffers/colortex)     | `R24` / `R32`† | Display Resolution      |
-| [`noisetex`](/current/reference/buffers/colortex)      | `RGB8`*        | 256 x 256               |
-| [`shadowtexN`](/current/reference/buffers/shadowtex)   | `R24` / `R32`† | Shadow Map Resolution*  |
-| [`shadowColorN`](/current/reference/buffers/colortex)  | `RGBA`*        | Shadow Map Resolution*  |
+| Sampler                                                  | [Format](/current/reference/buffers/image_format/) | Size                      |
+| -------------------------------------------------------- | -------------------------------------------------- | ------------------------- |
+| [`colortexN`](/current/reference/buffers/colortex)       | `RGBA`*                                            | Display Resolution*       |
+| [`depthtexN`](/current/reference/buffers/depthtex)       | `DEPTH24_STENCIL8` / `DEPTH32F_STENCIL8`†          | Display Resolution        |
+| [`noisetex`](/current/reference/buffers/noisetex)        | `RGB8`*                                            | Noise Texture Resolution* |
+| [`shadowtexN`](/current/reference/buffers/shadowtex)     | `DEPTH24_STENCIL8` / `DEPTH32F_STENCIL8`†          | Shadow Map Resolution*    |
+| [`shadowColorN`](/current/reference/buffers/shadowcolor) | `RGBA`*                                            | Shadow Map Resolution*    |
 
 <sup>*Configurable</sup><br/>
 <sup>†Dependent on drivers</sup>
 
-Also provided are three [texture atlases](/reference/Buffers/atlases.mdx). These have the format `RGBA8` and their resolution can be determined with [`atlasSize`](https://shaders.properties/current/reference/uniforms/rendering/#atlassize).
+Also provided are three [texture atlases](/current/reference/buffers/atlases/). These have the format `RGBA8` and their resolution can be determined with [`atlasSize`](/current/reference/uniforms/rendering/#atlassize).
 
-On Iris, additional buffers can be created through through the use of [custom textures](/reference/buffers/custom_textures/), [custom images](/reference/buffers/custom_images/), and [SSBOs](/reference/buffers/ssbo/)
+On Iris, additional buffers can be created through through the use of [custom textures](/current/reference/buffers/custom_textures/), [custom images](/current/reference/buffers/custom_images/), and [SSBOs](/current/reference/buffers/ssbo/)
