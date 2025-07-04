@@ -16,11 +16,17 @@ There are two samplers for accessing the shadow depth buffer.
 
 #### Writing
 
-These buffers are automatically written to by the [`shadow`](/current/reference/programs/gbuffers) program, and store the screenspace z coordinate at each pixel. You can manually write to this buffer by setting the `gl_FragDepth` variable in any `gbuffers` fragment shader. If `gl_FragDepth` is used in a shader, the automatic writing will be disabled and the shader is responsible for writing all depth values.
+These buffers are automatically written to by the [`shadow`](/current/reference/programs/shadow) and [`shadow_*`](/current/reference/programs/shadow/#additional-shadow-programs-iris-18) programs, and store the screenspace z coordinate at each pixel. You can manually write to this buffer by setting the `gl_FragDepth` variable in the fragment shader. If `gl_FragDepth` is used, it must have a value assigned for all execution paths. For more information see [the OpenGL Docs](https://registry.khronos.org/OpenGL-Refpages/gl4/html/gl_FragDepth.xhtml).
+
+:::tip
+The default (automatic) behavior of writing to the depth buffer is as follows:
+```glsl
+gl_FragDepth = gl_FragCoord.z;
+```
+:::
 
 #### Size
-
-These buffers are the same resolution as the Minecraft window. This cannot be configured.
+These buffers default to the shadow pass resolution, which can be controlled with the [`shadowMapResolution`](/current/reference/constants/shadowmapresolution) constant.
 
 #### Format / precision
 
@@ -38,6 +44,6 @@ These buffers do not flip.
 The alias `waterShadow` points to the same buffer as `shadowtex0`. If `waterShadow` is present anywhere in the code, then the alias `shadow` will point to the same buffer as `shadowtex1`, otherwise it will point to the buffer `shadowtex0`.
 
 ## Hardware Sampling
-[`shadowHardwareFiltering`](/current/reference/constants/shadowhardwarefiltering) enables support hardware sampling (depth comparison mode) for hardware shadow filtering. This turns the shadowtex samplers into `sampler2DShadow` samplers, which when sampled take the full `xyz` coordinates of the shadow position. The passed `z` coordinate is then compared to the values in the buffer around the `xy` coordinate, and the result is the weighted average of these comparisons. This produces a filtering effect on the shadow with very little to no performance impact. More information can be found in the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Sampler_Object#Comparison_mode).
+[`shadowHardwareFiltering`](/current/reference/constants/shadowhardwarefiltering) enables hardware filtering (depth comparison mode). This turns the shadowtex samplers into `sampler2DShadow` samplers, which when sampled take the full `xyz` coordinates of the shadow position. The passed `z` coordinate is then compared to the values in the buffer around the `xy` coordinate, and the result is the weighted average of these comparisons. This produces a filtering effect on the shadow with very little to no performance impact. More information can be found in the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Sampler_Object#Comparison_mode).
 
 When hardware sampling is used, the texture read no longer returns the distance stored in the buffer, but the result of a filtering depth comparison. This prevents its use in algorithms such as PCSS that rely on the actual value stored in the buffer. However, Iris enables the use of separate buffers for hardware sampling, `shadowtex0HW` and `shadowtex1HW`, while retaining the original functionality on the base shadowtex buffers. This requires the [`SEPARATE_HARDWARE_SAMPLERS`](/current/reference/shadersproperties/flags) feature flag as well as setting [`shadowHardwareFiltering`](/current/reference/constants/shadowhardwarefiltering) to true.

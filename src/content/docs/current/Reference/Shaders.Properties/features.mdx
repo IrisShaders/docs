@@ -101,6 +101,12 @@ separateAo=<true|false>
 ```
 Normally, a vanilla ambient occlusion (AO) value is stored in the `rgb` components of the [vertex color attribute](/current/reference/attributes/overview). Enabling `separateAo` moves this into the `a` channel of the color attribute. `separateAo` is disabled by default.
 
+:::caution[Warning]
+There is currently a bug present in Iris that prevents `separateAo` from functioning unless the shadow pass is enabled.
+:::
+
+
+
 ----------------
 
 

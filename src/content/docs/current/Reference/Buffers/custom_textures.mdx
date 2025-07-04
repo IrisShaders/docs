@@ -17,7 +17,7 @@ texture.<stage>.<bufferName> = <path>
 ### Texture types
 OptiFine/Iris support four different texture types, which are specified in the `<path>` parameter.
 
-#### Images from shader files
+#### Textures from shader pack files
 Image files can be loaded from the shader pack files by replacing `<path>` with the file path to the image relative to the `shaders` folder. For example `texture.composite.colortex5 = textures/perlin.png` would load `perlin.png` from the `shaders/textures` folder. Iris supports only `.png` image format, whereas OptiFine supports `.png` and `.jpg` formats.
 
 #### Textures from game files / resource packs
@@ -26,7 +26,7 @@ Textures can also be loaded from the resource pack by replacing `<path>` with `m
 #### Atlas and dynamic textures
 Atlas textures (such as the block atlas) can be loaded by passing their file path, starting with `minecraft:textures/atlas/`. For example, `texture.composite.colortex9 = minecraft:textures/atlas/blocks.png` loads the block atlas into `colortex9`. A list of available texture atlases can be found in the [Minecraft Wiki](https://minecraft.wiki/w/Texture_atlas#Navigation) under "Procedurally-generated" in the Navigation table.
 
-Additionally, the lightmap dynamic texture can be loaded using either `minecraft:dynamic/lightmap_1` or `minecraft:dynamic/light_map_1`. This texture is equivalent to the `lightmap` sampler used in [gbuffers](/current/reference/programs/gbuffers). For example `texture.prepare.colortex2 = minecraft:dynamic/lightmap_1` loads the lightmap into `colortex2`. 
+Additionally, the lightmap dynamic texture can be loaded using either `minecraft:dynamic/lightmap_1` or `minecraft:dynamic/light_map_1`. This texture is equivalent to the `lightmap` sampler used in [gbuffers](/current/reference/programs/gbuffers). For example `texture.prepare.colortex2 = minecraft:dynamic/lightmap_1` loads the lightmap into `colortex2`.
 
 #### Raw textures
 Raw textures can be loaded from the shader files, similarly to image files. However raw textures are uncompressed binary files, where the bytes represent the values in the texture directly. Raw files can also encode 3D textures, and the texture format can be directly controlled (images are always loaded as RGBA8). To use a raw texture, add the following parameters to the custom texture directive:
@@ -61,6 +61,10 @@ When using the OptiFine specification, replace `<stage>` with the stage of progr
 | `gbuffers`   | [`gbuffers`](/current/reference/programs/gbuffers) and [`shadow`](/current/reference/programs/shadow) programs |
 | `deferred`   | [`deferred`](/current/reference/programs/deferred) programs                                            |
 | `composite`  | [`composite`](/current/reference/programs/composite) and [`final`](/current/reference/programs/final) programs |
+
+:::caution[Warning]
+On Iris, binding a custom texture to the `composite` stage will also bind it in the `final` program. OptiFine does not do this, and as such in OptiFine there is no way to bind a custom texture to the `final` program.
+:::
 
 
 ## `customTexture` directive <Badge text="Iris Exclusive" variant="tip" size="medium" />

@@ -19,15 +19,7 @@ These buffers can be read from any program, but will contain garbage data until 
 
 #### Writing
 
-These buffers are automatically written to by [`gbuffers`](/current/reference/programs/gbuffers) programs, and store the screenspace z coordinate at each pixel. You can manually write to this buffer by setting the `gl_FragDepth` variable in any `gbuffers` fragment shader. If `gl_FragDepth` is used in a shader, the automatic writing will be disabled and the shader is responsible for writing all depth values.
-
-#### Size
-
-These buffers are the same resolution as the Minecraft window. This cannot be configured.
-
-#### Format / precision
-
-These buffers only store information in a single channel, the `r` component. The depth buffer precision is hardware / driver dependent. However, most hardware uses either 24-bit or 32-bit (`R24` or `R32`) precision. 
+These buffers are automatically written to by [`gbuffers`](/current/reference/programs/gbuffers) programs, and store the screenspace z coordinate at each pixel. You can manually write to this buffer by setting the `gl_FragDepth` variable in the fragment shader. If `gl_FragDepth` is used, it must have a value assigned for all execution paths. For more information see [the OpenGL Docs](https://registry.khronos.org/OpenGL-Refpages/gl4/html/gl_FragDepth.xhtml).
 
 :::tip
 The default (automatic) behavior of writing to the depth buffer is as follows:
@@ -35,6 +27,14 @@ The default (automatic) behavior of writing to the depth buffer is as follows:
 gl_FragDepth = gl_FragCoord.z;
 ```
 :::
+
+#### Size
+
+These buffers are the same resolution as the Minecraft window. This cannot be configured.
+
+#### Format / precision
+
+These buffers only store information in a single channel, the `r` component. The depth buffer precision is hardware / driver dependent. However, most hardware uses either 24-bit or 32-bit (`R24` or `R32`) precision.
 
 #### Clearing
 

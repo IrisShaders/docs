@@ -6,7 +6,7 @@ sidebar:
   order: 3
 ---
 
-The code contained in a shader pack is not the final code that is compiled and executed. In order to ensure maximum compatibility, Iris runs the shader code through [glsl-transformer](https://github.com/IrisShaders/glsl-transformer), which generates **patched shader code**. This is the code that actually ends up on the GPU. In the context of developing shaders, there are several important consequences to note:
+The source code of a shader pack is not the final code that is compiled and executed. In order to ensure maximum compatibility, Iris runs the shader code through [glsl-transformer](https://github.com/IrisShaders/glsl-transformer), which generates **patched shader code**. This is the code that actually ends up on the GPU. In the context of developing shaders, there are several important consequences to note:
 
 - Since the patcher removes non-necessary whitespace in the code, line numbers in errors will not match up with the line numbers in your code
 - You cannot name your functions or variables in a similar manner as internal Iris variables:
