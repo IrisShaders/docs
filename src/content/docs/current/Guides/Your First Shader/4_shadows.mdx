@@ -180,7 +180,7 @@ Let's make a new file called `distort.glsl`. We'll put it in a folder called `li
 
 We can then add 
 ```glsl
-#include /lib/distort.glsl
+#include "/lib/distort.glsl"
 ```
 to our `shadow.vsh`. This should be included before the `main` function, as you cannot define functions within a function. I put mine just before my `out` declarations. We should also move our declaration of `shadowMapResolution` to `distort.glsl`. This way, we can access this variable anywhere we are sampling the shadow map.
 
