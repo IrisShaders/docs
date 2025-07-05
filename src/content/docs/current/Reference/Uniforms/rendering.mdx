@@ -33,13 +33,13 @@ The current render distance, in blocks. Despite the name, this is not the far cl
 ```glsl
 uniform float alphaTestRef;
 ```
-This value stores the alpha value that Iris recommends you discard pixels below. This value is commonly `0.1`, but can change in certain cases. Therefore, it is recommended to use the uniform over a hardcoded value. The value is also affected by the [`alphaTest`](/current/reference/shadersproperties/rendering#alphatest) directive. It is normally used like this:
+This value stores the alpha value that Iris recommends you discard pixels below. This value is commonly `0.1`, but can change in certain cases. Therefore, it is recommended to use the uniform over a hardcoded value. The value is also affected by the [`alphaTest`](/current/reference/shadersproperties/rendering/#alphatest) directive. It is normally used like this:
 ```glsl
 if (albedoOut.a < alphaTestRef) discard;
 ```
 
 :::note
-This uniform is designed to work with the modern syntax for fragment shader outputs (`out`). When using the legacy syntax (`gl_FragData`) this uniform is not necessary as the alpha test is performed automatically. However, this can be disabled using the [`alphaTest`](/current/reference/shadersproperties/rendering#alphatest) directive.
+This uniform is designed to work with the modern syntax for fragment shader outputs (`out`). When using the legacy syntax (`gl_FragData`) this uniform is not necessary as the alpha test is performed automatically. However, this can be disabled using the [`alphaTest`](/current/reference/shadersproperties/rendering/#alphatest) directive.
 :::
 
 ----------------
@@ -49,7 +49,7 @@ This uniform is designed to work with the modern syntax for fragment shader outp
 ```glsl
 uniform vec3 chunkOffset;
 ```
-The chunk offset in model space for the currently rendering chunk of terrain. Used in combination with [`vaPosition`](/current/reference/attributes/vaposition) to get the model space position as follows:
+The chunk offset in model space for the currently rendering chunk of terrain. Used in combination with [`vaPosition`](/current/reference/attributes/vaposition/) to get the model space position as follows:
 
 ```glsl
 vec3 model_pos = vaPosition + chunkOffset;
@@ -77,7 +77,7 @@ color.rgb = mix(color.rgb, entityColor.rgb, entityColor.a);
 ```glsl
 uniform ivec4 blendFunc;
 ```
-The alpha blending function multipliers for the current program, as described in [`blend.<program>`](/current/reference/shadersproperties/rendering#blend). The components of the vector store the following:
+The alpha blending function multipliers for the current program, as described in [`blend.<program>`](/current/reference/shadersproperties/rendering/#blend). The components of the vector store the following:
 
 - `x`: source RGB
 - `y`: destination RGB
@@ -116,7 +116,7 @@ This value stores the size of the texture atlas. It only stores a value when the
 ```glsl
 uniform int renderStage;
 ```
-This uniform stores the "render stage" of the current geometry. This can be used to identify what type of geometry is being rendered in more detail than the [gbuffer program](/current/reference/programs/gbuffers) it's running in. The uniform value is intended to be compared to one of the [render stage preprocessor macros](/current/reference/macros/render_stages) which are defined by Iris.
+This uniform stores the "render stage" of the current geometry. This can be used to identify what type of geometry is being rendered in more detail than the [gbuffer program](/current/reference/programs/gbuffers/) it's running in. The uniform value is intended to be compared to one of the [render stage preprocessor macros](/current/reference/macros/render_stages/) which are defined by Iris.
 
 ----------------
 

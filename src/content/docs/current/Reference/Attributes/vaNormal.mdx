@@ -21,7 +21,7 @@ This attribute only works with the `core` profile in Minecraft 1.17 and newer. I
 
 The vertex normal vector attribute, equivalent to `gl_Normal` from the `compatibility` profile.
 
-The normal vector from `vaNormal` is in model space (which varies for different geometry). It can be converted to view space using [`normalMatrix`](/current/reference/uniforms/matrices#normalmatrix) (or `gl_NormalMatrix` in the compatibility profile).
+The normal vector from `vaNormal` is in model space (which varies for different geometry). It can be converted to view space using [`normalMatrix`](/current/reference/uniforms/matrices/#normalmatrix) (or `gl_NormalMatrix` in the compatibility profile).
 ```glsl
 vec3 normal = normalMatrix * vaNormal;
 ```

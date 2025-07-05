@@ -15,8 +15,8 @@ sidebar:
 
 ---
 
-The legacy version of the [`RENDERTARGETS`](/current/reference/constants/rendertargets) directive. This directive can only reference indicies 0 through 9, so `colortex10` through `colortex15` cannot be bound with this directive. Because of this, it is recommended to use [`RENDERTARGETS`](/current/reference/constants/rendertargets) directive instead as that can access all available buffers.
+The legacy version of the [`RENDERTARGETS`](/current/reference/constants/rendertargets/) directive. This directive can only reference indicies 0 through 9, so `colortex10` through `colortex15` cannot be bound with this directive. Because of this, it is recommended to use [`RENDERTARGETS`](/current/reference/constants/rendertargets/) directive instead as that can access all available buffers.
 
 To use this directive replace `XYZ` with the sequence of indices of color attachments. For example, putting `/* DRAWBUFFERS:0178 */` in `composite.fsh` would configure that program to write to `colortex0`, `colortex1`, `colortex7`, and `colortex8`. The comment can be placed anywhere in the `.fsh` file.
 
-More information on how this buffer applies to outputing values is in the [`RENDERTARGETS`](/current/reference/constants/rendertargets) section.
+More information on how this buffer applies to outputing values is in the [`RENDERTARGETS`](/current/reference/constants/rendertargets/) section.

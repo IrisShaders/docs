@@ -8,7 +8,7 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-The `block.properties` file (located in the `shaders` folder) lets you assign IDs to specific blocks/block entities by their Minecraft ID. These IDs can be read through [`mc_Entity`](/current/reference/attributes/mc_entity) and [`blockEntityId`](/current/reference/uniforms/id#blockentityid) respectively in [gbuffers](/current/reference/programs/gbuffers) and [shadow](/current/reference/programs/shadow) shaders. The `block.properties` file should be placed in the `shaders` folder.
+The `block.properties` file (located in the `shaders` folder) lets you assign IDs to specific blocks/block entities by their Minecraft ID. These IDs can be read through [`mc_Entity`](/current/reference/attributes/mc_entity/) and [`blockEntityId`](/current/reference/uniforms/id/#blockentityid) respectively in [gbuffers](/current/reference/programs/gbuffers/) and [shadow](/current/reference/programs/shadow/) shaders. The `block.properties` file should be placed in the `shaders` folder.
 
 Blocks and block entities can be assigned to an ID in this file, with the following syntax:
 ```properties title="block.properties"
@@ -35,7 +35,7 @@ The two can also be combined, for example `minecraft:oak_door:facing=north,south
 
 Iris 1.7 adds support for data pack tags, which allow assigning groups of block based on attributes of the block. For more info on tags, see the [Minecraft Wiki](https://minecraft.wiki/w/Tag#Java_Edition_2).
 
-To specify a tag, use the following syntax `%<tag>` instead of the old block ID syntax. Use the [`IRIS_TAG_SUPPORT`](/current/reference/macros/iris_tag_support) macro in block.properties to detect if the current version of Iris supports tags:
+To specify a tag, use the following syntax `%<tag>` instead of the old block ID syntax. Use the [`IRIS_TAG_SUPPORT`](/current/reference/macros/iris_tag_support/) macro in block.properties to detect if the current version of Iris supports tags:
 ```properties title="block.properties"  
 #ifdef IRIS_TAG_SUPPORT
   block.<ID> = %[<namespace>:]<tag>

@@ -8,11 +8,11 @@ sidebar:
 
 ### `MC_HAND_DEPTH`
 
-The clip space depth multiplier applied to geometry in [`gbuffers_hand`](/current/reference/programs/gbuffers) and [`gbuffers_hand_water`](/current/reference/programs/gbuffers).
+The clip space depth multiplier applied to geometry in [`gbuffers_hand`](/current/reference/programs/gbuffers/) and [`gbuffers_hand_water`](/current/reference/programs/gbuffers/).
 
-The multiplier is applied in clip space automatically through the [projection matrix](/current/reference/uniforms/matrices#projectionMatrix]. When working backwards from the depth buffer, the multiplier should be applied in NDC space rather than screen space to produce the correct result, for example:
+The multiplier is applied in clip space automatically through the [projection matrix](/current/reference/uniforms/matrices/#projectionMatrix). When working backwards from the depth buffer, the multiplier should be applied in NDC space rather than screen space to produce the correct result, for example:
 
 ```glsl
-float screenDepth = texture(depthtex0, texcoord).r;
+float screenDepth = textureLod(depthtex0, texcoord, 0.0).r;
 float ndcDepth = (screenDepth * 2.0 - 1.0) / MC_HAND_DEPTH;
 ```

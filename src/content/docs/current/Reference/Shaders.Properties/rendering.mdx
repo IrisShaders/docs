@@ -7,13 +7,13 @@ sidebar:
 ---
 import { Badge } from '@astrojs/starlight/components';
 
-This page lists [shaders.properties](/current/reference/shadersproperties/overview) rendering options including alpha tests and blending, buffer sizes and flipping, depth writing, culling, and more.
+This page lists [shaders.properties](/current/reference/shadersproperties/overview/) rendering options including alpha tests and blending, buffer sizes and flipping, depth writing, culling, and more.
 
 ## alphaTest
 ```properties
 alphaTest.<program>=<off|func ref>
 ```
-This directive is used to control the alpha test for cutout programs. For the `compatibility` profile the alpha test is applied automatically when using `gl_FragData` or `gl_FragColor`. For the newer syntax, only the reference value is passed through [`alphaTestRef`](/current/reference/uniforms/rendering#alphatestref) and the function must be implemented by the shader.
+This directive is used to control the alpha test for cutout programs. For the `compatibility` profile the alpha test is applied automatically when using `gl_FragData` or `gl_FragColor`. For the newer syntax, only the reference value is passed through [`alphaTestRef`](/current/reference/uniforms/rendering/#alphatestref) and the function must be implemented by the shader.
 
 Replace:
 - `<program>` with a gbuffers program name, including the dimension folder if relevant (e.g. `world0/composite2`). This does not work with Iris custom dimensions however.
@@ -69,7 +69,7 @@ Replace:
 ```properties
 flip.<program>.<bufferName>=<true|false>
 ```
-For each color attachment sampler, there is actually two buffers, the "main" and "alt" buffers. [`gbuffers`](/current/reference/programs/gbuffers) and [`shadow`](/current/reference/programs/shadow) programs read from the "main" buffer and write to the "main" buffer, which means that reading to and writing from the same buffer will cause artifacting. [`begin`](/current/reference/programs/begin), [`shadowcomp`](/current/reference/programs/shadow_comp), [`prepare`](/current/reference/programs/prepare), [`deferred`](/current/reference/programs/deferred), and [`composite`](/current/reference/programs/composite) passes however read from the "main" buffer and write to the "alt" buffer, allowing them to read and write to the same buffer, and after that program the "main" and "alt" buffers are swapped so data written by the current program is read by the next program.
+For each color attachment sampler, there is actually two buffers, the "main" and "alt" buffers. [`gbuffers`](/current/reference/programs/gbuffers/) and [`shadow`](/current/reference/programs/shadow/) programs read from the "main" buffer and write to the "main" buffer, which means that reading to and writing from the same buffer will cause artifacting. [`begin`](/current/reference/programs/begin/), [`shadowcomp`](/current/reference/programs/shadow_comp/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), and [`composite`](/current/reference/programs/composite/) passes however read from the "main" buffer and write to the "alt" buffer, allowing them to read and write to the same buffer, and after that program the "main" and "alt" buffers are swapped so data written by the current program is read by the next program.
 
 This behavior can be controlled with the `flip.<program>.<bufferName>` directive. Replace `<program>` with the program name (i.e. `composite2`), `<bufferName>` with the sampler name (i.e. `colortex5`), setting the value to `false` will disable the buffer flip that would happen before the start of that program. The default behavior is for buffer flipping to be enabled for all programs.
 
@@ -80,9 +80,9 @@ This behavior can be controlled with the `flip.<program>.<bufferName>` directive
 ```properties
 size.buffer.<bufferName>=<width> <height>
 ```
-The resolution of [colortex](/current/reference/buffers/colortex) buffers can be configured with this directive in `shaders.properties`. Replace `<bufferName>` with the name of the buffer (e.g. `colortex5`), then replace `<width>` and `<height>` with the resolution of the buffer. If the passed dimensions are integer, that will define the resolution of the buffer in pixels. If the dimensions are floating point, it will define the resolution of the buffer relative to the screen resolution. For example, `size.buffer.colortex5=0.75 0.25` will make `colortex5` three quarters the width and one quarter the height of the Minecraft window.
+The resolution of [colortex](/current/reference/buffers/colortex/) buffers can be configured with this directive in `shaders.properties`. Replace `<bufferName>` with the name of the buffer (e.g. `colortex5`), then replace `<width>` and `<height>` with the resolution of the buffer. If the passed dimensions are integer, that will define the resolution of the buffer in pixels. If the dimensions are floating point, it will define the resolution of the buffer relative to the screen resolution. For example, `size.buffer.colortex5=0.75 0.25` will make `colortex5` three quarters the width and one quarter the height of the Minecraft window.
 
-Any buffer whose size is changed cannot be rendered to by a [`gbuffers`](/current/reference/programs/gbuffers) pass, meaning it can only be rendered to through a [`begin`](/current/reference/programs/begin), [`prepare`](/current/reference/programs/prepare), [`deferred`](/current/reference/programs/deferred), or [`composite`](/current/reference/programs/composite) program. Additionally, any individual program can only render to buffers with identical sizes. This exception does not apply to image bindings or compute programs.
+Any buffer whose size is changed cannot be rendered to by a [`gbuffers`](/current/reference/programs/gbuffers/) pass, meaning it can only be rendered to through a [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite/) program. Additionally, any individual program can only render to buffers with identical sizes. This exception does not apply to image bindings or compute programs.
 
 ----------------
 
@@ -112,7 +112,7 @@ Enables or disables frustum culling, which culls geometry which is outside the v
 ```properties
 occlusion.culling=<true|false>
 ```
-Disables occlusion culling, which culls geometry which is behind other opaque geometry. Only applies to the main pass ([gbuffers](/current/reference/programs/gbuffers)).
+Disables occlusion culling, which culls geometry which is behind other opaque geometry. Only applies to the main pass ([gbuffers](/current/reference/programs/gbuffers/)).
 
 Notably this affects whether caves are rendered when above ground, and whether the surface is rendered when deep in a cave. Disabling this may help reduce light leaking in caves by covering the top of the shadow map with the surface. However this also renders dramatically more terrain which can hurt performance.
 
@@ -123,9 +123,9 @@ Notably this affects whether caves are rendered when above ground, and whether t
 ```properties
 shadow.culling=<true|false|reversed>
 ```
-Controls culling in the [`shadow`](/current/reference/programs/shadow) pass. Enabling it will prevent geometry which would not cast a shadow through the view frustum from rendering. Disabling it will prevent any geometry within the shadow distance from being culled.
+Controls culling in the [`shadow`](/current/reference/programs/shadow/) pass. Enabling it will prevent geometry which would not cast a shadow through the view frustum from rendering. Disabling it will prevent any geometry within the shadow distance from being culled.
 
-Iris adds an additional option, `reversed`, which disables culling within a specific radius of the player as defined in [`voxelDistance`](/current/reference/constants/voxeldistance), while retaining culling outside of that distance. It is also recommended (but not required) to use the feature flag [`REVERSED_CULLING`](/current/reference/shadersproperties/flags) to avoid compatibility issues with older Iris versions.
+Iris adds an additional option, `reversed`, which disables culling within a specific radius of the player as defined in [`voxelDistance`](/current/reference/constants/voxeldistance/), while retaining culling outside of that distance. It is also recommended (but not required) to use the feature flag [`REVERSED_CULLING`](/current/reference/shadersproperties/flags/) to avoid compatibility issues with older Iris versions.
 
 ----------------
 
@@ -134,7 +134,7 @@ Iris adds an additional option, `reversed`, which disables culling within a spec
 ```properties
 rain.depth=<true|false>
 ```
-Sets whether rain/snow write to the [depth buffer](/current/reference/buffers/depthtex). If `true`, weather will be treated like translucent geometry and only write to `depthtex0`. This setting is `false` by default.
+Sets whether rain/snow write to the [depth buffer](/current/reference/buffers/depthtex/). If `true`, weather will be treated like translucent geometry and only write to `depthtex0`. This setting is `false` by default.
 
 ----------------
 
@@ -143,7 +143,7 @@ Sets whether rain/snow write to the [depth buffer](/current/reference/buffers/de
 ```properties
 beacon.beam.depth=<true|false>
 ```
-Sets whether beacon beams write to the [depth buffer](/current/reference/buffers/depthtex). If `true`, the inner beacon beam will be treated like opaque geometry and only write toall depthtex buffers. This only applies to the opaque inner geometry of the beacon beam and not the outer translucent geometry. This setting is `false` by default.
+Sets whether beacon beams write to the [depth buffer](/current/reference/buffers/depthtex/). If `true`, the inner beacon beam will be treated like opaque geometry and only write toall depthtex buffers. This only applies to the opaque inner geometry of the beacon beam and not the outer translucent geometry. This setting is `false` by default.
 
 ----------------
 

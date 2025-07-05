@@ -8,10 +8,10 @@ sidebar:
 
 ### `const bool <bufferName>MipmapEnabled = true;`
 
-**Location**: `composite`, `deferred`, `final`, `prepare`
+**Location**: `composite.fsh`, `deferred.fsh`, `final.fsh`, `prepare.fsh`
 
 ---
 
-This directive tells Iris to generate a mipmap chain for a [colortex](/current/reference/buffers/colortex) attachment. The mipmap chain will be generated directly before the program where the directive is included, if there are multiple programs it will be re-generated before each program containing the directive. This directive is only valid for the *fragment* stage of [`begin`](/current/reference/programs/begin), [`prepare`](/current/reference/programs/prepare), [`deferred`](/current/reference/programs/deferred), or [`composite`](/current/reference/programs/composite) programs.
+This directive tells Iris to generate a mipmap chain for a [colortex](/current/reference/buffers/colortex/) attachment. The mipmap chain will be generated directly before the program where the directive is included, if there are multiple programs it will be re-generated before each program containing the directive. This directive is only valid for the *fragment* stage of [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite/) programs.
 
 Replace `<bufferName>` with the name of a colortex sampler (e.g. `colortex2`).

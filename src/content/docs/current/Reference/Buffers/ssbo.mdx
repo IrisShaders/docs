@@ -14,23 +14,23 @@ import { Badge } from '@astrojs/starlight/components';
 ### `bufferObject.<index> = <totalByteSize>`
 ### `bufferObject.<index> = <byteSize> <isRelative> <scaleX> <scaleY>`
 
-Shader Storage Buffer Objects (or SSBOs) are buffers that can store large amounts of data between shader invocations, and even between frames. Unlike images, they allow storing arbitrary data types. For more information about the limits of SSBOs in OpenGL, read the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Shader_Storage_Buffer_Object). Using SSBOs with Iris requires the [`SSBO`](/current/reference/shadersproperties/flags) feature flag.
+Shader Storage Buffer Objects (or SSBOs) are buffers that can store large amounts of data between shader invocations, and even between frames. Unlike images, they allow storing arbitrary data types. For more information about the limits of SSBOs in OpenGL, read the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Shader_Storage_Buffer_Object). Using SSBOs with Iris requires the [`SSBO`](/current/reference/shadersproperties/flags/) feature flag.
 
 SSBOs can hold a guaranteed maximum of 128MB, and on most drivers can hold as much as the GPU physically alllows. Iris will give an error and fail to load a shader if allocating an SSBO would otherwise use up too much VRAM.
 
 :::caution[Warning]
-SSBOs require OpenGL 4.3 support, which macOS does not have. For more information, see the [macOS](/current/reference/miscellaneous/macos) page.
+SSBOs require OpenGL 4.3 support, which macOS does not have. For more information, see the [macOS](/current/reference/miscellaneous/macos/) page.
 :::
 
 ### Fixed Size SSBOs
-To define the SSBO with a fixed size, put the following in [`shaders.properties`](/current/reference/shadersproperties/overview) and replace `<totalByteSize>` with the total size of the SSBO in bytes and replace `<index>` with a unique value from 0 to 8.
+To define the SSBO with a fixed size, put the following in [`shaders.properties`](/current/reference/shadersproperties/overview/) and replace `<totalByteSize>` with the total size of the SSBO in bytes and replace `<index>` with a unique value from 0 to 8.
 
 ```
 bufferObject.<index> = <byteSize>
 ```
 
 ### Screen-Sized SSBOs
-SSBOs can also be defined as screen-sized (Iris 1.6.6 and later), where their size is relative to the screen dimensions. This is useful for storing data per-pixel. To use this, put the following in [`shaders.properties`](/current/reference/shadersproperties/overview).
+SSBOs can also be defined as screen-sized (Iris 1.6.6 and later), where their size is relative to the screen dimensions. This is useful for storing data per-pixel. To use this, put the following in [`shaders.properties`](/current/reference/shadersproperties/overview/).
 
 ```
 bufferObject.<index> = <byteSize> <isRelative> <scaleX> <scaleY>
@@ -75,4 +75,4 @@ void main() {
 
 ## Initialization Data File (Iris 1.8+)
 ### `bufferObject.<index> = <byteSize> <filePath>`
-Iris 1.8 adds support for initializing an SSBO with data from a binary file. Simply append the file path to the end of the SSBO declaration in [`shaders.properties`](/current/reference/shadersproperties/overview). The value is be initialized at on shader load/reload. This works with only fixed sized SSBOs, and if the size of the file is bigger than the SSBO Iris will throw an error. If the file is smaller than the SSBO, the remaining data in the SSBO will be uninitialized (and is likely to be garbage data).
+Iris 1.8 adds support for initializing an SSBO with data from a binary file. Simply append the file path to the end of the SSBO declaration in [`shaders.properties`](/current/reference/shadersproperties/overview/). The value is be initialized at on shader load/reload. This works with only fixed sized SSBOs, and if the size of the file is bigger than the SSBO Iris will throw an error. If the file is smaller than the SSBO, the remaining data in the SSBO will be uninitialized (and is likely to be garbage data).

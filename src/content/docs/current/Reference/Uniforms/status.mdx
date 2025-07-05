@@ -94,7 +94,7 @@ This uniform stores the player's mood value. This value increments when the play
 uniform float constantMood;
 ```
 
-Equivalent to [`playerMood`](/current/reference/uniforms/status#playermood) except when it does not reset after hitting `1.0`, remaining at that value until the player leaves a cave or otherwise causes the mood value to decrease.
+Equivalent to [`playerMood`](/current/reference/uniforms/status/#playermood) except when it does not reset after hitting `1.0`, remaining at that value until the player leaves a cave or otherwise causes the mood value to decrease.
 
 ----------------
 
@@ -103,7 +103,7 @@ Equivalent to [`playerMood`](/current/reference/uniforms/status#playermood) exce
 ```
 uniform float currentPlayerAir;
 ```
-This value stores the relative player air when underwater ranging from `0` to `1`. That means when the player is at full air, this value is `1`, and when they are out of air (e.g. drowning) the value is `0`. The value is `-1` in creative and spectator modes. To absolute air of the player, multiply this value by the uniform [`maxPlayerAir`](/current/reference/uniforms/status#maxplayerair).
+This value stores the relative player air when underwater ranging from `0` to `1`. That means when the player is at full air, this value is `1`, and when they are out of air (e.g. drowning) the value is `0`. The value is `-1` in creative and spectator modes. To absolute air of the player, multiply this value by the uniform [`maxPlayerAir`](/current/reference/uniforms/status/#maxplayerair).
 
 ----------------
 
@@ -121,7 +121,7 @@ This value stores the maximum player air when underwater. This is the internal v
 ```glsl
 uniform float currentPlayerArmor;
 ```
-This value stores the relative player armor value ranging from `0` to `1`. That means when the player wearing armor that completely fills the armor bar this value is `1`, and when they are not wearing any armor the value is `0`. The value is `-1` in creative and spectator modes. To absolute armor value of the player, multiply this value by the uniform [`maxPlayerArmor`](/current/reference/uniforms/status#maxplayerarmor).
+This value stores the relative player armor value ranging from `0` to `1`. That means when the player wearing armor that completely fills the armor bar this value is `1`, and when they are not wearing any armor the value is `0`. The value is `-1` in creative and spectator modes. To absolute armor value of the player, multiply this value by the uniform [`maxPlayerArmor`](/current/reference/uniforms/status/#maxplayerarmor).
 
 ----------------
 
@@ -139,7 +139,7 @@ This value stores the maximum player armor value. This is the internal value use
 ```glsl
 uniform float currentPlayerHealth;
 ```
-This value stores the relative player health ranging from `0` to `1`. That means when the player is at full health, this value is `1`, and when they die this values reaches `0`. The value is `-1` in creative and spectator modes. To absolute health of the player, multiply this value by the uniform [`maxPlayerHealth`](/current/reference/uniforms/status#maxplayerhealth).
+This value stores the relative player health ranging from `0` to `1`. That means when the player is at full health, this value is `1`, and when they die this values reaches `0`. The value is `-1` in creative and spectator modes. To absolute health of the player, multiply this value by the uniform [`maxPlayerHealth`](/current/reference/uniforms/status/#maxplayerhealth).
 
 ----------------
 
@@ -157,7 +157,7 @@ This value stores the maximum player health value, which is twice the number of 
 ```glsl
 uniform float currentPlayerHunger;
 ```
-This value stores the relative player hunger ranging from `0` to `1`. That means when the player is at full hunger, this value is `1`, and when they are at empty hunger the value is `0`. The value is `-1` in creative and spectator modes. To absolute hunger of the player, multiply this value by the uniform [`maxPlayerHunger`](/current/reference/uniforms/status#maxplayerhunger).
+This value stores the relative player hunger ranging from `0` to `1`. That means when the player is at full hunger, this value is `1`, and when they are at empty hunger the value is `0`. The value is `-1` in creative and spectator modes. To absolute hunger of the player, multiply this value by the uniform [`maxPlayerHunger`](/current/reference/uniforms/status/#maxplayerhunger).
 
 ----------------
 
@@ -177,7 +177,7 @@ uniform bool is_burning;
 ```
 This value is `true` when the player is on fire and `false` otherwise.
 
-In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms), in Iris it is also accessible as a normal uniform.
+In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms/), in Iris it is also accessible as a normal uniform.
 
 ----------------
 
@@ -188,7 +188,7 @@ uniform bool is_hurt;
 ```
 This value is `true` when the player is being hurt and for a brief second afterwards and `false` otherwise.
 
-In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms), in Iris it is also accessible as a normal uniform.
+In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms/), in Iris it is also accessible as a normal uniform.
 
 ----------------
 
@@ -199,7 +199,7 @@ uniform bool is_invisible;
 ```
 This value is `true` when the player is invisible (either by being in spectator mode or by using invisibility potions), `false` otherwise.
 
-In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms), in Iris it is also accessible as a normal uniform.
+In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms/), in Iris it is also accessible as a normal uniform.
 
 ----------------
 
@@ -210,7 +210,7 @@ uniform bool is_on_ground;
 ```
 This value is `true` any time the player is touching the ground and not flying, and `false` otherwise (such as when flying, falling, swimming and not touching the bottom, etc).
 
-In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms), in Iris it is also accessible as a normal uniform.
+In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms/), in Iris it is also accessible as a normal uniform.
 
 ----------------
 
@@ -221,7 +221,7 @@ uniform bool is_sneaking;
 ```
 This value is `true` when the player is sneaking and `false` otherwise.
 
-In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms), in Iris it is also accessible as a normal uniform.
+In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms/), in Iris it is also accessible as a normal uniform.
 
 ----------------
 
@@ -232,7 +232,7 @@ uniform bool is_sprinting;
 ```
 This value is `true` when the player is sprinting and `false` otherwise.
 
-In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms), in Iris it is also accessible as a normal uniform.
+In OptiFine, this value is only available to [custom uniforms](/current/reference/shadersproperties/custom_uniforms/), in Iris it is also accessible as a normal uniform.
 
 ----------------
 

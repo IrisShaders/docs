@@ -32,7 +32,7 @@ This value stores the position of the moon in view space. The length of this val
 ```glsl
 uniform vec3 shadowLightPosition;
 ```
-This value stores the position of the highest celestial body in view space. In the overworld, during the day `shadowLightPosition` is equivalent to [`sunPosition`](/current/reference/uniforms/world#sunposition) and during the night is equivalent to [`moonPosition`](/current/reference/uniforms/world#moonposition). This matches direction used for the shadow pass. The length of this value is always `100`, as it represents a position not a direction. This value can be converted to screen space directly to get the screen space position of the celestial body.
+This value stores the position of the highest celestial body in view space. In the overworld, during the day `shadowLightPosition` is equivalent to [`sunPosition`](/current/reference/uniforms/world/#sunposition) and during the night is equivalent to [`moonPosition`](/current/reference/uniforms/world/#moonposition). This matches direction used for the shadow pass. The length of this value is always `100`, as it represents a position not a direction. This value can be converted to screen space directly to get the screen space position of the celestial body.
 
 ----------------
 
@@ -50,7 +50,7 @@ This value represents the angle of the sun within the complete day-night cycle. 
 ```glsl
 uniform float shadowAngle;
 ```
-This value is similar to [`sunAngle`](/current/reference/uniforms/world#sunangle), except it takes its value from the highest celestial body. During the day, the value is equivalent to [`sunAngle`](/current/reference/uniforms/world#sunangle), and during the night it ranges from `0.0` for sunset, `0.25` for midnight, and approaches `0.5` as sunrise approaches. Therefore, the value of `shadowAngle` ranges between `0.0` and `0.5`.
+This value is similar to [`sunAngle`](/current/reference/uniforms/world/#sunangle), except it takes its value from the highest celestial body. During the day, the value is equivalent to [`sunAngle`](/current/reference/uniforms/world/#sunangle), and during the night it ranges from `0.0` for sunset, `0.25` for midnight, and approaches `0.5` as sunrise approaches. Therefore, the value of `shadowAngle` ranges between `0.0` and `0.5`.
 
 ----------------
 
@@ -70,7 +70,7 @@ uniform float rainStrength;
 ```
 This uniform outputs the current strength of rain and is non-zero when there is currently a rain storm (e.g. weather set rain). The value ranges between `0` to `1` where `0` means no rain and `1` means rain storm, the value is interpolated between those values during transitions in weather.
 
-See also - [`wetness`](/current/reference/uniforms/world#wetness)
+See also - [`wetness`](/current/reference/uniforms/world/#wetness)
 
 ----------------
 
@@ -79,7 +79,7 @@ See also - [`wetness`](/current/reference/uniforms/world#wetness)
 ```glsl
 uniform float wetness;
 ```
-This uniform is equivalent to [`rainStrength`](/current/reference/uniforms/world#rainstrength), except the transition time is controlled with [`wetnessHalfLife`](/current/reference/constants/wetnesshalflife). The default transition time is also significantly slower.
+This uniform is equivalent to [`rainStrength`](/current/reference/uniforms/world/#rainstrength), except the transition time is controlled with [`wetnessHalfLife`](/current/reference/constants/wetnesshalflife/). The default transition time is also significantly slower.
 
 ----------------
 
@@ -88,7 +88,7 @@ This uniform is equivalent to [`rainStrength`](/current/reference/uniforms/world
 ```glsl
 uniform float thunderStrength;
 ```
-This value is equivalent to [`rainStrength`](/current/reference/uniforms/world#rainstrength) but is only non-zero when there is currently a thunder storm (e.g. `weather set thunder`). The value ranges between `0` to `1` where `0` means no thunder and `1` means thunder storm, the value is interpolated between those values during transitions in weather.
+This value is equivalent to [`rainStrength`](/current/reference/uniforms/world/#rainstrength) but is only non-zero when there is currently a thunder storm (e.g. `weather set thunder`). The value ranges between `0` to `1` where `0` means no thunder and `1` means thunder storm, the value is interpolated between those values during transitions in weather.
 
 ----------------
 

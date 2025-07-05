@@ -13,11 +13,11 @@ sidebar:
 
 ---
 
-This directive is used when clearing is enabled, and it defines the value stored in a [colortex](/current/reference/buffers/colortex) or [shadowcolor](/current/reference/buffers/shadowcolor) buffer after the clear operation (see [buffer clear](/current/reference/constants/buffer_clear)).
+This directive is used when clearing is enabled, and it defines the value stored in a [colortex](/current/reference/buffers/colortex/) or [shadowcolor](/current/reference/buffers/shadowcolor/) buffer after the clear operation (see [buffer clear](/current/reference/constants/buffer_clear/)).
 
 Replace `<bufferName>` with the name of a sampler (e.g. `colortex2` or `shadowcolor0`).
 
-By default, all [colortex](/current/reference/buffers/colortex) buffers are cleared to 0s (black), except `colortex0`, which is cleared to the current fog color, and `colortex1`, which is cleared to white. All [shadowcolor](/current/reference/buffers/shadowcolor) buffers are cleared with white by default. This directive allows changing this clear color for each attachment individually.
+By default, all [colortex](/current/reference/buffers/colortex/) buffers are cleared to 0s (black), except `colortex0`, which is cleared to the current fog color, and `colortex1`, which is cleared to white. All [shadowcolor](/current/reference/buffers/shadowcolor/) buffers are cleared with white by default. This directive allows changing this clear color for each attachment individually.
 
 Currently the only option for setting clear color is with a vec4 value. If the buffer stores less than four components, the leftmost components will be used and the rest discarded. For integer buffers, the bits of the float value will be intepreted as a 32-bit integer (not converted, but directly intepreted bitwise) and used as the clear color. For 16 and 8 bit buffers, any value outside the range will be clamped to the maximum or minimum value depending if it's beyond the positive or negative bound.
 

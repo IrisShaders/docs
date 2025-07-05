@@ -165,7 +165,7 @@ layout(location = 1) out vec4 someMoreData; // writes to colortex3
 
 
 :::note[Note]
-Iris implements by default something known as 'buffer flipping'. This means that the texture you write to is not actually the same one you read from. This is because different instances of the shader might run at different times and if multiple of them try to access the same pixel, the output could be different depending on which one gets to it first. For more information, see [the docs](/current/reference/shadersproperties/rendering#flip)
+Iris implements by default something known as 'buffer flipping'. This means that the texture you write to is not actually the same one you read from. This is because different instances of the shader might run at different times and if multiple of them try to access the same pixel, the output could be different depending on which one gets to it first. For more information, see [the docs](/current/reference/shadersproperties/rendering/#flip)
 :::
 
 Finally, in main, let's write this data to the textures, so we can access it in `composite`.

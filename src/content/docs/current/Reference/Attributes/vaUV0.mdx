@@ -21,7 +21,7 @@ This attribute only works with the `core` profile in Minecraft 1.17 and newer. I
 
 The vertex texture coordinate attribute, equivalent to `gl_MultiTexCoord0` from the `compatibility` profile.
 
-Usually the coordinate in `vaUV0` corresponds directly to the atlas texture coordinate, however some geometry (such as enchantment glint) requires a texture matrix. Therefore it is always recommended to use [`textureMatrix`](/current/reference/uniforms/matrices#texturematrix) (or `gl_TextureMatrix[0]` in the `compatibility` profile) in [gbuffers-style](/current/reference/programs/overview/#program-order) programs.
+Usually the coordinate in `vaUV0` corresponds directly to the atlas texture coordinate, however some geometry (such as enchantment glint) requires a texture matrix. Therefore it is always recommended to use [`textureMatrix`](/current/reference/uniforms/matrices/#texturematrix) (or `gl_TextureMatrix[0]` in the `compatibility` profile) in [gbuffers-style](/current/reference/programs/overview/#program-order) programs.
 ```glsl
 vec2 coord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
 ```

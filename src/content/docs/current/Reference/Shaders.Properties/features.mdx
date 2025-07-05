@@ -8,7 +8,7 @@ sidebar:
 import { Badge } from '@astrojs/starlight/components';
 import { Aside } from '@astrojs/starlight/components';
 
-This page lists [shaders.properties](/current/reference/shadersproperties/overview) directives related to display/HUD options, disabling features of the sky/clouds, and controlling legacy lighting options.
+This page lists [shaders.properties](/current/reference/shadersproperties/overview/) directives related to display/HUD options, disabling features of the sky/clouds, and controlling legacy lighting options.
 
 ## clouds
 ```properties
@@ -41,7 +41,7 @@ Enables or disables rendering of the sun texture in `gbuffers_skytextured`.
 ```properties
 sky=<true|false>
 ```
-Enables or disables rendering of the vanilla sky in `gbuffers_skybasic`. This includes the sky disc, horizon, and void, however it does not include [`stars`](/current/reference/shadersproperties/features#stars)
+Enables or disables rendering of the vanilla sky in `gbuffers_skybasic`. This includes the sky disc, horizon, and void, however it does not include [`stars`](/current/reference/shadersproperties/features/#stars)
 
 ----------------
 
@@ -77,7 +77,7 @@ Enables or disables rendering of the vignette overlay, an effect which darkens t
 ```properties
 oldHandLight=<true|false>
 ```
-Sets a fallback for older shaders which don't support main and alt hands. If `oldHandLight` is set to `true`, [`heldBlockLightValue`](/current/reference/uniforms/id#heldblocklightvalue) will take the value of the highest light value. The default value is `true` due to legacy support.
+Sets a fallback for older shaders which don't support main and alt hands. If `oldHandLight` is set to `true`, [`heldBlockLightValue`](/current/reference/uniforms/id/#heldblocklightvalue) will take the value of the highest light value. The default value is `true` due to legacy support.
 
 :::note
 Any pack that wishes to use independent main and alt hand light values should set `oldHandLight` to `false`, as the legacy setting is enabled by default.
@@ -99,7 +99,7 @@ Enables the "old lighting", which applies a lighting multiplier in the color att
 ```properties
 separateAo=<true|false>
 ```
-Normally, a vanilla ambient occlusion (AO) value is stored in the `rgb` components of the [vertex color attribute](/current/reference/attributes/overview). Enabling `separateAo` moves this into the `a` channel of the color attribute. `separateAo` is disabled by default.
+Normally, a vanilla ambient occlusion (AO) value is stored in the `rgb` components of the [vertex color attribute](/current/reference/attributes/overview/). Enabling `separateAo` moves this into the `a` channel of the color attribute. `separateAo` is disabled by default.
 
 :::caution[Warning]
 There is currently a bug present in Iris that prevents `separateAo` from functioning unless the shadow pass is enabled.
@@ -126,6 +126,6 @@ weather=<weatherGeometryEnabled> <splashParticlesEnabled>
 ```
 Enables or disables weather (rain & snow) geometry and rain splash particles. Both components are `true` by default.
 
-This directive requires an Iris version supporting [`CAN_DISABLE_WEATHER`](/current/reference/shadersproperties/flags), and is recommended to be used with that feature flag specified.
+This directive requires an Iris version supporting [`CAN_DISABLE_WEATHER`](/current/reference/shadersproperties/flags/), and is recommended to be used with that feature flag specified.
 
 ----------------

@@ -26,7 +26,7 @@ vec3 view_pos = mat3(gbufferModelView) * eye_player_pos;
 ```glsl
 uniform mat4 gbufferModelViewInverse;
 ```
-Equal to [`inverse(gbufferModelView)`](/current/reference/uniforms/matrices#gbuffermodelview), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
+Equal to [`inverse(gbufferModelView)`](/current/reference/uniforms/matrices/#gbuffermodelview), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
@@ -35,7 +35,7 @@ Equal to [`inverse(gbufferModelView)`](/current/reference/uniforms/matrices#gbuf
 ```glsl
 uniform mat4 gbufferProjection;
 ```
-Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices#projectionmatrix) used by all [gbuffers programs](/current/reference/programs/gbuffers) except for `gbuffers_hand` and `gbuffers_hand_water`, where the [`projectionMatrix`](/current/reference/uniforms/matrices#projectionmatrix) multiplies the Z axis by `MC_HAND_DEPTH` to move the hand closer to the camera than the rest of the world.
+Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices/#projectionmatrix) used by all [gbuffers programs](/current/reference/programs/gbuffers/) except for `gbuffers_hand` and `gbuffers_hand_water`, where the [`projectionMatrix`](/current/reference/uniforms/matrices/#projectionmatrix) multiplies the Z axis by `MC_HAND_DEPTH` to move the hand closer to the camera than the rest of the world.
 
 ----------------
 
@@ -44,7 +44,7 @@ Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices#projectio
 ```glsl
 uniform mat4 gbufferProjectionInverse;
 ```
-Equal to [`inverse(gbufferProjection)`](/current/reference/uniforms/matrices#gbufferprojection), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
+Equal to [`inverse(gbufferProjection)`](/current/reference/uniforms/matrices/#gbufferprojection), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
@@ -53,7 +53,7 @@ Equal to [`inverse(gbufferProjection)`](/current/reference/uniforms/matrices#gbu
 ```glsl
 uniform mat4 shadowModelView;
 ```
-Equal to the [`modelViewMatrix`](/current/reference/uniforms/matrices#modelviewmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow).
+Equal to the [`modelViewMatrix`](/current/reference/uniforms/matrices/#modelviewmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow/).
 
 ----------------
 
@@ -71,7 +71,7 @@ Equal to [`inverse(shadowModelView)`](/current/reference/uniforms/matrices#shado
 ```glsl
 uniform mat4 shadowProjection;
 ```
-Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices#projectionmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow).
+Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices/#projectionmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow).
 
 ----------------
 
@@ -80,7 +80,7 @@ Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices#projectio
 ```glsl
 uniform mat4 shadowProjectionInverse;
 ```
-Equal to [`inverse(shadowProjection)`](/current/reference/uniforms/matrices#shadowprojection), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
+Equal to [`inverse(shadowProjection)`](/current/reference/uniforms/matrices/#shadowprojection), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
@@ -89,7 +89,7 @@ Equal to [`inverse(shadowProjection)`](/current/reference/uniforms/matrices#shad
 ```glsl
 uniform mat4 gbufferPreviousModelView;
 ```
-The value of [`gbufferModelView`](/current/reference/uniforms/matrices#gbuffermodelview) in the previous frame.
+The value of [`gbufferModelView`](/current/reference/uniforms/matrices/#gbuffermodelview) in the previous frame.
 
 ----------------
 
@@ -98,7 +98,7 @@ The value of [`gbufferModelView`](/current/reference/uniforms/matrices#gbuffermo
 ```glsl
 uniform mat4 gbufferPreviousProjection;
 ```
-The value of [`gbufferProjection`](/current/reference/uniforms/matrices#gbufferprojection) in the previous frame.
+The value of [`gbufferProjection`](/current/reference/uniforms/matrices/#gbufferprojection) in the previous frame.
 
 ----------------
 
@@ -109,7 +109,7 @@ uniform mat4 modelViewMatrix;
 ```
 Transforms coordinates from model/local space to view/eye space.
 
-Equal to `mat4(1.0)` in [`begin`](/current/reference/programs/begin), [`prepare`](/current/reference/programs/prepare), [`deferred`](/current/reference/programs/deferred), [`composite`](/current/reference/programs/composite) and [`final`](/current/reference/programs/final) programs.
+Equal to `mat4(1.0)` in [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), [`composite`](/current/reference/programs/composite/) and [`final`](/current/reference/programs/final/) programs.
 ```glsl
 vec3 model_pos = vaPosition + chunkOffset;
 vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);
@@ -133,7 +133,7 @@ gl_Position = clip_pos;
 ```glsl
 uniform mat4 modelViewMatrixInverse;
 ```
-Equal to [`inverse(modelViewMatrix)`](/current/reference/uniforms/matrices#modelviewmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
+Equal to [`inverse(modelViewMatrix)`](/current/reference/uniforms/matrices/#modelviewmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
@@ -166,7 +166,7 @@ gl_Position = clip_pos;
 ```glsl
 uniform mat4 projectionMatrixInverse;
 ```
-Equal to [`inverse(projectionMatrix)`](/current/reference/uniforms/matrices#projectionmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
+Equal to [`inverse(projectionMatrix)`](/current/reference/uniforms/matrices/#projectionmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
@@ -176,7 +176,7 @@ Equal to [`inverse(projectionMatrix)`](/current/reference/uniforms/matrices#proj
 uniform mat3 normalMatrix;
 ```
 Matrix to transform a model space normal vector to view space.
-Equivalent to [`mat3(transpose(modelViewMatrixInverse))`](/current/reference/uniforms/matrices#modelviewmatrixinverse), or `gl_NormalMatrix` in the `compatibility` profile and older GLSL versions.
+Equivalent to [`mat3(transpose(modelViewMatrixInverse))`](/current/reference/uniforms/matrices/#modelviewmatrixinverse), or `gl_NormalMatrix` in the `compatibility` profile and older GLSL versions.
 
 ```glsl
 vec3 normal = normalMatrix * vaNormal;
@@ -192,7 +192,7 @@ vec3 normal = gl_NormalMatrix * gl_Normal;
 ```glsl
 uniform mat4 textureMatrix;
 ```
-Transforms texture coordinates. Mainly used in [`gbuffers_armor_glint`](/current/reference/programs/gbuffers) to scroll the texture over time, but may be applied to other geometry as well (especially by mods). It is therefore strongly recommended to use this matrix in all [gbuffers-style](/current/reference/programs/overview/#program-order) programs utilizing [`vaUV0`](/current/reference/attributes/vauv0/).
+Transforms texture coordinates. Mainly used in [`gbuffers_armor_glint`](/current/reference/programs/gbuffers/) to scroll the texture over time, but may be applied to other geometry as well (especially by mods). It is therefore strongly recommended to use this matrix in all [gbuffers-style](/current/reference/programs/overview/#program-order) programs utilizing [`vaUV0`](/current/reference/attributes/vauv0/).
 ```glsl
 vec2 coord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
 ```

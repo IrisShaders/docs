@@ -25,61 +25,61 @@ The shader code of a stage of a program should be located in the file `<program_
 ## Program Order
 The following is the list of shader programs in the order they're executed:
 
-| Shader programs                                                           | Program type    |
-| ------------------------------------------------------------------------- | --------------- |
-| [setup](/current/reference/programs/setup) (no suffix, 1-99)              | compute-only    |
-| [begin](/current/reference/programs/begin) (no suffix, 1-99)              | composite-style |
-| [shadow](/current/reference/programs/shadow)                              | gbuffers-style  |
-| [shadowcomp](/current/reference/programs/shadow_comp) (no suffix, 1-99)   | composite-style |
-| [prepare](/current/reference/programs/prepare) (no suffix, 1-99)          | composite-style |
-| [gbuffers](/current/reference/programs/gbuffers) (opaque)                 | gbuffers-style  |
-| [deferred](/current/reference/programs/deferred) (no suffix, 1-99)        | composite-style |
-| [gbuffers](/current/reference/programs/gbuffers) (translucent)            | gbuffers-style  |
-| [composite](/current/reference/programs/composite) (no suffix, 1-99)      | composite-style |
-| [final](/current/reference/programs/final)                                | composite-style |
+| Shader programs                                                          | Program type    |
+| ------------------------------------------------------------------------ | --------------- |
+| [setup](/current/reference/programs/setup/) (no suffix, 1-99)            | compute-only    |
+| [begin](/current/reference/programs/begin/) (no suffix, 1-99)            | composite-style |
+| [shadow](/current/reference/programs/shadow/)                            | gbuffers-style  |
+| [shadowcomp](/current/reference/programs/shadow_comp/) (no suffix, 1-99) | composite-style |
+| [prepare](/current/reference/programs/prepare/) (no suffix, 1-99)        | composite-style |
+| [gbuffers](/current/reference/programs/gbuffers/) (opaque)               | gbuffers-style  |
+| [deferred](/current/reference/programs/deferred/) (no suffix, 1-99)      | composite-style |
+| [gbuffers](/current/reference/programs/gbuffers/) (translucent)          | gbuffers-style  |
+| [composite](/current/reference/programs/composite/) (no suffix, 1-99)    | composite-style |
+| [final](/current/reference/programs/final/)                              | composite-style |
 
 :::note
-Other than some [gbuffers](/current/reference/programs/gbuffers) programs being before/after [deferred](/current/reference/programs/deferred), the order of gbuffers programs is not fixed.
+Other than some [gbuffers](/current/reference/programs/gbuffers/) programs being before/after [deferred](/current/reference/programs/deferred/), the order of gbuffers programs is not fixed.
 :::
 
 #### Gbuffers-style
-Gbuffers-style programs render the actual geometry of Minecraft, such as blocks, entities, etc. These consist of the [gbuffers](/current/reference/programs/gbuffers) and [shadow](/current/reference/program/shadow) programs. The [gbuffers](/current/reference/programs/gbuffers) programs render the scene from the player camera's perspective, and if enabled the [shadow](/current/reference/program/shadow) program will render the scene from the light source's perspective. These passes require vertex and fragment shaders, and also support geometry and tessellation shaders, but do *not* support compute shaders.
+Gbuffers-style programs render the actual geometry of Minecraft, such as blocks, entities, etc. These consist of the [gbuffers](/current/reference/programs/gbuffers/) and [shadow](/current/reference/program/shadow/) programs. The [gbuffers](/current/reference/programs/gbuffers/) programs render the scene from the player camera's perspective, and if enabled the [shadow](/current/reference/program/shadow/) program will render the scene from the light source's perspective. These passes require vertex and fragment shaders, and also support geometry and tessellation shaders, but do *not* support compute shaders.
 
 :::note
 These are the only programs with direct access to geometry-specific information through vertex attributes (and certain uniforms).
 :::
 
 #### Composite-style
-Composite-style programs render a single quad covering the output texture (unless only compute shaders are present). These programs consist of the [begin](/current/reference/programs/begin), [shadowcomp](/current/reference/programs/shadowcomp), [prepare](/current/reference/programs/prepare), [deferred](/current/reference/programs/deferred), [composite](/current/reference/programs/composite), and [final](/current/reference/programs/final) programs. These programs don't have direct access to any geometry attributes, and instead rely on reading information from textures, buffers, or uniforms. Composite-style programs are commonly used for post-processing effects, deferred rendering, and compute passes. Each composite-style pass can include up to 100 programs by adding a suffix (1 to 99) in addition to a program with no suffix. [final](/current/reference/programs/final) is the only exception, as there can only be one final program.
+Composite-style programs render a single quad covering the output texture (unless only compute shaders are present). These programs consist of the [begin](/current/reference/programs/begin), [shadowcomp](/current/reference/programs/shadowcomp/), [prepare](/current/reference/programs/prepare/), [deferred](/current/reference/programs/deferred/), [composite](/current/reference/programs/composite/), and [final](/current/reference/programs/final/) programs. These programs don't have direct access to any geometry attributes, and instead rely on reading information from textures, buffers, or uniforms. Composite-style programs are commonly used for post-processing effects, deferred rendering, and compute passes. Each composite-style pass can include up to 100 programs by adding a suffix (1 to 99) in addition to a program with no suffix. [final](/current/reference/programs/final/) is the only exception, as there can only be one final program.
 
 Composite-style programs support vertex, fragment, geometry, and compute stages. Usually composite-style programs require vertex and fragment shaders, however if a compute shader is present these are optional. Compute shaders (if present) will be executed before the vertex stage of a given program.
 
 #### Compute-only
-As the name suggests, compute-only programs only support compute shaders. The only such programs are in the [setup](/current/reference/programs/setup) pass, which are executed once after shader load and during window resize. Like composite passes, [setup](/current/reference/programs/setup) supports suffixes (1 to 99) in addition to a program with no suffix.
+As the name suggests, compute-only programs only support compute shaders. The only such programs are in the [setup](/current/reference/programs/setup/) pass, which are executed once after shader load and during window resize. Like composite passes, [setup](/current/reference/programs/setup/) supports suffixes (1 to 99) in addition to a program with no suffix.
 
 ## Compute Shaders
 Compute shaders break the OpenGL fixed pipeline and allow more direct access to graphics hardware. For more information, see the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Compute_Shader).
 
 :::caution[Warning]
-Compute shaders require OpenGL 4.3 support, which macOS does not have. For more information, see the [macOS](/current/reference/miscellaneous/macos) page.
+Compute shaders require OpenGL 4.3 support, which macOS does not have. For more information, see the [macOS](/current/reference/miscellaneous/macos/) page.
 :::
 
-In Iris, compute shaders can be used in compute only pass, or included in composite-style passes, using the `.csh` file extension. In composite-style passes, compute shaders will always execute first (before the vertex stage if present). Up to 27 compute shaders files can be included in a single pass by appending the `_a` through `_z` suffixes to the filename in addition to a shader file with no suffix. These shaders will execute one after the other in alphabetical order (starting with the no-suffix file if present), unless [`allowConcurrentCompute`](/current/reference/shadersproperties/ordering#allowconcurrentcompute) is used (in which case they will execute potentially simultaneously but will all finish before starting the vertex stage).
+In Iris, compute shaders can be used in compute only pass, or included in composite-style passes, using the `.csh` file extension. In composite-style passes, compute shaders will always execute first (before the vertex stage if present). Up to 27 compute shaders files can be included in a single pass by appending the `_a` through `_z` suffixes to the filename in addition to a shader file with no suffix. These shaders will execute one after the other in alphabetical order (starting with the no-suffix file if present), unless [`allowConcurrentCompute`](/current/reference/shadersproperties/ordering/#allowconcurrentcompute) is used (in which case they will execute potentially simultaneously but will all finish before starting the vertex stage).
 
 Local size is defined as follows: `layout (local_size_x = <size_x>, local_size_y = <size_x>, local_size_z = <size_z>) in;`.
 
 Work group count can be defined one of three ways:
-1. [`const ivec3 workGroups`](/current/reference/constants/workgroups)
-2. [`const vec2 workGroupsRender`](/current/reference/constants/workgroupsrender)
-3. [`indirect.pass`](/current/reference/shadersproperties/ordering#indirectpass)
+1. [`const ivec3 workGroups`](/current/reference/constants/workgroups/)
+2. [`const vec2 workGroupsRender`](/current/reference/constants/workgroupsrender/)
+3. [`indirect.pass`](/current/reference/shadersproperties/ordering/#indirectpass)
 
 If no work group count is provided, the default value of one work group per pixel will be used (`const vec2 workGroupsRender = vec2(1.0, 1.0);`).
 
-Unlike fragment shaders, compute shaders cannot directly write to color attachments, instead they can only write to [colortex](/current/reference/buffers/colortex) and [shadowcolor](/current/reference/programs/shadowcolor) buffers through [`imageStore`](https://www.khronos.org/opengl/wiki/Image_Load_Store). Additionally, if multiple shader invocations are writing/reading to the same location in memory simultaneously, atomic operations (on [images](https://www.khronos.org/opengl/wiki/Image_Load_Store#Atomic_operations) and/or [shared memory](https://www.khronos.org/opengl/wiki/Compute_Shader#Atomic_operations)) or [memory barriers](https://www.khronos.org/opengl/wiki/Compute_Shader#Shared_memory_coherency) should be used.
+Unlike fragment shaders, compute shaders cannot directly write to color attachments, instead they can only write to [colortex](/current/reference/buffers/colortex/) and [shadowcolor](/current/reference/programs/shadowcolor/) buffers through [`imageStore`](https://www.khronos.org/opengl/wiki/Image_Load_Store). Additionally, if multiple shader invocations are writing/reading to the same location in memory simultaneously, atomic operations (on [images](https://www.khronos.org/opengl/wiki/Image_Load_Store#Atomic_operations) and/or [shared memory](https://www.khronos.org/opengl/wiki/Compute_Shader#Atomic_operations)) or [memory barriers](https://www.khronos.org/opengl/wiki/Compute_Shader#Shared_memory_coherency) should be used.
 
 
 ## Tessellation Shaders
 
 Tessellation shaders allow splitting of a single triangle into multiple triangles during runtime. This can be used to add more detail to displaced geometry such as for waving water effects or displacement maps. For more information, see the [Khronos Wiki](https://www.khronos.org/opengl/wiki/tessellation).
 
-Iris supports tessellation only for gbuffers-style passes. It recognizes the tessellation control shader in a `.tcs` file, and the tessellation evaluation shader in a `.tes` file. Only triangles are supported (no quads or isolines). The [`TESSELLATION_SHADERS`](/current/reference/shadersproperties/flags) feature flag is required to use tessellation shaders.
+Iris supports tessellation only for gbuffers-style passes. It recognizes the tessellation control shader in a `.tcs` file, and the tessellation evaluation shader in a `.tes` file. Only triangles are supported (no quads or isolines). The [`TESSELLATION_SHADERS`](/current/reference/shadersproperties/flags/) feature flag is required to use tessellation shaders.

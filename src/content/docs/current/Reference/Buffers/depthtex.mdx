@@ -15,11 +15,11 @@ There are three samplers for accessing the depth buffer.
 - `depthtex1` excludes transparent geometry
 - `depthtex2` excludes transparent and hand geometry
 
-These buffers can be read from any program, but will contain garbage data until the respective `gbuffers` shader has executed. For example, `depthtex1` will first contain meaningful data in the [`deferred`](/current/reference/programs/deferred) stage.
+These buffers can be read from any program, but will contain garbage data until the respective `gbuffers` shader has executed. For example, `depthtex1` will first contain meaningful data in the [`deferred`](/current/reference/programs/deferred/) stage.
 
 #### Writing
 
-These buffers are automatically written to by [`gbuffers`](/current/reference/programs/gbuffers) programs, and store the screenspace z coordinate at each pixel. You can manually write to this buffer by setting the `gl_FragDepth` variable in the fragment shader. If `gl_FragDepth` is used, it must have a value assigned for all execution paths. For more information see [the OpenGL Docs](https://registry.khronos.org/OpenGL-Refpages/gl4/html/gl_FragDepth.xhtml).
+These buffers are automatically written to by [`gbuffers`](/current/reference/programs/gbuffers/) programs, and store the screenspace z coordinate at each pixel. You can manually write to this buffer by setting the `gl_FragDepth` variable in the fragment shader. If `gl_FragDepth` is used, it must have a value assigned for all execution paths. For more information see [the OpenGL Docs](https://registry.khronos.org/OpenGL-Refpages/gl4/html/gl_FragDepth.xhtml).
 
 :::tip
 The default (automatic) behavior of writing to the depth buffer is as follows:

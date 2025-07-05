@@ -12,14 +12,14 @@ sidebar:
 
 ---
 
-The `x` component stores the block ID which was assigned to the current block in [`block.properties`](/current/reference/miscellaneous/block_properties). If an ID for the current block is not defined, a value of `-1` is sent.
+The `x` component stores the block ID which was assigned to the current block in [`block.properties`](/current/reference/miscellaneous/block_properties/). If an ID for the current block is not defined, a value of `-1` is sent.
 
 :::tip
 Iris 1.3 and later (as well as OptiFine) uses a signed short for `mc_Entity`, meaning they can store IDs from `-32768` to `32767`. Older Iris versions do not support negative values, and will send the maximum unsigned value,`65535`, for any blocks with unassigned IDs.
 :::
 
-When [`block.properties`](/current/reference/miscellaneous/block_properties) is not present in the shader pack files, block IDs are assigned according to their pre 1.13 numerical values, as described in the [Minecraft Wiki](https://minecraft.wiki/w/Java_Edition_data_values/Pre-flattening#Block_IDs). This is intended for legacy purposes, and should not be used for new shader packs.
+When [`block.properties`](/current/reference/miscellaneous/block_properties/) is not present in the shader pack files, block IDs are assigned according to their pre 1.13 numerical values, as described in the [Minecraft Wiki](https://minecraft.wiki/w/Java_Edition_data_values/Pre-flattening/#Block_IDs). This is intended for legacy purposes, and should not be used for new shader packs.
 
 The `y` component stores the "render type", which is `1` for fluids (water, lava, etc) and `-1` for all other blocks.
 
-This attribute is only available for terrain. For other types of geometry, see [`entityid`](/current/reference/uniforms/id#entityid) and [`blockentityid`](/current/reference/uniforms/id#blockentityid).
+This attribute is only available for terrain. For other types of geometry, see [`entityid`](/current/reference/uniforms/id/#entityid) and [`blockentityid`](/current/reference/uniforms/id/#blockentityid).

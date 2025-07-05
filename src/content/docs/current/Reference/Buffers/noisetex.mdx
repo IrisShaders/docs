@@ -16,7 +16,7 @@ This buffer cannot be written to. It can, however, be replaced with a [custom no
 
 #### Size
 
-The resolution of this texture defaults to 256x256. This can be configured with the [`noiseTextureResolution`](/current/reference/constants/noisetextureresolution) constant.
+The resolution of this texture defaults to 256x256. This can be configured with the [`noiseTextureResolution`](/current/reference/constants/noisetextureresolution/) constant.
 
 #### Format / precision
 
@@ -31,7 +31,7 @@ This buffer clears to random white noise data, or (if overwritten) the custom te
 This buffer does not flip.
 
 ## Custom noise texture
-Similar to [custom textures](/current/reference/buffers/custom_textures), the `noisetex` texture can be overwritten with an image file from the shader files. The following line can be placed in [shaders.properties](/current/reference/shadersproperties/overview), where `<path>` is replaced with the file path of the image file relative to the `shaders` folder:
+Similar to [custom textures](/current/reference/buffers/custom_textures/), the `noisetex` texture can be overwritten with an image file from the shader files. The following line can be placed in [shaders.properties](/current/reference/shadersproperties/overview/), where `<path>` is replaced with the file path of the image file relative to the `shaders` folder:
 
 ```properties title="shaders.properties"
 texture.noise=<path>

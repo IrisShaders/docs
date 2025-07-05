@@ -14,7 +14,7 @@ This is as far as we go with the tutorial, but there's plenty more that can be d
 Right now, our entities appear partially translucent. This is because we have only written a `gbuffers_terrain` program. Entities are handled by `gbuffers_entities`, which falls back to `gbuffers_textured_lit`. Since we have not overriden this program, it doesn't write our normals or lightmap data to the buffers we need it to. An easy way to resolve this is to rename `gbuffers_terrain` to `gbuffers_textured_lit`, which most programs we care about will fall back to. For more information, see [Gbuffers](/current/reference/programs/gbuffers/).
 
 ### Bright Night
-Since our sunlight and skylight colors are constant, things are still very well lit at night. This can be improved by varying the skylight and sunlight colors based on the time of day. We can do this using the uniform [`worldTime`](/current/reference/uniforms/world#worldtime).
+Since our sunlight and skylight colors are constant, things are still very well lit at night. This can be improved by varying the skylight and sunlight colors based on the time of day. We can do this using the uniform [`worldTime`](/current/reference/uniforms/world/#worldtime).
 
 ## Things to Do
 Here are some things you could try adding to your shader next. Some of these are more complex than others, and may require additional research into graphics programming.
