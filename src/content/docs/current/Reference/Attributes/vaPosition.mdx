@@ -19,7 +19,7 @@ This attribute only works with the `core` profile in Minecraft 1.17 and newer. I
 
 ---
 
-The vertex position attribute. For terrain this is relative to the chunk and you must add [`chunkOffset`](/current/reference/uniforms/rendering#chunkoffset) as shown below:
+The vertex position attribute. For terrain this is relative to the chunk and you must add [`chunkOffset`](/current/reference/uniforms/rendering/#chunkoffset) as shown below:
 ```glsl
 vec3 model_pos = vaPosition + chunkOffset;
 vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);

@@ -12,13 +12,13 @@ sidebar:
 
 ---
 
-This directive is used to configure which color attachments a fragment program outputs to. Replace `X,Y,Z` with the comma separated list of indices of color attachments. For example, putting `/* RENDERTARGETS: 0,3,7,13 */` in `composite.fsh` would configure that program to write to `colortex0`, `colortex3`, `colortex7`, and `colortex13`. The comment can be placed anywhere in the `.fsh` file. If the directive (or the [`DRAWBUFFERS`](/current/reference/constants/drawbuffers) directive) is not found in the file, the first 8 buffers will be bound in order.
+This directive is used to configure which color attachments a fragment program outputs to. Replace `X,Y,Z` with the comma separated list of indices of color attachments. For example, putting `/* RENDERTARGETS: 0,3,7,13 */` in `composite.fsh` would configure that program to write to `colortex0`, `colortex3`, `colortex7`, and `colortex13`. The comment can be placed anywhere in the `.fsh` file. If the directive (or the [`DRAWBUFFERS`](/current/reference/constants/drawbuffers/) directive) is not found in the file, the first 8 buffers will be bound in order.
 
 :::note
 This directive *must* include be a multi-line comment (as opposed to a single-line comment, `//`) and should be on its own line.
 :::
 
-The directive creates a map between the color attachment index used in the GLSL code and the [colortex](/current/reference/buffers/colortex) or [shadowcolor](/current/reference/buffers/shadowcolor) buffer. For example, if the line `/* RENDERTARGETS: 0,3,7,13 */` is used, `colortex0` would be at index 0 and `colortex13` at index 3. There are three methods to access this output depending on the GLSL version in use:
+The directive creates a map between the color attachment index used in the GLSL code and the [colortex](/current/reference/buffers/colortex/) or [shadowcolor](/current/reference/buffers/shadowcolor/) buffer. For example, if the line `/* RENDERTARGETS: 0,3,7,13 */` is used, `colortex0` would be at index 0 and `colortex13` at index 3. There are three methods to access this output depending on the GLSL version in use:
 
 1. Legacy versions and compatibility profiles have access to `gl_FragData[<index>]`, an array that can be written to with the attachment index like a standard `vec4` array. In the above example writing to `gl_FragData[2]` would write to `colortex7`.
 2. Modern versions (130+) can use the `out vec4 outColorN;` variable, where `N` is replaced with the array index. In the above example writing to `outColor2` would write to `colortex7`.

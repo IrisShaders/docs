@@ -27,7 +27,7 @@ For more information on spaces, visit this [how to article](/current/how-to/spac
 ```glsl
 uniform float eyeAltitude;
 ```
-This uniform stores the float value of the altitude of the player, stored in blocks. This is equivalent to [`cameraPosition.y`](/current/reference/uniforms/camera#cameraposition). This value matches the one displayed on the `f3` screen. For more information visit the [Minecraft Wiki](https://minecraft.wiki/w/Altitude) article on altitude.
+This uniform stores the float value of the altitude of the player, stored in blocks. This is equivalent to [`cameraPosition.y`](/current/reference/uniforms/camera/#cameraposition). This value matches the one displayed on the `f3` screen. For more information visit the [Minecraft Wiki](https://minecraft.wiki/w/Altitude) article on altitude.
 
 ----------------
 
@@ -36,7 +36,7 @@ This uniform stores the float value of the altitude of the player, stored in blo
 ```glsl
 uniform vec3 cameraPositionFract;
 ```
-This uniform stores the fractional component (`0` to `1`) of the position of the player camera. This value is intended to be used with [`cameraPositionInt`](/current/reference/uniforms/camera#camerapositionint) to determine the exact player camera position without precision errors.
+This uniform stores the fractional component (`0` to `1`) of the position of the player camera. This value is intended to be used with [`cameraPositionInt`](/current/reference/uniforms/camera/#camerapositionint) to determine the exact player camera position without precision errors.
 
 ----------------
 
@@ -45,7 +45,7 @@ This uniform stores the fractional component (`0` to `1`) of the position of the
 ```glsl
 uniform ivec3 cameraPositionInt;
 ```
-This uniform stores the integer component (truncated value) of the position of the player camera. Unlike [`cameraPosition`](/current/reference/uniforms/camera#cameraposition), this value is not shifted.
+This uniform stores the integer component (truncated value) of the position of the player camera. Unlike [`cameraPosition`](/current/reference/uniforms/camera/#cameraposition), this value is not shifted.
 
 ----------------
 
@@ -54,7 +54,7 @@ This uniform stores the integer component (truncated value) of the position of t
 ```glsl
 uniform vec3 previousCameraPosition;
 ```
-This value is the [`cameraPosition`](/current/reference/uniforms/camera#cameraposition) uniform value from the previous frame.
+This value is the [`cameraPosition`](/current/reference/uniforms/camera/#cameraposition) uniform value from the previous frame.
 
 ----------------
 
@@ -63,7 +63,7 @@ This value is the [`cameraPosition`](/current/reference/uniforms/camera#camerapo
 ```glsl
 uniform vec3 previousCameraPositionFract;
 ```
-This value is the [`cameraPositionFract`](/current/reference/uniforms/camera#camerapositionfract) uniform value from the previous frame.
+This value is the [`cameraPositionFract`](/current/reference/uniforms/camera/#camerapositionfract) uniform value from the previous frame.
 
 ----------------
 
@@ -72,7 +72,7 @@ This value is the [`cameraPositionFract`](/current/reference/uniforms/camera#cam
 ```glsl
 uniform ivec3 previousCameraPositionInt;
 ```
-This value is the [`cameraPositionInt`](/current/reference/uniforms/camera#camerapositionint) uniform value from the previous frame.
+This value is the [`cameraPositionInt`](/current/reference/uniforms/camera/#camerapositionint) uniform value from the previous frame.
 
 ----------------
 
@@ -81,7 +81,7 @@ This value is the [`cameraPositionInt`](/current/reference/uniforms/camera#camer
 ```glsl
 uniform vec3 eyePosition;
 ```
-This value stores the world space position of the player's head model. When in first person view, this is equivalent to [`cameraPosition`](/current/reference/uniforms/camera#cameraposition). However in third person mode the two will differ as the camera and player's head are now in different locations.
+This value stores the world space position of the player's head model. When in first person view, this is equivalent to [`cameraPosition`](/current/reference/uniforms/camera/#cameraposition). However in third person mode the two will differ as the camera and player's head are now in different locations.
 
 ----------------
 
@@ -90,7 +90,7 @@ This value stores the world space position of the player's head model. When in f
 ```glsl
 uniform vec3 relativeEyePosition;
 ```
-This value stores the world space offset from the player model's head position to the camera's position (i.e. [`cameraPosition`](/current/reference/uniforms/camera#cameraposition)`-`[`eyePosition`](/current/reference/uniforms/camera#eyeposition)).
+This value stores the world space offset from the player model's head position to the camera's position (i.e. [`cameraPosition`](/current/reference/uniforms/camera#cameraposition)`-`[`eyePosition`](/current/reference/uniforms/camera/#eyeposition)).
 
 ----------------
 
@@ -99,7 +99,7 @@ This value stores the world space offset from the player model's head position t
 ```glsl
 uniform vec3 playerBodyVector;
 ```
-This value is intended to store the world aligned direction the player model's body is facing, although this behavior is currently broken and reads the same value as [`playerLookVector`](/current/reference/uniforms/camera#playerlookvector).
+This value is intended to store the world aligned direction the player model's body is facing, although this behavior is currently broken and reads the same value as [`playerLookVector`](/current/reference/uniforms/camera/#playerlookvector).
 
 ----------------
 
@@ -117,7 +117,7 @@ This value stores the world aligned direction the player model's head is facing.
 ```glsl
 uniform vec3 upPosition;
 ```
-This uniform stores the vector pointing upwards (in the world) in [view space](/current/how-to/spaces). This value can also be pulled from [`gbufferModelView[1].xyz`](/current/reference/uniforms/matrices#gbuffermodelview). The length of this adds up to 100 (`normalizedValue * 100`).
+This uniform stores the vector pointing upwards (in the world) in [view space](/current/how-to/spaces). This value can also be pulled from [`gbufferModelView[1].xyz`](/current/reference/uniforms/matrices/#gbuffermodelview). The length of this adds up to 100 (`normalizedValue * 100`).
 
 ----------------
 
@@ -135,7 +135,7 @@ The lightmap value at the player's location. The `x` component stores the block 
 ```glsl
 uniform ivec2 eyeBrightnessSmooth;
 ```
-This uniform stores the value of [`eyeBrightness`](/current/reference/uniforms/camera#eyebrightness), smoothed over time. The speed of the smoothing can be controlled with [`eyeBrightnessHalflife`](/current/reference/constants/eyebrightnesshalflife).
+This uniform stores the value of [`eyeBrightness`](/current/reference/uniforms/camera/#eyebrightness), smoothed over time. The speed of the smoothing can be controlled with [`eyeBrightnessHalflife`](/current/reference/constants/eyebrightnesshalflife/).
 
 ----------------
 
@@ -144,7 +144,7 @@ This uniform stores the value of [`eyeBrightness`](/current/reference/uniforms/c
 ```glsl
 uniform float centerDepthSmooth;
 ```
-This uniform stores the value in the depth buffer `depthtex0` at the center of the screen, smoothed over time. The speed of the smoothing can be controlled with [`centerDepthHalflife`](/current/reference/constants/centerdepthhalflife).
+This uniform stores the value in the depth buffer `depthtex0` at the center of the screen, smoothed over time. The speed of the smoothing can be controlled with [`centerDepthHalflife`](/current/reference/constants/centerdepthhalflife/).
 
 ----------------
 

@@ -55,9 +55,9 @@ It's good practice to try to minimise duplicate code as much as possible. To org
 
 ## The Fog is Coming
 
-What we want is for something which is nearly out of render distance to have lots of fog, and something which is close to the player not to have any fog at all. To do this, we can divide the distance from the player by a uniform `float`, [`far`](/current/reference/uniforms/rendering#far). The name of this variable is misleading, as what it gives us is the player's render distance, in blocks.
+What we want is for something which is nearly out of render distance to have lots of fog, and something which is close to the player not to have any fog at all. To do this, we can divide the distance from the player by a uniform `float`, [`far`](/current/reference/uniforms/rendering/#far). The name of this variable is misleading, as what it gives us is the player's render distance, in blocks.
 
-Of course, we also need to have a fog color to blend with, and for this, we'll use another uniform, a `vec3` [`fogColor`](/current/reference/uniforms/rendering#fogcolor).
+Of course, we also need to have a fog color to blend with, and for this, we'll use another uniform, a `vec3` [`fogColor`](/current/reference/uniforms/rendering/#fogcolor).
 
 We can then simply do
 

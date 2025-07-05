@@ -11,34 +11,34 @@ import { Badge } from '@astrojs/starlight/components';
 ### `uniform sampler2D colortexN;`
 ### `layout (<format>) uniform image2D colorimgN;`
 
-There are 16 color attachments available through the `colortex0` through `colortex15` samplers. These samplers can be read from any program, and can be written to from the fragment stage of any [`begin`](/current/reference/programs/begin), [`prepare`](/current/reference/programs/prepare), [`gbuffers`](/current/reference/programs/gbuffers), [`deferred`](/current/reference/programs/deferred), or [`composite`](/current/reference/programs/composite) program. 
+There are 16 color attachments available through the `colortex0` through `colortex15` samplers. These samplers can be read from any program, and can be written to from the fragment stage of any [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`gbuffers`](/current/reference/programs/gbuffers/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite/) program. 
 
 :::caution[Warning]
 `colortex`es `0`-`3` cannot be read from in gbuffers programs. Sampling these buffers in these programs will sample the atlas instead.
 :::
 
 #### Writing
-Any [`begin`](/current/reference/programs/begin), [`prepare`](/current/reference/programs/prepare), [`gbuffers`](/current/reference/programs/gbuffers), [`deferred`](/current/reference/programs/deferred), or [`composite`](/current/reference/programs/composite) program can write to a colortex buffer, the buffers to write to can be selected with the [`RENDERTARGETS`](/current/reference/constants/rendertargets) or [`DRAWBUFFERS`](/current/reference/constants/drawbuffers) directive.
+Any [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`gbuffers`](/current/reference/programs/gbuffers/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite) program can write to a colortex buffer, the buffers to write to can be selected with the [`RENDERTARGETS`](/current/reference/constants/rendertargets/) or [`DRAWBUFFERS`](/current/reference/constants/drawbuffer/) directive.
 
 Additionally, you can read and write to the first 6 colortex buffer in OptiFine or any colortex buffer in Iris using `colorimgN` where `N` is replaced with the colortex index. This is the only way to write to colortex buffers from compute shaders, but also works in any program. For more information on image load/store, see the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Image_Load_Store).
 
 #### Size
-These buffers default to the display resolution, although this can be configured with the [`size.buffer`](/current/reference/shadersproperties/rendering#sizebuffer) define in shaders.properties. However, changing the buffer size will prevent any [`gbuffer`](/current/reference/programs/gbuffers) program from writing to the texture.
+These buffers default to the display resolution, although this can be configured with the [`size.buffer`](/current/reference/shadersproperties/rendering/#sizebuffer) define in shaders.properties. However, changing the buffer size will prevent any [`gbuffer`](/current/reference/programs/gbuffers/) program from writing to the texture.
 
 #### Format / precision
-These buffers all default to `RGBA` format (which is `RGBA8` on most systems), but this can be configured as described in the [Texture Formats](/current/reference/buffers/image_format) section.
+These buffers all default to `RGBA` format (which is `RGBA8` on most systems), but this can be configured as described in the [Texture Formats](/current/reference/buffers/image_format/) section.
 
 #### Clearing
 
 By default, these buffers have each value cleared to `vec4(0.0)` after every frame. There are two execptions:
 
-- `colortex0` clears to the [`fogColor`](/current/reference/uniforms/rendering#fogcolor) with 1.0 alpha
+- `colortex0` clears to the [`fogColor`](/current/reference/uniforms/rendering/#fogcolor) with 1.0 alpha
 - `colortex1` clears to `vec4(1.0)`.
 
-Each buffer can have its clearing disabled with the [`colortexNClear`](/current/reference/constants/buffer_clear) directive. Additionally, the clear color can be configured with the [`colortexNClearColor`](/current/reference/constants/buffer_clear_color) directive.
+Each buffer can have its clearing disabled with the [`colortexNClear`](/current/reference/constants/buffer_clear/) directive. Additionally, the clear color can be configured with the [`colortexNClearColor`](/current/reference/constants/buffer_clear_color/) directive.
 
 #### Flipping
-Each colortex sampler actually contains two buffers, which allows you to read from and write to the same buffer in the same pass. The buffer flipping behavior can be controlled with the [`flip.<program>.<buffer>`](/current/reference/shadersproperties/rendering#flip) directive.
+Each colortex sampler actually contains two buffers, which allows you to read from and write to the same buffer in the same pass. The buffer flipping behavior can be controlled with the [`flip.<program>.<buffer>`](/current/reference/shadersproperties/rendering/#flip) directive.
 
 #### Aliases <Badge text="Legacy" variant="danger" size="medium" />
 The first 8 colortex buffers have legacy aliases, although their names are often confusing and their use is not recommended. Except as noted below, either name can be used interchangably. The names are as follows:

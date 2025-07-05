@@ -52,7 +52,7 @@ A comment should be placed after the macro, and the possible values for the opti
 These options can be used directly in shader code like a variable, and will be replaced with the option's value before compilation. Additionally, int options **only** can be checked using `#if`.
 
 #### Constants
-Iris/OptiFine define numerous [constants](/current/reference/constants/overview) to control certain aspects of the shader pipeline. If a value list is added in a comment after the declaration of a numeric const, it can be added to the shaders screen like a shader define option. For example:
+Iris/OptiFine define numerous [constants](/current/reference/constants/overview/) to control certain aspects of the shader pipeline. If a value list is added in a comment after the declaration of a numeric const, it can be added to the shaders screen like a shader define option. For example:
 
 ```glsl title="shader code"
 const int shadowMapResolution = 2048; // [512 1024 2048 4096]
@@ -64,20 +64,20 @@ const int shadowMapResolution = 2048; // [512 1024 2048 4096]
 ## Configuring the Settings Screen
 By default, the "Shader Pack Settings" screen is automatically populated with all valid shader options that Iris finds in the shader pack.
 
-Alternatively, the `screen` directive can be used to control which shader options are displayed in the "Shader Pack Settings" screen and how they are displayed. Options can be added to the "Shader Pack Settings" screen by adding them to the `screen` direction in the [shaders.properties](/current/reference/shadersproperties/overview) file as follows:  
+Alternatively, the `screen` directive can be used to control which shader options are displayed in the "Shader Pack Settings" screen and how they are displayed. Options can be added to the "Shader Pack Settings" screen by adding them to the `screen` direction in the [shaders.properties](/current/reference/shadersproperties/overview/) file as follows:  
 
 ```properties title="shaders.properties"
 screen = <list_of_options>
 ```
 
 `<list_of_options>` can be replaced with a space separated list of any of the following:
-| Format      | Description                                                                                              |
-| ----------- | -------------------------------------------------------------------------------------------------------- |
-| `OPTION`    | a shader option named "OPTION"                                                                           |
-| `[SCREEN]`  | a link to a sub-screen named "SCREEN"                                                                    |
-| `<profile>` | a button that changes the current [shader profile](/current/reference/shadersproperties/shader_settings#profiles) |
-| `<empty>`   | an empty spot, i.e. a spacer                                                                             |
-| `*`         | any remaining shader options not already in a screen                                                     |
+| Format     | Description                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| `OPTION`   | a shader option named "OPTION"                                                                                     |
+| `[SCREEN]` | a link to a sub-screen named "SCREEN"                                                                              |
+| `<profile>`| a button that changes the current [shader profile](/current/reference/shadersproperties/shader_settings/#profiles) |
+| `<empty>`  | an empty spot, i.e. a spacer                                                                                       |
+| `*`        | any remaining shader options not already in a screen                                                               |
 
 
 
@@ -113,7 +113,7 @@ Replace `<list_of_options>` with a space separated list of shader options to dis
 
 The values in the slider are defined by the commented value list where the option is defined. The order of values in the slider is determined **exclusively** by the order in the commented value list. For example if the list is not defined in numerical order the slider values will not be in numerical order.
 
-There should only be one `sliders` list in [shaders.properties](/current/reference/shadersproperties/overview), and options from any sub-screens should be included in that single list (the sliders will still appear in the sub-screen they are defined in using [`screen`](/current/reference/shadersproperties/shader_settings#configuring-the-settings-screen)).
+There should only be one `sliders` list in [shaders.properties](/current/reference/shadersproperties/overview/), and options from any sub-screens should be included in that single list (the sliders will still appear in the sub-screen they are defined in using [`screen`](/current/reference/shadersproperties/shader_settings/#configuring-the-settings-screen)).
 
 
 
@@ -122,7 +122,7 @@ There should only be one `sliders` list in [shaders.properties](/current/referen
 
 ## Profiles
 
-The `profile` directive allows defining of profiles, which are pre-configured sets of user options selectable through a `<profile>` button in the "Shader Pack Settings" screen. Profiles can be configured by adding the following directive to the [shaders.properties](/current/reference/shadersproperties/overview) file:  
+The `profile` directive allows defining of profiles, which are pre-configured sets of user options selectable through a `<profile>` button in the "Shader Pack Settings" screen. Profiles can be configured by adding the following directive to the [shaders.properties](/current/reference/shadersproperties/overview/) file:  
 
 ```properties title="shaders.properties"
 profile.<name> = <list_of_options>
@@ -137,7 +137,7 @@ profile.<name> = <list_of_options>
 | `profile.PROFILE_NAME`          | include all options from profile `PROFILE_NAME`                                  |
 | `!program.PROGRAM_NAME`         | disable program `PROGRAM_NAME`, may include dimension (e.g. `world1/composite5`) |
 
-A button to switch between active profiles can be added to the "Shader Pack Settings" screen by adding `<profile>` to a screen or sub-screen through the [`screen`](/current/reference/shadersproperties/shader_settings#configuring-the-settings-screen) directive.
+A button to switch between active profiles can be added to the "Shader Pack Settings" screen by adding `<profile>` to a screen or sub-screen through the [`screen`](/current/reference/shadersproperties/shader_settings/#configuring-the-settings-screen) directive.
 
 
 ---

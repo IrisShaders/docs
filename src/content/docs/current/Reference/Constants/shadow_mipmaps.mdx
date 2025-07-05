@@ -17,7 +17,7 @@ sidebar:
 
 ---
 
-These directives tell Iris to generate a mipmap chain for a given [shadowtex](/current/reference/buffers/shadowtex) buffer. Each one only needs to be defined once in the shader pack, and can be defined in (mostly) any shader file. The mipmap will be generated after the [`shadow`](/current/reference/programs/shadow) pass but before [`shadowcomp`](/current/reference/programs/shadow_comp).
+These directives tell Iris to generate a mipmap chain for a given [shadowtex](/current/reference/buffers/shadowtex/) buffer. Each one only needs to be defined once in the shader pack, and can be defined in (mostly) any shader file. The mipmap will be generated after the [`shadow`](/current/reference/programs/shadow/) pass but before [`shadowcomp`](/current/reference/programs/shadow_comp/).
 
 `generateShadowMipmap` will generate mipmaps for both `shadowtex0` and `shadowtex1`.
 
@@ -38,6 +38,6 @@ These directives tell Iris to generate a mipmap chain for a given [shadowtex](/c
 These directives are currently bugged. Mipmap chains for shadowcolor buffers will *not* be generated. Mipmaps for shadowtex buffers work as intended.
 :::
 
-These directives tell Iris to generate a mipmap chain for a [shadowcolor](/current/reference/buffers/shadowcolor) buffer. This directive only needs to be defined once in the shader pack, and can be defined in (mostly) any shader file. The mipmap will be generated after the [`shadow`](/current/reference/programs/shadow) pass but before [`shadowcomp`](/current/reference/programs/shadow_comp).
+These directives tell Iris to generate a mipmap chain for a [shadowcolor](/current/reference/buffers/shadowcolor/) buffer. This directive only needs to be defined once in the shader pack, and can be defined in (mostly) any shader file. The mipmap will be generated after the [`shadow`](/current/reference/programs/shadow/) pass but before [`shadowcomp`](/current/reference/programs/shadow_comp/).
 
 `generateShadowColorMipmap` will generate mipmaps for both `shadowcolor0` and `shadowcolor1`.

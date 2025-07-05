@@ -7,7 +7,7 @@ sidebar:
 ---
 import { Badge } from '@astrojs/starlight/components';
 
-This page lists [shaders.properties](/current/reference/shadersproperties/overview) directives related to program ordering, enabling/disabling programs, enabling/disabling geometry within programs, and compute passes.
+This page lists [shaders.properties](/current/reference/shadersproperties/overview/) directives related to program ordering, enabling/disabling programs, enabling/disabling geometry within programs, and compute passes.
 
 ## particles.ordering <Badge text="Iris Exclusive" variant="tip" size="medium" />
 ```properties
@@ -15,9 +15,9 @@ particles.ordering=<mixed|after|before>
 ```
 This controls how particles will be rendered. There are 3 possible options for this value.
 
-- `mixed`: Opaque particles are rendered before the [deferred](/current/reference/programs/deferred) pass, and translucent particles are rendered after. This is the default if no [deferred](/current/reference/programs/deferred) passes are present.
-- `after`: All particles are rendered after the [deferred](/current/reference/programs/deferred) pass. This is the default if there are any [deferred](/current/reference/programs/deferred) passes.
-- `before`: All particles are rendered before the [deferred](/current/reference/programs/deferred) pass.
+- `mixed`: Opaque particles are rendered before the [deferred](/current/reference/programs/deferred/) pass, and translucent particles are rendered after. This is the default if no [deferred](/current/reference/programs/deferred/) passes are present.
+- `after`: All particles are rendered after the [deferred](/current/reference/programs/deferred/) pass. This is the default if there are any [deferred](/current/reference/programs/deferred/) passes.
+- `before`: All particles are rendered before the [deferred](/current/reference/programs/deferred/) pass.
 
 ----------------
 
@@ -26,7 +26,7 @@ This controls how particles will be rendered. There are 3 possible options for t
 ```properties
 particles.before.deferred=<true|false>
 ```
-The legacy version of [`particles.ordering`](/current/reference/shadersproperties/ordering#particlesordering) which is supported by OptiFine. If set to `true` all particles will be rendered before the deferred pass, otherwise particles will be rendered after the deferred pass. This ordering is overwritten by [`particles.ordering`](/current/reference/shadersproperties/ordering#particlesordering) by Iris if both are present.
+The legacy version of [`particles.ordering`](/current/reference/shadersproperties/ordering#particlesordering) which is supported by OptiFine. If set to `true` all particles will be rendered before the deferred pass, otherwise particles will be rendered after the deferred pass. This ordering is overwritten by [`particles.ordering`](/current/reference/shadersproperties/ordering/#particlesordering) by Iris if both are present.
 
 ----------------
 
@@ -57,7 +57,7 @@ Replace:
 ```properties
 shadow.enabled=<true|false>
 ```
-Normally OptiFine/Iris will check if the shadow buffers are used by any program to determine when to enable/disable the shadow pass. Iris offers an additional explicit control for enabling/disabling the pass. This can be useful for voxelization which doesn't write to a [shadowtex](/current/reference/buffers/shadowtex)/[shadowcolor](/current/reference/buffers/shadowcolor) buffer (for example SSBOs or custom images).
+Normally OptiFine/Iris will check if the shadow buffers are used by any program to determine when to enable/disable the shadow pass. Iris offers an additional explicit control for enabling/disabling the pass. This can be useful for voxelization which doesn't write to a [shadowtex](/current/reference/buffers/shadowtex/)/[shadowcolor](/current/reference/buffers/shadowcolor/) buffer (for example SSBOs or custom images).
 
 ----------------
 
@@ -66,7 +66,7 @@ Normally OptiFine/Iris will check if the shadow buffers are used by any program 
 ```properties
 shadowTerrain=<true|false>
 ```
-Sets whether solid/cutout terrain is rendered in the [`shadow pass`](/current/reference/programs/shadow).
+Sets whether solid/cutout terrain is rendered in the [`shadow pass`](/current/reference/programs/shadow/).
 
 ----------------
 
@@ -75,7 +75,7 @@ Sets whether solid/cutout terrain is rendered in the [`shadow pass`](/current/re
 ```properties
 shadowTranslucent=<true|false>
 ```
-Sets whether translucent terrain (e.g. water) is rendered in the [`shadow pass`](/current/reference/programs/shadow).
+Sets whether translucent terrain (e.g. water) is rendered in the [`shadow pass`](/current/reference/programs/shadow/).
 
 ----------------
 
@@ -84,7 +84,7 @@ Sets whether translucent terrain (e.g. water) is rendered in the [`shadow pass`]
 ```properties
 shadowEntities=<true|false>
 ```
-Sets whether entities are rendered in the [`shadow pass`](/current/reference/programs/shadow).
+Sets whether entities are rendered in the [`shadow pass`](/current/reference/programs/shadow/).
 
 ----------------
 
@@ -102,7 +102,7 @@ This value controls if the player should have a shadow rendered. This is forced 
 ```properties
 shadowBlockEntities=<true|false>
 ```
-Sets whether block entities are rendered in the [`shadow pass`](/current/reference/programs/shadow).
+Sets whether block entities are rendered in the [`shadow pass`](/current/reference/programs/shadow/).
 
 ----------------
 
@@ -111,7 +111,7 @@ Sets whether block entities are rendered in the [`shadow pass`](/current/referen
 ```properties
 shadowLightBlockEntities=<true|false>
 ```
-This value sets an override for block entities that emit light. If `shadowBlockEntities` is set to `false`, block entities will not be rendered in the [`shadow pass`](/current/reference/programs/shadow), however setting `shadowLightBlockEntities` to `true` in this case will render only block entities that emit light.
+This value sets an override for block entities that emit light. If `shadowBlockEntities` is set to `false`, block entities will not be rendered in the [`shadow pass`](/current/reference/programs/shadow/), however setting `shadowLightBlockEntities` to `true` in this case will render only block entities that emit light.
 
 ----------------
 
@@ -120,9 +120,9 @@ This value sets an override for block entities that emit light. If `shadowBlockE
 ```properties
 skipAllRendering=<true|false>
 ```
-Disables most of the [gbuffers](/current/reference/programs/gbuffers) pass, including terrain, entities, and block entities. Does not disable post processing shaders or shadows.
+Disables most of the [gbuffers](/current/reference/programs/gbuffers/) pass, including terrain, entities, and block entities. Does not disable post processing shaders or shadows.
 
-This option is intended for path tracing packs which do not utilize the [gbuffers](/current/reference/programs/gbuffers) pass and wish to avoid that geometry being sent to the screen.
+This option is intended for path tracing packs which do not utilize the [gbuffers](/current/reference/programs/gbuffers/) pass and wish to avoid that geometry being sent to the screen.
 
 ----------------
 
@@ -144,7 +144,7 @@ Light blocks will be rendered as a single (degenerate) invisible quad with all p
 ```properties
 indirect.<pass> = <bufferObjectNumber> <offsetInBuffer>
 ```
-Allows you to dispatch a compute shader with the work group amount specified from a [SSBO](/current/reference/buffers/ssbo).
+Allows you to dispatch a compute shader with the work group amount specified from a [SSBO](/current/reference/buffers/ssbo/).
 
 To use this, replace:
 - `<pass>` with the name of the compute shader pass (e.g. `composite`, `deferred1`, `prepare8`)

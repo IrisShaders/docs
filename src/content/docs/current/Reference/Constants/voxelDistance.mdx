@@ -15,6 +15,6 @@ sidebar:
 
 ---
 
-Setting [`shadow.culling = reversed`](/current/reference/shadersproperties/rendering#shadowculling) in shaders.properties will create an area around the player where geometry in the shadow pass will not be culled. Outside this area, geometry will be culled as if shadow culling was enabled. This "unculled" distance is controled with `const float voxelDistance`, and the culled distance is controlled as normal with `const float shadowDistance` (and cannot be lower than `voxelDistance`). This feature is intended for packs which utilize both voxelization and a shadow map.
+Setting [`shadow.culling = reversed`](/current/reference/shadersproperties/rendering/#shadowculling) in shaders.properties will create an area around the player where geometry in the shadow pass will not be culled. Outside this area, geometry will be culled as if shadow culling was enabled. This "unculled" distance is controled with `const float voxelDistance`, and the culled distance is controlled as normal with `const float shadowDistance` (and cannot be lower than `voxelDistance`). This feature is intended for packs which utilize both voxelization and a shadow map.
 
-It is also recommended (but not required) to use the feature flag [`REVERSED_CULLING`](/current/reference/shadersproperties/flags) to avoid compatibility issues with older Iris versions.
+It is also recommended (but not required) to use the feature flag [`REVERSED_CULLING`](/current/reference/shadersproperties/flags/) to avoid compatibility issues with older Iris versions.

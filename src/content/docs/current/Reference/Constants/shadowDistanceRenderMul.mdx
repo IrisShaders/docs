@@ -12,6 +12,6 @@ sidebar:
 
 ---
 
-Sets the culling distance multiplier for the [shadow pass](/current/reference/programs/shadow).
+Sets the culling distance multiplier for the [shadow pass](/current/reference/programs/shadow/).
 
-By default this value is `-1`, which means geometry outside the [`shadowDistance`](/current/reference/constants/shadowdistance) are not culled. Setting this to a positive value applies culling to geometry outside `shadowDistance * shadowDistanceRenderMul` blocks from the camera. For example, `1.0` culls outside [`shadowDistance`](/current/reference/constants/shadowdistance), `0.5` culls outside half of [`shadowDistance`](/current/reference/constants/shadowdistance), and `2.0` culls outside twice [`shadowDistance`](/current/reference/constants/shadowdistance). `shadowDistanceRenderMul` has no effect on the scale of geometry in the [shadow pass](/current/reference/programs/shadow).
+By default this value is `-1`, which means geometry outside the [`shadowDistance`](/current/reference/constants/shadowdistance/) are not culled. Setting this to a positive value applies culling to geometry outside `shadowDistance * shadowDistanceRenderMul` blocks from the camera. For example, `1.0` culls outside [`shadowDistance`](/current/reference/constants/shadowdistance/), `0.5` culls outside half of [`shadowDistance`](/current/reference/constants/shadowdistance/), and `2.0` culls outside twice [`shadowDistance`](/current/reference/constants/shadowdistance/). `shadowDistanceRenderMul` has no effect on the scale of geometry in the [shadow pass](/current/reference/programs/shadow/).

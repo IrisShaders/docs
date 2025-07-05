@@ -8,18 +8,18 @@ sidebar:
 
 **Required stages**: vertex, fragment  
 **Optional stages**: geometry, tessellation  
-**Output buffers**: [shadowcolor](/current/reference/buffers/shadowcolor), [shadowtex](/current/reference/buffers/shadowtex)  
+**Output buffers**: [shadowcolor](/current/reference/buffers/shadowcolor/), [shadowtex](/current/reference/buffers/shadowtex/)  
 **Valid suffixes**: no suffix
 
 -------------------------------------------------
 
 Renders world geometry into the shadow buffers, intended for use in shadow mapping.
 
-This program is similar to the [gbuffers](/current/reference/programs/gbuffers), except it renders terrain from the perspective of the sun or moon. Additionally there is only one shader file for this pass (for the vertex and fragment stages), so all geometry is rendered in `shadow.vsh` and `shadow.fsh`. The type of geometry rendered can be determined with [`renderStage`](/current/reference/uniforms/rendering#renderstage) instead. By default, this program renders in an orthographic perspective, this can be changed with [`shadowMapFov`](/current/reference/constants/shadowmapfov).
+This program is similar to the [gbuffers](/current/reference/programs/gbuffers/), except it renders terrain from the perspective of the sun or moon. Additionally there is only one shader file for this pass (for the vertex and fragment stages), so all geometry is rendered in `shadow.vsh` and `shadow.fsh`. The type of geometry rendered can be determined with [`renderStage`](/current/reference/uniforms/rendering/#renderstage) instead. By default, this program renders in an orthographic perspective, this can be changed with [`shadowMapFov`](/current/reference/constants/shadowmapfov/).
 
 
 ## Additional Shadow Programs (Iris 1.8+)
-Iris 1.8 adds 5 additional shadow programs. These programs allow rendering of specific geometry with different shader code, similar to [gbuffers](/current/reference/programs/gbuffers). If any of these programs are not present, the geometry will be rendered in the base `shadow` program, and if that program is not present a default shader will be used.
+Iris 1.8 adds 5 additional shadow programs. These programs allow rendering of specific geometry with different shader code, similar to [gbuffers](/current/reference/programs/gbuffers/). If any of these programs are not present, the geometry will be rendered in the base `shadow` program, and if that program is not present a default shader will be used.
 
 | Shadow program    | Geometry that it renders |
 | ----------------- | ------------------------ |

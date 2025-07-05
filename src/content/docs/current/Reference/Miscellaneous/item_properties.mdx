@@ -7,8 +7,8 @@ sidebar:
 ---
 
 The `item.properties` file lets you assign IDs to specific items and armor by their Minecraft ID. The file should be placed in the `shaders` folder. The ID can be read in two different ways for different contexts:
-- [`heldItemId`](/current/reference/uniforms/id#helditemid)/[`heldItemId2`](/current/reference/uniforms/id#helditemid2) for the currently held item, accessible anywhere.
-- [`currentRenderedItemId`](/current/reference/uniforms/id#currentrendereditemid) for the currently rendering item/armor/trim (including item frames, armor stands, players, etc), accessible in [gbuffers](/current/reference/programs/gbuffers) and [shadow](/current/reference/programs/shadow) shaders.
+- [`heldItemId`](/current/reference/uniforms/id/#helditemid)/[`heldItemId2`](/current/reference/uniforms/id/#helditemid2) for the currently held item, accessible anywhere.
+- [`currentRenderedItemId`](/current/reference/uniforms/id/#currentrendereditemid) for the currently rendering item/armor/trim (including item frames, armor stands, players, etc), accessible in [gbuffers](/current/reference/programs/gbuffers/) and [shadow](/current/reference/programs/shadow/) shaders.
 
 Items (including block items) and armor (including armor trim) can be assigned to an ID in this file, with the following syntax:
 ```properties title=item.properties

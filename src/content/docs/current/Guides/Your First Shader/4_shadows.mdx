@@ -144,7 +144,7 @@ Your shadows should now look a lot more reasonable.
 ![](../../../../../assets/beginner_tutorial/basicshadows.webp)
 
 ## Making Shadows Sharper
-At the moment, our shadows are extremely blocky. This is due to the limited resolution of the shadow map. We can improve things somewhat by increasing this, using the [`shadowMapResolution`](/current/reference/constant/shadowmapresolution) const. This constant can be defined anywhere, but just because it's a nice place to put it, we'll go back to `shadow.fsh`. Let's add the following. It should be outside the `main` function - I put mine just before my `layout` qualifier declaration.
+At the moment, our shadows are extremely blocky. This is due to the limited resolution of the shadow map. We can improve things somewhat by increasing this, using the [`shadowMapResolution`](/current/reference/constant/shadowmapresolution/) const. This constant can be defined anywhere, but just because it's a nice place to put it, we'll go back to `shadow.fsh`. Let's add the following. It should be outside the `main` function - I put mine just before my `layout` qualifier declaration.
 
 ```glsl
 const int shadowMapResolution = 2048;
@@ -390,7 +390,7 @@ Our shadows now have soft edges, and the aliasing artifacts are no longer visibl
 
 ![](../../../../../assets/beginner_tutorial/lownoise.webp)
 
-You'll see the pixels in `noisetex` are pretty chunky. This is because it has a resolution of 64x64, and is being stretched to fit the screen. We could just increase the resolution, but to ensure we're getting a unique value for every pixel, we'll instead use a function called `texelFetch`. `texelFetch` takes in an exact pixel coordinate in a texture and returns the value there without doing any filtering. We will need to convert our `texcoord` to a pixel coordinate within the range (0-64). We can do this using another couple of uniforms, [`viewWidth`](/current/reference/uniforms/system#viewwidth) and [`viewHeight`](/current/reference/uniforms/system#viewheight) (both `float`s). We will also make use of the type `ivec2` which is like a `vec2` except it can store only integer values. Let's make another new function called `getNoise`. It will take in a vec2 texcoord and return a vec4, the lookup value from `noisetex`. We're going to access it in `getSoftShadow` so it should be placed before this function.
+You'll see the pixels in `noisetex` are pretty chunky. This is because it has a resolution of 64x64, and is being stretched to fit the screen. We could just increase the resolution, but to ensure we're getting a unique value for every pixel, we'll instead use a function called `texelFetch`. `texelFetch` takes in an exact pixel coordinate in a texture and returns the value there without doing any filtering. We will need to convert our `texcoord` to a pixel coordinate within the range (0-64). We can do this using another couple of uniforms, [`viewWidth`](/current/reference/uniforms/system/#viewwidth) and [`viewHeight`](/current/reference/uniforms/system/#viewheight) (both `float`s). We will also make use of the type `ivec2` which is like a `vec2` except it can store only integer values. Let's make another new function called `getNoise`. It will take in a vec2 texcoord and return a vec4, the lookup value from `noisetex`. We're going to access it in `getSoftShadow` so it should be placed before this function.
 
 ```glsl
 vec4 getNoise(vec2 coord){
