@@ -1,6 +1,6 @@
 ---
 title: workGroupsRender
-description: Used to define number of work groups in a compute shader based on a multiple of the screen resolution.
+description: Defines a variable number of compute shader work groups to be dispatched based on a multiple of screen resolution.
 sidebar:
   label: workGroupsRender
   order: 4
@@ -15,4 +15,10 @@ sidebar:
 
 ---
 
-Used to define number of work groups in a compute shader based on a multiple of the screen resolution. Replace `<x_mult>` and `<y_mult>` with a multiplier for each screen dimension. For example, `1.0` would mean there would be the same number of work groups in that dimension as pixels in the screen in that dimension. For more info, see the [compute shader](/current/reference/programs/overview/#compute-shaders) section.
+Defines a variable number of compute shader work groups to be dispatched based on a multiple of screen resolution. If neither this directive nor [`workGroups`](/current/reference/constants/workGroups/) is defined, work groups will be dispatched as if `workGroupsRender == vec2(1.0, 1.0)`, which means that the smallest number of work groups will be dispatched to completely cover the screen with one shader invocation per pixel when arranged in a grid. If the screen resolution isn't a multiple of `vec2(gl_WorkGroupSize.xy) / workGroupsRender`, the number of invocations dispatched will be greater than the amount of pixels on the screen.
+
+```glsl
+gl_NumWorkGroups == uvec3(ceil(vec2(viewWidth, viewHeight) * workGroupsRender / vec2(gl_WorkGroupSize.xy)), 1u)
+```
+
+For more info, see the [compute shader](/current/reference/programs/overview/#compute-shaders) section.

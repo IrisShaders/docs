@@ -55,16 +55,16 @@ Composite-style programs render a single quad covering the output texture (unles
 Composite-style programs support vertex, fragment, geometry, and compute stages. Usually composite-style programs require vertex and fragment shaders, however if a compute shader is present these are optional. Compute shaders (if present) will be executed before the vertex stage of a given program.
 
 #### Compute-only
-As the name suggests, compute-only programs only support compute shaders. The only such programs are in the [setup](/current/reference/programs/setup/) pass, which are executed once after shader load and during window resize. Like composite passes, [setup](/current/reference/programs/setup/) supports suffixes (1 to 99) in addition to a program with no suffix.
+As the name suggests, compute-only programs only support compute shaders. The only such programs are in the [setup](/current/reference/programs/setup/) pass, which are executed once after shader pack load and during window resize. Like composite passes, [setup](/current/reference/programs/setup/) supports suffixes (1 to 99) in addition to a program with no suffix.
 
 ## Compute Shaders
 Compute shaders break the OpenGL fixed pipeline and allow more direct access to graphics hardware. For more information, see the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Compute_Shader).
 
 :::caution[Warning]
-Compute shaders require OpenGL 4.3 support, which macOS does not have. For more information, see the [macOS](/current/reference/miscellaneous/macos/) page.
+Compute shaders require OpenGL 4.3 support, which macOS does not provide. For more information, see the [macOS](/current/reference/miscellaneous/macos/) page.
 :::
 
-In Iris, compute shaders can be used in compute only pass, or included in composite-style passes, using the `.csh` file extension. In composite-style passes, compute shaders will always execute first (before the vertex stage if present). Up to 27 compute shaders files can be included in a single pass by appending the `_a` through `_z` suffixes to the filename in addition to a shader file with no suffix. These shaders will execute one after the other in alphabetical order (starting with the no-suffix file if present), unless [`allowConcurrentCompute`](/current/reference/shadersproperties/ordering/#allowconcurrentcompute) is used (in which case they will execute potentially simultaneously but will all finish before starting the vertex stage).
+In Iris, compute shaders can be used in compute only passes, or included in composite-style passes, and are stored with the `.csh` file extension. In composite-style passes, compute shaders will always execute first (before the vertex stage if present). Up to 27 compute shaders can be included in a single pass, by appending `_a` through `_z` suffixes to the filename, in addition to a shader file with no suffix. These shaders will execute one after the other in alphabetical order (starting with the suffixless file if present), unless [`allowConcurrentCompute`](/current/reference/shadersproperties/ordering/#allowconcurrentcompute) is enabled, in which case they will execute potentially simultaneously but will all finish before the vertex stage begins execution.
 
 Local size is defined as follows: `layout (local_size_x = <size_x>, local_size_y = <size_x>, local_size_z = <size_z>) in;`.
 
@@ -73,9 +73,9 @@ Work group count can be defined one of three ways:
 2. [`const vec2 workGroupsRender`](/current/reference/constants/workgroupsrender/)
 3. [`indirect.pass`](/current/reference/shadersproperties/ordering/#indirectpass)
 
-If no work group count is provided, the default value of one work group per pixel will be used (`const vec2 workGroupsRender = vec2(1.0, 1.0);`).
+If no work group count is provided, a default value of (`const vec2 workGroupsRender = vec2(1.0, 1.0);`) will be used.
 
-Unlike fragment shaders, compute shaders cannot directly write to color attachments, instead they can only write to [colortex](/current/reference/buffers/colortex/) and [shadowcolor](/current/reference/programs/shadowcolor/) buffers through [`imageStore`](https://www.khronos.org/opengl/wiki/Image_Load_Store). Additionally, if multiple shader invocations are writing/reading to the same location in memory simultaneously, atomic operations (on [images](https://www.khronos.org/opengl/wiki/Image_Load_Store#Atomic_operations) and/or [shared memory](https://www.khronos.org/opengl/wiki/Compute_Shader#Atomic_operations)) or [memory barriers](https://www.khronos.org/opengl/wiki/Compute_Shader#Shared_memory_coherency) should be used.
+Unlike fragment shaders, compute shaders cannot directly write to color attachments. Writing to [colortex](/current/reference/buffers/colortex) and [shadowcolor](/current/reference/programs/shadowcolor/) buffers needs to be done with [`imageStore`](https://www.khronos.org/opengl/wiki/Image_Load_Store).
 
 
 ## Tessellation Shaders
