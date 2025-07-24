@@ -14,7 +14,12 @@ These uniforms store information about the world, including world time and day, 
 ```glsl
 uniform vec3 sunPosition;
 ```
-This value stores the position of the sun in view space. The length of this value is always `100`, as it represents a position not a direction. This value can be converted to screen space directly to get the screen space position of the sun.
+This value stores the position of the sun in view space. The length of the vector is always `100.0`, as it represents a position and not a direction. This value can be converted to screen space directly to get the screen space position of the sun.
+
+```glsl
+// equivalent to 'normalize(sunPosition)' or 'sunPosition / length(sunPosition)', since 'length(sunPosition) == 100.0'
+vec3 sun_direction = 0.01 * sunPosition;
+```
 
 ----------------
 
@@ -23,7 +28,12 @@ This value stores the position of the sun in view space. The length of this valu
 ```glsl
 uniform vec3 moonPosition;
 ```
-This value stores the position of the moon in view space. The length of this value is always `100`, as it represents a position and not a direction. This value can be converted to screen space directly to get the screen space position of the moon.
+This value stores the position of the moon in view space. The length of the vector is always `100.0`, as it represents a position and not a direction. This value can be converted to screen space directly to get the screen space position of the moon.
+
+```glsl
+// equivalent to 'normalize(moonPosition)' or 'moonPosition / length(moonPosition)', since 'length(moonPosition) == 100.0'
+vec3 moon_direction = 0.01 * moonPosition;
+```
 
 ----------------
 
@@ -32,7 +42,12 @@ This value stores the position of the moon in view space. The length of this val
 ```glsl
 uniform vec3 shadowLightPosition;
 ```
-This value stores the position of the highest celestial body in view space. In the overworld, during the day `shadowLightPosition` is equivalent to [`sunPosition`](/current/reference/uniforms/world/#sunposition) and during the night is equivalent to [`moonPosition`](/current/reference/uniforms/world/#moonposition). This matches direction used for the shadow pass. The length of this value is always `100`, as it represents a position not a direction. This value can be converted to screen space directly to get the screen space position of the celestial body.
+This value stores the position of the highest celestial body in view space. In the overworld, `shadowLightPosition` is equivalent to [`sunPosition`](/current/reference/uniforms/world/#sunposition) during the day and [`moonPosition`](/current/reference/uniforms/world/#moonposition) during the night. This matches direction used for the shadow pass. The length of the vector is always `100.0`, as it represents a position and not a direction. This value can be converted to screen space directly to get the screen space position of the celestial body.
+
+```glsl
+// equivalent to 'normalize(shadowLightPosition)' or 'shadowLightPosition / length(shadowLightPosition)', since 'length(shadowLightPosition) == 100.0'
+vec3 shadow_light_direction = 0.01 * shadowLightPosition;
+```
 
 ----------------
 
