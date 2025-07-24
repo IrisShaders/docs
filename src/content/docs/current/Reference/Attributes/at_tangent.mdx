@@ -12,16 +12,24 @@ sidebar:
 
 ---
 
-The tangent vector in model space. The `xyz` components store the tangent, and the `w` component stores the handedness of normal/tangent. The handedness should be used to invert the bitangent in cases where a texture is mirrored and the cross product of the normal and tangent vectors would produce an inverted bitangent vector. For example:
-```glsl
-vec3 normal = normalMatrix * vaNormal;
-vec3 tangent = normalMatrix * at_tangent.xyz;
+The `xyz` components store an approximation of the current tangent vector in model space, and the sign of the `w` component the handedness of the normal/tangent.
 
-vec3 bitangent = cross(tangent, normal) * at_tangent.w;
+:::note
+`at_tangent.xyz` is not guaranteed to be normalized, and `at_tangent.w` is only guaranteed to be in the range `[-1.0, 1.0]` and not zero.
+:::
+
+The handedness should be used to invert the bitangent in cases where a texture is mirrored and the cross product of the normal and tangent vectors would produce an inverted bitangent vector. For example, in [view space](/current/how-to/coordinate_spaces/):
+```glsl
+vec3 normal = normalMatrix * normalize(vaNormal);
+vec3 tangent = normalMatrix * normalize(at_tangent.xyz);
 ```
 ```glsl
-vec3 normal = gl_NormalMatrix * gl_Normal;
-vec3 tangent = gl_NormalMatrix * at_tangent.xyz;
+vec3 normal = gl_NormalMatrix * normalize(gl_Normal);
+vec3 tangent = gl_NormalMatrix * normalize(at_tangent.xyz);
+```
+```glsl
+const float inf = uintBitsToFloat(0x7f800000u);
+float handedness = clamp(at_tangent.w * inf, -1.0, 1.0); // -1.0 when at_tangent.w is negative, and 1.0 when it's positive
 
-vec3 bitangent = cross(tangent, normal) * at_tangent.w;
+vec3 bitangent = cross(tangent, normal) * handedness;
 ```
