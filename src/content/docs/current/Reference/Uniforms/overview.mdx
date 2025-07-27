@@ -19,7 +19,7 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [eyeAltitude](/current/reference/uniforms/camera/#eyealtitude)                                 | float |              | Y coordinate of the player in blocks                               |                                              |
 | [cameraPositionFract](/current/reference/uniforms/camera/#camerapositionfract)                 | vec3  | [0,1)        | Fractional component of the camera position in world space         | <Badge text="Iris Exclusive" variant="tip"/> |
 | [cameraPositionInt](/current/reference/uniforms/camera/#camerapositionint)                     | ivec3 |              | Integer component of the camera position in world space            | <Badge text="Iris Exclusive" variant="tip"/> |
-| [previousCameraPosition](/current/reference/uniforms/camera/#previouscameraposition)           | vec3  |              | Value of `cameraPosition` from the previous frame                  | <Badge text="Iris Exclusive" variant="tip"/> |
+| [previousCameraPosition](/current/reference/uniforms/camera/#previouscameraposition)           | vec3  |              | Value of `cameraPosition` from the previous frame                  |                                              |
 | [previousCameraPositionFract](/current/reference/uniforms/camera/#previouscamerapositionfract) | vec3  | [0,1)        | Value of `cameraPositionFract` from the previous frame             | <Badge text="Iris Exclusive" variant="tip"/> |
 | [previousCameraPositionInt](/current/reference/uniforms/camera/#previouscamerapositionint)     | ivec3 |              | Value of `cameraPositionInt` from the previous frame               | <Badge text="Iris Exclusive" variant="tip"/> |
 | [eyePosition](/current/reference/uniforms/camera/#eyeposition)                                 | vec3  |              | World space position of the player's head model                    | <Badge text="Iris Exclusive" variant="tip"/> |
@@ -33,8 +33,8 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [firstPersonCamera](/current/reference/uniforms/camera/#firstpersoncamera)                     | bool  | true / false | Whether the player camera is in first person mode                  | <Badge text="Iris Exclusive" variant="tip"/> |
 
 ## Player Status
-| Uniform                                                                       | Type  | Value range   | Description                                                    | Tag                                               |
-| ----------------------------------------------------------------------------- | ----- | ------------- | -------------------------------------------------------------- | ------------------------------------------------- |
+| Uniform                                                                        | Type  | Value range   | Description                                                    | Tag                                               |
+| ------------------------------------------------------------------------------ | ----- | ------------- | -------------------------------------------------------------- | ------------------------------------------------- |
 | [isEyeInWater](/current/reference/uniforms/status/#iseyeinwater)               | int   | 0, 1, 2, 3    | Fluid that the camera is currently in                          |                                                   |
 | [isSpectator](/current/reference/uniforms/status/#isspectator)                 | bool  | true / false  | Whether the player is currently in spectator mode              | <Badge text="Iris Exclusive" variant="tip"/>      |
 | [isRightHanded](/current/reference/uniforms/status/#isrighthanded)             | bool  | true / false  | Whether the player's main hand is set to right hand            | <Badge text="Iris Exclusive" variant="tip"/>      |
@@ -61,8 +61,8 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [hideGUI](/current/reference/uniforms/status/#hidegui)                         | bool  | true / false  | Whether the player's GUI is hidden                             |                                                   |
 
 ## Screen/System
-| Uniform                                                                   | Type  | Value range   | Description                                                    | Tag                                          |
-| ------------------------------------------------------------------------- | ----- | ------------- | -------------------------------------------------------------- | -------------------------------------------- |
+| Uniform                                                                    | Type  | Value range   | Description                                                    | Tag                                          |
+| -------------------------------------------------------------------------- | ----- | ------------- | -------------------------------------------------------------- | -------------------------------------------- |
 | [viewHeight](/current/reference/uniforms/system/#viewheight)               | float | [1,∞)         | Height of the game window in pixels                            |                                              |
 | [viewWidth](/current/reference/uniforms/system/#viewwidth)                 | float | [1,∞)         | Width of the game window in pixels                             |                                              |
 | [aspectRatio](/current/reference/uniforms/system/#aspectratio)             | float | (0,∞)         | Aspect ratio of the game window                                |                                              |
@@ -76,21 +76,21 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [currentYearTime](/current/reference/uniforms/system/#currentyeartime)     | ivec2 |               | Time since beginning of the year and until the end of the year | <Badge text="Iris Exclusive" variant="tip"/> |
 
 ## ID
-| Uniform                                                                           | Type  | Value range     | Description                                                             | Tag                                          |
-| --------------------------------------------------------------------------------- | ----- | --------------- | ----------------------------------------------------------------------- | -------------------------------------------- |
-| [entityId](/current/reference/uniforms/id/#entityid)                               | int   | [0, 65535]      | ID of the currently rendering entity (gbuffers_entities)                |                                              |
-| [blockEntityId](/current/reference/uniforms/id/#blockentityid)                     | int   | [-32768, 32767] | ID of the currently rendering block entity (gbuffers_block)             |                                              |
-| [currentRenderedItemId](/current/reference/uniforms/id/#currentrendereditemid)     | int   | [0,65535]       | Item ID of currently rendering item/armor/trim                          | <Badge text="Iris Exclusive" variant="tip"/> |
-| [currentSelectedBlockId](/current/reference/uniforms/id/#currentselectedblockid)   | int   | [-32768, 32767] | Block ID of block selected by the player                                | <Badge text="Iris Exclusive" variant="tip"/> |
-| [currentSelectedBlockPos](/current/reference/uniforms/id/#currentselectedblockpos) | vec3  |                 | Player space position of the center of the block selected by the player | <Badge text="Iris Exclusive" variant="tip"/> |
-| [heldItemId](/current/reference/uniforms/id/#helditemid)                           | int   | [0, 65535]      | Item ID of the item in the player's hand                                |                                              |
-| [heldItemId2](/current/reference/uniforms/id/#helditemid2)                         | int   | [0, 65535]      | Item ID of the item in the player's offhand                             |                                              |
-| [heldBlockLightValue](/current/reference/uniforms/id/#heldblocklightvalue)         | int   | [0,15]          | Light value of the item held in the player's hand                       |                                              |
-| [heldBlockLightValue2](/current/reference/uniforms/id/#heldblocklightvalue2)       | int   | [0,15]          | Light value of the item held in the player's offhand                    |                                              |
+| Uniform                                                                            | Type | Value range     | Description                                                             | Tag                                          |
+| ---------------------------------------------------------------------------------- | ---- | --------------- | ----------------------------------------------------------------------- | -------------------------------------------- |
+| [entityId](/current/reference/uniforms/id/#entityid)                               | int  | [0, 65535]      | ID of the currently rendering entity (gbuffers_entities)                |                                              |
+| [blockEntityId](/current/reference/uniforms/id/#blockentityid)                     | int  | [-32768, 32767] | ID of the currently rendering block entity (gbuffers_block)             |                                              |
+| [currentRenderedItemId](/current/reference/uniforms/id/#currentrendereditemid)     | int  | [0,65535]       | Item ID of currently rendering item/armor/trim                          | <Badge text="Iris Exclusive" variant="tip"/> |
+| [currentSelectedBlockId](/current/reference/uniforms/id/#currentselectedblockid)   | int  | [-32768, 32767] | Block ID of block selected by the player                                | <Badge text="Iris Exclusive" variant="tip"/> |
+| [currentSelectedBlockPos](/current/reference/uniforms/id/#currentselectedblockpos) | vec3 |                 | Player space position of the center of the block selected by the player | <Badge text="Iris Exclusive" variant="tip"/> |
+| [heldItemId](/current/reference/uniforms/id/#helditemid)                           | int  | [0, 65535]      | Item ID of the item in the player's hand                                |                                              |
+| [heldItemId2](/current/reference/uniforms/id/#helditemid2)                         | int  | [0, 65535]      | Item ID of the item in the player's offhand                             |                                              |
+| [heldBlockLightValue](/current/reference/uniforms/id/#heldblocklightvalue)         | int  | [0,15]          | Light value of the item held in the player's hand                       |                                              |
+| [heldBlockLightValue2](/current/reference/uniforms/id/#heldblocklightvalue2)       | int  | [0,15]          | Light value of the item held in the player's offhand                    |                                              |
 
 ## World/Weather
-| Uniform                                                                          | Type  | Value range | Description                                                   | Tag                                          |
-| -------------------------------------------------------------------------------- | ----- | ----------- | ------------------------------------------------------------- | -------------------------------------------- |
+| Uniform                                                                           | Type  | Value range | Description                                                   | Tag                                          |
+| --------------------------------------------------------------------------------- | ----- | ----------- | ------------------------------------------------------------- | -------------------------------------------- |
 | [sunPosition](/current/reference/uniforms/world/#sunposition)                     | vec3  | [0,100]     | Position of the sun in view space, length of 100              |                                              |
 | [moonPosition](/current/reference/uniforms/world/#moonposition)                   | vec3  | [0,100]     | Position of the moon in view space, length of 100             |                                              |
 | [shadowLightPosition](/current/reference/uniforms/world/#shadowlightposition)     | vec3  | [0,100]     | Position of shadow source in view space, length of 100        |                                              |
@@ -105,8 +105,8 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [worldDay](/current/reference/uniforms/world/#worldday)                           | int   | [0 - )      | Number of in-game days passed                                 |                                              |
 
 ## Biome/Dimension
-| Uniform                                                                      | Type  | Value range   | Description                                                         | Tag                                               |
-| ---------------------------------------------------------------------------- | ----- | ------------- | ------------------------------------------------------------------- | ------------------------------------------------- |
+| Uniform                                                                       | Type  | Value range   | Description                                                         | Tag                                               |
+| ----------------------------------------------------------------------------- | ----- | ------------- | ------------------------------------------------------------------- | ------------------------------------------------- |
 | [biome](/current/reference/uniforms/biome/#biome)                             | int   |               | Biome currently occupied by the player                              | <Badge text="OptiFine CU / Iris" variant="note"/> |
 | [biome_category](/current/reference/uniforms/biome/#biome_category)           | int   |               | Category of the biome currently occupied by the player              | <Badge text="OptiFine CU / Iris" variant="note"/> |
 | [biome_precipitation](/current/reference/uniforms/biome/#biome_precipitation) | int   | 0, 1, 2       | Type of precipitation in the current biome                          | <Badge text="OptiFine CU / Iris" variant="note"/> |
@@ -121,8 +121,8 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [logicalHeightLimit](/current/reference/uniforms/biome/#logicalheightlimit)   | int   |               | Logical height of the current dimension                             | <Badge text="Iris Exclusive" variant="tip"/>      |
 
 ## Rendering
-| Uniform                                                            | Type  | Value range      | Description                                                       | Tag |
-| ------------------------------------------------------------------ | ----- | ---------------- | ----------------------------------------------------------------- | --- |
+| Uniform                                                             | Type  | Value range      | Description                                                       | Tag |
+| ------------------------------------------------------------------- | ----- | ---------------- | ----------------------------------------------------------------- | --- |
 | [near](/current/reference/uniforms/rendering/#near)                 | float | 0.05             | Near clipping plane distance                                      |     |
 | [far](/current/reference/uniforms/rendering/#far)                   | float | (0, - )          | Current render distance in blocks                                 |     |
 | [alphaTestRef](/current/reference/uniforms/rendering/#alphatestref) | float | [0,1]            | Cutout alpha discard threshold                                    |     |
@@ -136,26 +136,26 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [fogDensity](/current/reference/uniforms/rendering/#fogdensity)     | float | [0,1]            | Relative fog density                                              |     |
 | [fogStart](/current/reference/uniforms/rendering/#fogstart)         | float | (0, - )          | Starting fog distance in blocks                                   |     |
 | [fogEnd](/current/reference/uniforms/rendering/#fogend)             | float | (0, - )          | Ending fog distance in blocks                                     |     |
-| [fogMode](/current/reference/uniforms/rendering/#fogmode)           | int   | 2048, 2049, 2048 | Fog type used for vanilla fog                                     |     |
+| [fogMode](/current/reference/uniforms/rendering/#fogmode)           | int   | 2048, 2049, 9729 | Fog type used for vanilla fog                                     |     |
 | [fogShape](/current/reference/uniforms/rendering/#fogshape)         | int   | 0,1              | Fog shape used for vanilla fog                                    |     |
 
 ## Matrices
-| Uniform                                                                             | Type  | Value range | Description                                                            | Tag |
-| ----------------------------------------------------------------------------------- | ----- | ----------- | ---------------------------------------------------------------------- | --- |
-| [gbufferModelView](/current/reference/uniforms/matrices/#gbuffermodelview)                   | mat4  |             | Player space to view space in general                                  |     |
-| [gbufferModelViewInverse](/current/reference/uniforms/matrices/#gbuffermodelviewinverse)     | mat4  |             | Converts from view space to player space in general                    |     |
-| [gbufferProjection](/current/reference/uniforms/matrices/#gbufferprojection)                 | mat4  |             | Converts from view space to clip space in general                      |     |
-| [gbufferProjectionInverse](/current/reference/uniforms/matrices/#gbufferprojectioninverse)   | mat4  |             | Converts from clip/screen to view space in general                     |     |
-| [shadowModelView](/current/reference/uniforms/matrices/#shadowmodelview)                     | mat4  |             | Converts from player space to shadow view space in general             |     |
-| [shadowModelViewInverse](/current/reference/uniforms/matrices/#shadowmodelviewinverse)       | mat4  |             | Converts from shadow view space to player space in general             |     |
-| [shadowProjection](/current/reference/uniforms/matrices/#shadowprojection)                   | mat4  |             | Converts from shadow view space to shadow clip space in general        |     |
-| [shadowProjectionInverse](/current/reference/uniforms/matrices/#shadowprojectioninverse)     | mat4  |             | Converts from shadow clip/screen space to shadow view space in general |     |
-| [gbufferPreviousModelView](/current/reference/uniforms/matrices/#gbufferpreviousmodelview)   | mat4  |             | Value of `gbufferModelView` from the previous frame                    |     |
-| [gbufferPreviousProjection](/current/reference/uniforms/matrices/#gbufferpreviousprojection) | mat4  |             | Value of `gbufferProjection` from the previous frame                   |     |
-| [modelViewMatrix](/current/reference/uniforms/matrices/#modelviewmatrix)                     | mat4  |             | Converts from model space to view space in general                     |     |
-| [modelViewMatrixInverse](/current/reference/uniforms/matrices/#modelviewmatrixinverse)       | mat4  |             | Converts from view space to model space for current geometry           |     |
-| [projectionMatrix](/current/reference/uniforms/matrices/#projectionmatrix)                   | mat4  |             | Converts from view space to clip space for current geometry            |     |
-| [projectionMatrixInverse](/current/reference/uniforms/matrices/#projectionmatrixinverse)     | mat4  |             | Converts from clip/screen space to view space for current geometry     |     |
-| [normalMatrix](/current/reference/uniforms/matrices/#normalmatrix)                           | mat3  |             | Converts normals from model space to view space for current geometry   |     |
-| [textureMatrix](/current/reference/uniforms/matrices/#texturematrix)                         | mat4  |             | Transforms texture coordinates before sampling                         |     |
+| Uniform                                                                                      | Type | Value range | Description                                                            | Tag |
+| -------------------------------------------------------------------------------------------- | ---- | ----------- | ---------------------------------------------------------------------- | --- |
+| [gbufferModelView](/current/reference/uniforms/matrices/#gbuffermodelview)                   | mat4 |             | Player space to view space in general                                  |     |
+| [gbufferModelViewInverse](/current/reference/uniforms/matrices/#gbuffermodelviewinverse)     | mat4 |             | Converts from view space to player space in general                    |     |
+| [gbufferProjection](/current/reference/uniforms/matrices/#gbufferprojection)                 | mat4 |             | Converts from view space to clip space in general                      |     |
+| [gbufferProjectionInverse](/current/reference/uniforms/matrices/#gbufferprojectioninverse)   | mat4 |             | Converts from clip/screen to view space in general                     |     |
+| [shadowModelView](/current/reference/uniforms/matrices/#shadowmodelview)                     | mat4 |             | Converts from player space to shadow view space in general             |     |
+| [shadowModelViewInverse](/current/reference/uniforms/matrices/#shadowmodelviewinverse)       | mat4 |             | Converts from shadow view space to player space in general             |     |
+| [shadowProjection](/current/reference/uniforms/matrices/#shadowprojection)                   | mat4 |             | Converts from shadow view space to shadow clip space in general        |     |
+| [shadowProjectionInverse](/current/reference/uniforms/matrices/#shadowprojectioninverse)     | mat4 |             | Converts from shadow clip/screen space to shadow view space in general |     |
+| [gbufferPreviousModelView](/current/reference/uniforms/matrices/#gbufferpreviousmodelview)   | mat4 |             | Value of `gbufferModelView` from the previous frame                    |     |
+| [gbufferPreviousProjection](/current/reference/uniforms/matrices/#gbufferpreviousprojection) | mat4 |             | Value of `gbufferProjection` from the previous frame                   |     |
+| [modelViewMatrix](/current/reference/uniforms/matrices/#modelviewmatrix)                     | mat4 |             | Converts from model space to view space in general                     |     |
+| [modelViewMatrixInverse](/current/reference/uniforms/matrices/#modelviewmatrixinverse)       | mat4 |             | Converts from view space to model space for current geometry           |     |
+| [projectionMatrix](/current/reference/uniforms/matrices/#projectionmatrix)                   | mat4 |             | Converts from view space to clip space for current geometry            |     |
+| [projectionMatrixInverse](/current/reference/uniforms/matrices/#projectionmatrixinverse)     | mat4 |             | Converts from clip/screen space to view space for current geometry     |     |
+| [normalMatrix](/current/reference/uniforms/matrices/#normalmatrix)                           | mat3 |             | Converts normals from model space to view space for current geometry   |     |
+| [textureMatrix](/current/reference/uniforms/matrices/#texturematrix)                         | mat4 |             | Transforms texture coordinates before sampling                         |     |
 

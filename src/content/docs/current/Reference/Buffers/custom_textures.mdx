@@ -29,7 +29,7 @@ Atlas textures (such as the block atlas) can be loaded by passing their file pat
 Additionally, the lightmap dynamic texture can be loaded using either `minecraft:dynamic/lightmap_1` or `minecraft:dynamic/light_map_1`. This texture is equivalent to the `lightmap` sampler used in [gbuffers](/current/reference/programs/gbuffers/). For example `texture.prepare.colortex2 = minecraft:dynamic/lightmap_1` loads the lightmap into `colortex2`.
 
 #### Raw textures
-Raw textures can be loaded from the shader files, similarly to image files. However raw textures are uncompressed binary files, where the bytes represent the values in the texture directly. Raw files can also encode 3D textures, and the texture format can be directly controlled (images are always loaded as RGBA8). To use a raw texture, add the following parameters to the custom texture directive:
+Raw textures can be loaded from the shader files, similarly to image files. However raw textures are uncompressed binary files, where the bytes represent the values in the texture directly. Raw files can also encode 3D textures, and the image format can be directly controlled (PNG images are always loaded as RGBA8). To use a raw texture, add the following parameters to the custom texture directive:
 
 ```properties  title="shaders.properties" ins="<type> <internalFormat> <dimensions> <pixelFormat> <pixelType>"
 texture.<stage>.<bufferName> = <path> <type> <internalFormat> <dimensions> <pixelFormat> <pixelType>
@@ -37,10 +37,10 @@ texture.<stage>.<bufferName> = <path> <type> <internalFormat> <dimensions> <pixe
 
 Replace:
 - `<type>` with one of the following: `TEXTURE_1D`, `TEXTURE_2D`, `TEXTURE_3D`, or `TEXTURE_RECTANGLE`.
-- `<internalFormat>` with the [texture format](/current/reference/buffers/image_format/).
+- `<internalFormat>` with the [image format](/current/reference/buffers/image_format/).
 - `<dimensions>` with the fixed size dimensions of the texture (the number of components depends on the type).
-- `<pixelFormat>` with the pixel format described in the "Pixel Formats" section of the [texture format section](/current/reference/buffers/image_format/).
-- `<pixelType>` with the pixel type described in the "Pixel Types" section of the [texture format section](/current/reference/buffers/image_format/).
+- `<pixelFormat>` with the [pixel format](/current/reference/buffers/image_format/).
+- `<pixelType>` with the [pixel type](/current/reference/buffers/image_format/).
 
 
 ### PBR textures

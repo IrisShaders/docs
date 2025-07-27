@@ -12,6 +12,6 @@ sidebar:
 
 ---
 
-This directive allows a shader pack to specify the format and precision of a [colortex](/current/reference/buffers/colortex/) or [shadowcolor](/current/reference/buffers/shadowcolor/) color attachment. Replace `<bufferName>` with the name of the color attachment (i.e. `colortex2`, `shadowcolor0`, etc) and `format` with the format as described in the [Texture Formats](/current/reference/buffers/image_format/) section.
+This directive allows a shader pack to specify the format and precision of a [colortex](/current/reference/buffers/colortex/) or [shadowcolor](/current/reference/buffers/shadowcolor/) color attachment. Replace `<bufferName>` with the name of the color attachment (i.e. `colortex2`, `shadowcolor0`, etc) and `format` with the [image format](/current/reference/buffers/image_format/).
 
 This directive only needs to be defined once in the shader pack, can can be defined in (mostly) any shader file. Because the format names are not defined as part of glsl, the directive must either be put in a block comment, or the format name must be otherwise manually defined to any value to avoid compilation errors. Do not put the directive in a single line comment, or have any other text in the line of the directive, as this may cause it to not be detected properly.
