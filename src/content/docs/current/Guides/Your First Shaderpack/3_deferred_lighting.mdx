@@ -1,10 +1,14 @@
 ---
-title: Lighting in Composites
+title: Deferred Lighting
 description: Implement basic diffuse shading in a composite pass
 sidebar:
-  label: Lighting in Composites
+  label: Deferred Lighting
   order: 3
 ---
+
+:::note
+Full code for this stage of the tutorial is available for reference [on GitHub](https://github.com/IrisShaders/tutorial-code/tree/main/Your%20First%20Shader/3.%20Deferred%20Lighting).
+:::
 
 In this section we will implement basic diffuse shading in the composite pass. As such, we will be primarily editing `composite.fsh`.
 
@@ -33,26 +37,28 @@ const int colortex0Format = RGB16;
 ```
 
 :::caution[Warning]
-Observe that the declaration for the format is in a *multi-line comment*. This is because this code does not actually need to make it onto the GPU. Instead, Iris reads it, and knows to set the format of the buffer as we defined it. That means we can place this code anywhere in the shaderpack.
+Observe that the declaration for the format is in a _multi-line comment_. This is because this code does not actually need to make it onto the GPU. Instead, Iris reads it, and knows to set the format of the buffer as we defined it. That means we can place this code anywhere in the shaderpack.
 
-The following is *not* valid! The declaration must be on its own line.
+The following is _not_ valid! The declaration must be on its own line.
 
 ```glsl
 // const int colortex0Format = RGB16;
 ```
+
 :::
 
 By default, `colortex` buffers are RGBA8, meaning they store 4 channels of 8-bit integers which can each encode 256 values, for a total of 16,777,216 colors and 256 alpha values. By increasing the precision to 16-bit, each channel can now encode 65535 color values -- over 280 trillion colors in total!
 
 :::tip[VRAM Costs]
-Just like your CPU, GPUs have access to a limited amount of memory, know as Video RAM (VRAM). Increasing the precision of your buffers also increases their VRAM cost. While modern GPUs have more than enough VRAM to support one higher-precision buffer, it is always important to consider how much precision you actually need. While this tutorial will increase the precision for simplicity, it would be more memory efficient to stick to using RGBA8 and convert colors to and from sRGB whenever writing them to the buffer.
+Just like your CPU, GPUs have access to a limited amount of memory, know as Video RAM (VRAM). Increasing the precision of your buffers also increases their VRAM cost. While modern GPUs have more than enough VRAM to support one higher-precision buffer, it is always important to consider how much precision you actually need.
 :::
 
 For more information on gamma correction, check out the [LearnOpenGL article](https://learnopengl.com/Advanced-Lighting/Gamma-Correction).
 
-
 ## Decoding Data
+
 With all that out of the way, let's read back in the lightmap and normal data we stored in `colortex1` and `colortex2` in the previous tutorial. First, we need to be able to sample the textures.
+
 ```glsl
 uniform sampler2D colortex1;
 uniform sampler2D colortex2;
@@ -67,9 +73,11 @@ vec3 normal = normalize((encodedNormal - 0.5) * 2.0); // we normalize to make su
 ```
 
 Next, let's verify everything is being decoded correctly.
+
 ```glsl
 color.rgb = vec3(lightmap, 0.0);
 ```
+
 ![](../../../../../assets/beginner_tutorial/lightmap.webp)
 
 You can see that where there is skylight, only the green component is set. However, where there is blocklight (by the torch), the color is yellow. Since red and green make yellow in RGB, we know that blocklight is stored in the red component and sunlight is stored in the green component.
@@ -77,11 +85,14 @@ You can see that where there is skylight, only the green component is set. Howev
 ```glsl
 color.rgb = normal;
 ```
+
 ![](../../../../../assets/beginner_tutorial/normals.webp)
-Yep, that looks pretty *normal*. You'll notice that the sky is black here. This is because the `gbuffers_terrain` program does not run for the sky, so no data is stored for these pixels. We will resolve this later on.
+Yep, that looks pretty _normal_. You'll notice that the sky is black here. This is because the `gbuffers_terrain` program does not run for the sky, so no data is stored for these pixels. We will resolve this later on.
 
 ## Lighting
+
 To apply lighting to our color, we want to multiply it by the color of the light hitting it. Of course, with multiple light sources, there are multiple types of light hitting it. For our shader, we will have the following types of light
+
 - Ambient (some constant factor, so you can see in caves)
 - Skylight (blue in the day, uses the lightmap). This is our **indirect lighting**.
 - Blocklight (some warm color that matches torches, uses the lightmap)
@@ -90,6 +101,7 @@ To apply lighting to our color, we want to multiply it by the color of the light
 So, to apply our lighting, we would then do something like `color.rgb *= ambient + skylight + blocklight + sunlight`.
 
 First, let's define some colors/brightnesses for each term. I chose the following on a whim.
+
 ```glsl
 const vec3 blocklightColor = vec3(1.0, 0.5, 0.08);
 const vec3 skylightColor = vec3(0.05, 0.15, 0.3);
@@ -118,6 +130,7 @@ Don't worry if your sky isn't the same color. We'll fix that later!
 :::
 
 ## Sunlight
+
 Now, what about that sunlight? Well, if something is facing directly towards the sun, then we want it to be fully sunlit. On the other hand, if something is facing away from the sun, we want there to be no sunlight. So, we need a function that returns 1.0 if two vectors are facing in the same direction, and 0.0 if they are facing away from each other. Happily, we can use a dot product for this.
 
 Now, the first thing we need to know is where the sun (or moon) is. We can do this with `uniform vec3 shadowLightPosition`. In the daytime this returns the sun's position, in the night, this returns the moon's position.
@@ -148,7 +161,14 @@ With that change, your lighting should seem a bit more realistic.
 ![](../../../../../assets/beginner_tutorial/lighting2.webp)
 
 ## Fixing the Sky
-At this point, it may appear as if your Minecraft world is currently undergoing an apocalypse. This is because we are also applying lighting to the sky, despite the fact we do not have normal or lightmap data for it. So, how do we tell if a pixel is the sky or not? Well, we have access to something called the depth buffer, which tells you how far away a pixel is. If the pixel is at the maximum view distance, the depth buffer will store 1.0.
+
+At this point, it may appear as if your Minecraft world is currently undergoing an apocalypse. This is because we are also applying lighting to the sky, despite the fact we do not have normal or lightmap data for it.
+
+:::note[Note]
+If your sky does not appear broken, that is still fine. Reading from a buffer we have not written to is _undefined behavior_, so it may act differently on different hardware.
+:::
+
+So, how do we tell if a pixel is the sky or not? Well, we have access to something called the depth buffer, which tells you how far away a pixel is. If the pixel is at the maximum view distance, the depth buffer will store 1.0.
 
 To access the depth buffer, we use `uniform sampler2D depthtex0`. In between the code which reads the color from `colortex0` and the code which applies lighting, we can check if the pixel is the sky, and if it is, we can `return` from the `main` function.
 

@@ -6,12 +6,17 @@ sidebar:
   order: 4
 ---
 
+:::note
+Full code for this stage of the tutorial is available for reference [on GitHub](https://github.com/IrisShaders/tutorial-code/tree/main/Your%20First%20Shader/4.%20Shadows).
+:::
+
 In this section we will implement basic shadow mapping which allows us to check if a pixel has a shadow cast on it.
 
 ## The `shadow` Pass
+
 The first thing we need to do is create two new files: `shadow.vsh` and `shadow.fsh`. They should be in the `shaders` folder, just like your other shader programs.
 
-These compose the 'shadow pass', which runs before the gbuffers passes. It renders the scene from the perspective of the sun (or moon), storing depth and color information which we can use for shadow mapping. 
+These compose the 'shadow pass', which runs before the gbuffers passes. It renders the scene from the perspective of the sun (or moon), storing depth and color information which we can use for shadow mapping.
 
 The shadow programs can actually be pretty much copies of your `gbuffers_terrain` programs. They will function the same, however less info needs to be passed through, so if you want, you can delete the extra `in` and `out` declarations we aren't using. The only ones we need are `texcoord` and `glcolor`.
 
@@ -29,6 +34,7 @@ void main() {
 	gl_Position = ftransform();
 }
 ```
+
 ```glsl
 // shadow.fsh
 #version 330 compatibility
@@ -55,6 +61,7 @@ Notice that there is no `RENDERTARGETS` declaration in the fragment shader. This
 This is actually all we need to get Iris rendering a shadow map. Let's now go back to our `composite` pass.
 
 ## Reading the Shadow Map
+
 The shadow map is accessable as `shadowtex0`, so let's add this as a `sampler2D`.
 
 ```glsl
@@ -70,13 +77,14 @@ color.rgb = texture(shadowtex0, texcoord).rgb;
 You should see something like this:
 ![](../../../../../assets/beginner_tutorial/shadowmap.webp)
 
-This may not make much sense to look at, but this shows how far away the nearest thing the sun can see is. 
+This may not make much sense to look at, but this shows how far away the nearest thing the sun can see is.
 
 :::note[Note]
 You might be able to see parts of your terrain disappearing from the shadow map as the camera angle changes. This is because of something called culling, where Iris determines which bits of terrain can't cast shadows anywhere we can see, and therefore does not render them. This saves on performance without any visual difference.
 :::
 
 ## Getting the Position in Shadow Space
+
 To check if a pixel is shadowed, we need to know where in the shadow map it is. We can do this by transforming the position of the pixel into **shadow space**. We will need the following transformation matrices:
 
 ```glsl
@@ -113,6 +121,7 @@ vec3 shadowScreenPos = shadowNDCPos * 0.5 + 0.5;
 We can then sample the shadow map at `shadowScreenPos`.
 
 ## Sampling the Shadow Map
+
 So, the shadow map contains the depth of the nearest thing to the light source in that direction. Therefore, if something is further away from the sun, it must be in shadow. What we do is compare the depth in the shadow map at our shadow position's xy component to the z component of our shadow position. If the z component is not greater than the depth, it must be in sunlight. We can do this comparison with the `step` function. Let's say we have `step(a, b)`. It returns 1.0 if `b` is more than `a`. With that in mind, we can declare:
 
 ```glsl
@@ -144,6 +153,7 @@ Your shadows should now look a lot more reasonable.
 ![](../../../../../assets/beginner_tutorial/basicshadows.webp)
 
 ## Making Shadows Sharper
+
 At the moment, our shadows are extremely blocky. This is due to the limited resolution of the shadow map. We can improve things somewhat by increasing this, using the [`shadowMapResolution`](/current/reference/constant/shadowmapresolution/) const. This constant can be defined anywhere, but just because it's a nice place to put it, we'll go back to `shadow.fsh`. Let's add the following. It should be outside the `main` function - I put mine just before my `layout` qualifier declaration.
 
 ```glsl
@@ -169,6 +179,7 @@ For our shadow distortion, we want to scale things to make stuff closer to the p
 :::
 
 Let's make a new file called `distort.glsl`. We'll put it in a folder called `lib` for the sake of organisation.
+
 ```glsl
 .
 └── shaders/
@@ -178,14 +189,16 @@ Let's make a new file called `distort.glsl`. We'll put it in a folder called `li
     └── ...
 ```
 
-We can then add 
+We can then add
+
 ```glsl
 #include "/lib/distort.glsl"
 ```
+
 to our `shadow.vsh`. This should be included before the `main` function, as you cannot define functions within a function. I put mine just before my `out` declarations. We should also move our declaration of `shadowMapResolution` to `distort.glsl`. This way, we can access this variable anywhere we are sampling the shadow map.
 
 :::caution[Warning]
-Preprocessor directives do *not* have a semicolon on the end.
+Preprocessor directives do _not_ have a semicolon on the end.
 :::
 
 Within `distort.glsl`, let's write a function `distortShadowClipPos`. This function is the one we described earlier.
@@ -227,7 +240,7 @@ At this point, let's write the shadow map to the screen again to check what it l
 
 As expected, stuff in the middle of the shadow map has been expanded to take up more space!
 
-To apply this distortion when sampling the shadow map, we will `#include /lib/distort.glsl` in `composite.fsh`, and then apply the distortion to our shadow clip position *after* the bias.
+To apply this distortion when sampling the shadow map, we will `#include /lib/distort.glsl` in `composite.fsh`, and then apply the distortion to our shadow clip position _after_ the bias.
 
 ```glsl
 // composite.fsh
@@ -245,6 +258,7 @@ Our shadows now look nice and sharp near the player!
 ![](../../../../../assets/beginner_tutorial/distortedshadows.webp)
 
 ## Transparent Shadows
+
 If you look at something like stained glass, you'll see that it casts a solid shadow. This doesn't really make sense, since (it being partially translucent) it should be letting some light through. Handily, there are a couple of extra shadowmaps we can access to help us with this.
 
 - `shadowtex0` contains everything that casts a shadow
@@ -267,9 +281,9 @@ vec3 getShadow(vec3 shadowScreenPos){
 	not that there is 100% shadowing
 	*/
 
-	if(transparentShadow == 1.0){ 
+	if(transparentShadow == 1.0){
 		/*
-		since this shadow map contains everything, 
+		since this shadow map contains everything,
 		there is no shadow at all, so we return full sunlight
 		*/
 		return vec3(1.0);
@@ -277,7 +291,7 @@ vec3 getShadow(vec3 shadowScreenPos){
 
 	float opaqueShadow = step(shadowScreenPos.z, texture(shadowtex1, shadowScreenPos.xy).r); // sample the shadow map containing only opaque stuff
 
-	if(opaqueShadow == 0.0){ 
+	if(opaqueShadow == 0.0){
 		// there is a shadow cast by something opaque, so we return no sunlight
 		return vec3(0.0);
 	}
@@ -295,10 +309,13 @@ vec3 getShadow(vec3 shadowScreenPos){
 ```
 
 We can then replace our original
+
 ```glsl
 float shadow = step(shadowScreenPos.z, texture(shadowtex0, shadowScreenPos.xy).r);
 ```
+
 with
+
 ```
 vec3 shadow = getShadow(shadowScreenPos);
 ```
@@ -308,6 +325,7 @@ vec3 shadow = getShadow(shadowScreenPos);
 and we now get nice colored shadows!
 
 ## Softer Shadows
+
 The final piece of the puzzle is those nasty jagged edges on our shadows. This is called **aliasing**, and is another artifact of the limited resolution on our shadow map. If you look at real shadows, you'll also notice that they don't tend to have clean, sharp edges. Instead, they seem to have a slightly softer edge. This area at the edge of the shadow is known as the **penumbra**.
 
 ![](../../../../../assets/beginner_tutorial/penumbra.webp)
@@ -316,6 +334,7 @@ The final piece of the puzzle is those nasty jagged edges on our shadows. This i
 What this means is that we can blur our shadows slightly, and not only will it remove the aliasing, it will also make them more physically plausible.
 
 The first thing we are going to do is add the following to `distort.glsl`, just after we set the resolution.
+
 ```glsl
 // distort.glsl
 const bool shadowtex0Nearest = true;
@@ -327,14 +346,17 @@ This will remove the curved edges on the shadows, making them even more jagged, 
 
 ![](../../../../../assets/beginner_tutorial/jaggedshadows.webp)
 
-To blur our shadows, we are going to be using something known as **percentage closer filtering**. To do this, we take multiple shadow samples within an area around the position and average them. To do this, we will be using a loop. Within this loop, we will generate an offset from the shadow position, apply it in clip space, and then convert to screen space before our shadow samples. 
+To blur our shadows, we are going to be using something known as **percentage closer filtering**. To do this, we take multiple shadow samples within an area around the position and average them. To do this, we will be using a loop. Within this loop, we will generate an offset from the shadow position, apply it in clip space, and then convert to screen space before our shadow samples.
 
-First, we should define how many samples we are going to take, and how far we should offset our samples. We can do this with a preprocessor directive which we can later make configurable in the settings menu.
+First, we should define how widely we want to sample, and how we want to distribute samples within that area. We can do this with preprocessor directives which we can later make configurable in the settings menu.
 
 ```glsl
-#define SHADOW_QUALITY 2
-#define SHADOW_SOFTNESS 1
+// defines the total radius in which we sample (in pixels)
+#define SHADOW_RADIUS 4
+// controls how many samples we take for every pixel we sample
+#define SHADOW_RANGE 1
 ```
+
 :::note[Note]
 `#define` is another preprocessor directive, except instead of replacing itself with the contents of a file, it replaces all uses of it with the value. For example, if we `#define THING 2.0`, then `float something = THING;` will compile to `float something = 2.0`.
 :::
@@ -347,27 +369,25 @@ This is a pretty big function that's simply provided here. You should make sure 
 
 ```glsl
 vec3 getSoftShadow(vec4 shadowClipPos){
-	const float range = SHADOW_SOFTNESS / 2.0; // how far away from the original position we take our samples from
-	const float increment = range / SHADOW_QUALITY; // distance between each sample
+  vec3 shadowAccum = vec3(0.0); // sum of all shadow samples
+  const int samples = SHADOW_RANGE * SHADOW_RANGE * 4; // we are taking 2 * SHADOW_RANGE * 2 * SHADOW_RANGE samples
 
-	vec3 shadowAccum = vec3(0.0); // sum of all shadow samples
-	int samples = 0;
+  for(int x = -SHADOW_RANGE; x < SHADOW_RANGE; x++){
+    for(int y = -SHADOW_RANGE; y < SHADOW_RANGE; y++){
+      vec2 offset = vec2(x, y) * SHADOW_RADIUS / float(SHADOW_RANGE);
+      offset /= shadowMapResolution; // offset in the rotated direction by the specified amount. We divide by the resolution so our offset is in terms of pixels
+      vec4 offsetShadowClipPos = shadowClipPos + vec4(offset, 0.0, 0.0); // add offset
+      offsetShadowClipPos.z -= 0.001; // apply bias
+      offsetShadowClipPos.xyz = distortShadowClipPos(offsetShadowClipPos.xyz); // apply distortion
+      vec3 shadowNDCPos = offsetShadowClipPos.xyz / offsetShadowClipPos.w; // convert to NDC space
+      vec3 shadowScreenPos = shadowNDCPos * 0.5 + 0.5; // convert to screen space
+      shadowAccum += getShadow(shadowScreenPos); // take shadow sample
+    }
+  }
 
-	for(float x = -range; x <= range; x += increment){
-		for (float y = -range; y <= range; y+= increment){
-			vec2 offset = vec2(x, y) / shadowMapResolution; // we divide by the resolution so our offset is in terms of pixels
-			vec4 offsetShadowClipPos = shadowClipPos + vec4(offset, 0.0, 0.0); // add offset
-			offsetShadowClipPos.z -= 0.001; // apply bias
-			offsetShadowClipPos.xyz = distortShadowClipPos(offsetShadowClipPos.xyz); // apply distortion
-			vec3 shadowNDCPos = offsetShadowClipPos.xyz / offsetShadowClipPos.w; // convert to NDC space
-			vec3 shadowScreenPos = shadowNDCPos * 0.5 + 0.5; // convert to screen space
-			shadowAccum += getShadow(shadowScreenPos); // take shadow sample
-			samples++;
-		}
-	}
-
-	return shadowAccum / float(samples); // divide sum by count, getting average shadow
+  return shadowAccum / float(samples); // divide sum by count, getting average shadow
 }
+
 ```
 
 We can then remove some of our conversion code and replace our call to `getShadow` with a call to `softShadow`.
@@ -410,9 +430,6 @@ While the image clearly repeats, we now have unique values per pixel for the noi
 
 ```glsl
 vec3 getSoftShadow(vec4 shadowClipPos){
-	const float range = SHADOW_SOFTNESS / 2.0; // how far away from the original position we take our samples from
-	const float increment = range / SHADOW_QUALITY; // distance between each sample
-
 	float noise = getNoise(texcoord).r;
 
 	float theta = noise * radians(360.0); // random angle using noise value
@@ -421,21 +438,15 @@ vec3 getSoftShadow(vec4 shadowClipPos){
 
 	mat2 rotation = mat2(cosTheta, -sinTheta, sinTheta, cosTheta); // matrix to rotate the offset around the original position by the angle
 
-	vec3 shadowAccum = vec3(0.0); // sum of all shadow samples
-	int samples = 0;
+	[...]
 
-	for(float x = -range; x <= range; x += increment){
-		for (float y = -range; y <= range; y+= increment){
-			vec2 offset = rotation * vec2(x, y) / shadowMapResolution; // offset in the rotated direction by the specified amount. We divide by the resolution so our offset is in terms of pixels
-			vec4 offsetShadowClipPos = shadowClipPos + vec4(offset, 0.0, 0.0); // add offset
-			offsetShadowClipPos.z -= 0.001; // apply bias
-			offsetShadowClipPos.xyz = distortShadowClipPos(offsetShadowClipPos.xyz); // apply distortion
-			vec3 shadowNDCPos = offsetShadowClipPos.xyz / offsetShadowClipPos.w; // convert to NDC space
-			vec3 shadowScreenPos = shadowNDCPos * 0.5 + 0.5; // convert to screen space
-			shadowAccum += getShadow(shadowScreenPos); // take shadow sample
-			samples++;
-		}
-	}
+	// inside the loop
+	vec2 offset = vec2(x, y) * SHADOW_RADIUS / float(SHADOW_RANGE);
+	offset = rotation * offset; // rotate the sampling kernel using the rotation matrix we constructed
+	offset /= shadowMapResolution; // offset in the rotated direction by the specified amount. We divide by the resolution so our offset is in terms of pixels
+	vec4 offsetShadowClipPos = shadowClipPos + vec4(offset, 0.0, 0.0); // add offset
+
+	[...]
 
 	return shadowAccum / float(samples); // divide sum by count, getting average shadow
 }

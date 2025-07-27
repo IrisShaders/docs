@@ -6,9 +6,14 @@ sidebar:
   order: 5
 ---
 
+:::note
+Full code for this stage of the tutorial is available for reference [on GitHub](https://github.com/IrisShaders/tutorial-code/tree/main/Your%20First%20Shader/5.%20Fog).
+:::
+
 In this section we will implement depth based fog, so that things seem to fade into the distance.
 
 ## Another `composite` Pass
+
 To keep our code nicely organised, we will implement fog in a second post-processing pass, `composite1`. This pass will run after `composite`.
 
 For our vertex shader, we can create a copy of `composite.vsh`, and rename it to `composite1.vsh`, as nothing we do in the vertex shader needs to change. For the fragment shader, we can also copy `composite.fsh`, but to keep our code clean, let's cut out all the fluff because we will not be doing lighting in this pass. We will, however, keep the `projectAndDivide` functions and the conversion to view space, as we will still need these.
@@ -17,8 +22,6 @@ For our vertex shader, we can create a copy of `composite.vsh`, and rename it to
 // composite1.fsh
 
 #version 330 compatibility
-
-#include "/lib/distort.glsl"
 
 uniform sampler2D colortex0;
 uniform sampler2D depthtex0;
@@ -98,6 +101,7 @@ Like we did before, let's define a fog density. I have chosen 5.
 ```
 
 We can then update our fog blending to make use of this value.
+
 ```glsl
 float dist = length(viewPos) / far;
 float fogFactor = exp(-FOG_DENSITY * (1.0 - dist));

@@ -6,7 +6,12 @@ sidebar:
   order: 2
 ---
 
+:::note
+Full code for this stage of the tutorial is available for reference [on GitHub](https://github.com/IrisShaders/tutorial-code/tree/main/Your%20First%20Shader/1.%20Your%20First%20Shader%20Effect).
+:::
+
 ## Setting Up the File Structure
+
 Minecraft shaders require a specific structure of files in the right places to load code. While it's important to understand this structure, to save time, we will be working with the Base 330 pack from shaderLABS. Download it from [here](https://github.com/shaderLABS/Base-330), and extract it into your `shaderpacks` folder. You should have the following structure.
 
 ```
@@ -31,6 +36,7 @@ It is always important to respect the license associated with code when you use 
 When you select the shader in the shader selection screen, you should not see any errors in the logs.
 
 ## The `composite` Pass
+
 For this shader, we will be using the first `composite` pass. This is a full screen pass which runs just after all gbuffers programs have rendered.
 
 First, let's open `composite.vsh`. This is the **vertex shader** for the `composite` program. Since `composite` is a fullscreen pass, this actually just renders a singular quad (a rectangular polygon) to the screen which exactly covers it. This means that your fullscreen passes are technically actually running on 3D geometry! Specifically, the vertex shader will run four times, one for each corner of this quad.
@@ -83,7 +89,7 @@ texcoord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 This gives us the 'texture coordinate' of the current vertex. This is more commonly known as the 'UV', and it is used so that the fragment shader knows where on the screen it is. These texture coordinates range from (0, 0) at the bottom left of the texture to (1, 1) at the top right.
 
 :::tip[Swizzling]
-In the previous line of code, you might have noticed some weird syntax: `.xy`. This is an operation unique to shading languages known as **swizzling**. You can read more about swizzling [here](https://www.khronos.org/opengl/wiki/Data_Type_(GLSL)#Swizzling).
+In the previous line of code, you might have noticed some weird syntax: `.xy`. This is an operation unique to shading languages known as **swizzling**. You can read more about swizzling [here](<https://www.khronos.org/opengl/wiki/Data_Type_(GLSL)#Swizzling>).
 :::
 
 Let's open `composite.fsh`. This is the **fragment shader**, and since `composite` is a full screen pass, it runs for every pixel on the screen.
@@ -106,7 +112,6 @@ void main() {
 ```
 
 Let's analyse this as well a bit.
-
 
 ```glsl
 uniform sampler2D colortex0
@@ -139,6 +144,7 @@ color = texture(colortex0, texcoord);
 This reads the value in `colortex0` at position `texcoord` and stores it in `color`. For more info, see [the OpenGL docs](https://registry.khronos.org/OpenGL-Refpages/gl4/html/texture.xhtml).
 
 ## Making It Grayscale
+
 A color is grayscale when the r, g, and b components all have the same value. We can compute this value by taking the dot product of the original color and a `vec3(1.0/3.0)`. This is mathematically equivalent to multiplying each channel by 1/3 and then summing the products together (averaging them). If we set the r, g, and b channels of `color` to this value, the resulting image will be converted to grayscale.
 
 :::tip[What's a dot product?]
@@ -146,6 +152,7 @@ If you don't know what a dot product is, you're probably new to linear algebra a
 :::
 
 So, after we get the value of `color`, we can do:
+
 ```glsl
 float grayscale = dot(color.rgb, vec3(1.0 / 3.0));
 color.rgb = vec3(grayscale);

@@ -6,6 +6,10 @@ sidebar:
   order: 2
 ---
 
+:::note
+Full code for this stage of the tutorial is available for reference [on GitHub](https://github.com/IrisShaders/tutorial-code/tree/main/Your%20First%20Shader/2.%20The%20Gbuffers).
+:::
+
 In this next section, we will start with a fresh copy of the Base-330 pack, instead of using the grayscale version we made in the previous step. You could also just remove the lines you added to `composite.fsh`.
 
 For the purposes of this tutorial, we will only be covering the shading of terrain. Therefore, it is worth deleting all other files starting with `gbuffers_`. You can also get rid of the `deferred` files. You should now just have
@@ -27,6 +31,7 @@ When a gbuffers program is not present, Iris will fall back to using the most si
 :::
 
 ## The Vertex Shader
+
 Let's open `gbuffers_terrain.vsh` and take a peek inside.
 
 ```glsl
@@ -47,6 +52,7 @@ void main() {
 You will notice that this time, there are three `out` variables. Let's go over each one.
 
 ### `texcoord`
+
 In the previous tutorial, we had a variable called `texcoord`, which gave us the texture coordinate onscreen of the given fragment. In the gbuffers, the texture coordinate instead represents the coordinate in the **texture atlas**. The texture atlas contains the textures of every block. We will cover this in the next section.
 
 ### `lmcoord`
@@ -60,6 +66,7 @@ lmcoord / (30.0 / 32.0) - (1.0 / 32.0);
 This now gets us the correct light level. You will notice now that if you reload the shader, lighting is now broken. We will fix this later on.
 
 ### `glcolor`
+
 Some blocks, like grass, have a tint based on their biome, provided in the form of `gl_Color`. If you look in the files for the grass block texture, it is actually grey. To demonstrate this, let's set `glcolor` to `vec4(1.0)`. Since the color is multiplied by glcolor in the fragment shader, and multiplying by 1 does nothing, this will remove the tint.
 
 ![](../../../../../assets/beginner_tutorial/notint.webp)
@@ -67,6 +74,7 @@ Some blocks, like grass, have a tint based on their biome, provided in the form 
 Let's undo that, since having color is quite nice.
 
 ### Normals
+
 Before we move onto the fragment shader, there's one more value we'll want to use later - the **normal**. This is a 3 dimensional vector representing the direction the current vertex is facing in. Let's add a new `out` declaration for the normal.
 
 ```glsl
@@ -91,15 +99,18 @@ uniform mat4 gbufferModelViewInverse;
 ```
 
 ## The Fragment Shader
+
 With those values being passed through, let's move onto the fragment shader (`gbuffers_terrain.fsh`). You'll notice that two textures are being sampled.
 
 ### `gtexture`
+
 This is the texture atlas we mentioned earlier. It contains the textures of all the blocks onscreen, and `texcoord` tells us where in the atlas the current fragment texture is.
 
 ![](../../../../../assets/beginner_tutorial/textureatlas.webp)
 This is an example of what the texture atlas looks like, however it can vary.
 
 ### `lightmap`
+
 Remember how by default, Minecraft uses a texture with colors for each light level? This texture contains those colors. Since we aren't using the texture anymore, we can get rid of this line.
 
 Next, you'll notice that we are writing to `colortex0`. This is generally where most shaders store the main image, with supplementary info in the other buffers. For example, you could store the light levels in `colortex1`, and use them for lighting in `composite`. In fact, we are going to do exactly that.
@@ -109,6 +120,7 @@ You might be wondering why you'd do lighting in a fullscreen pass, when you coul
 :::
 
 ## Normals
+
 Next, let's add that new `in` declaration for the normal.
 
 ```glsl
@@ -122,30 +134,34 @@ To do this, we can just add a new line at the end of `main`:
 ```glsl
 color.rgb = normal;
 ```
+
 ![](../../../../../assets/beginner_tutorial/normals.webp)
 You can see that faces that face upwards are green. Colors are stored in the `rgba` format and vectors/coordinates in the `xyzw` format. Since both of these are stored in the same `vec4` format, this means that the `r` component represents the `x` component, and so on. Since `g` represents `y`, this means that if the face is green, then the normal must only have a value in the `y` component, and hence is facing upwards.
 
 :::tip[Negative Normals]
-You'll notice some faces are black. This occurs when the normals are negative, since you cannot have a negative color! 
+You'll notice some faces are black. This occurs when the normals are negative, since you cannot have a negative color!
 :::
 
 Again, let's undo this, as it is not how we want our shader to look.
 
 ## Colors
+
 As you can see, `main` contains the following code (with comments added here for clarification).
+
 ```glsl
 color = texture(gtexture, texcoord) * glcolor; // biome tint
 color *= texture(lightmap, lmcoord); // lightmap lighting [REMOVE ME!]
-if (color.a < 0.1) { // alpha test
+if (color.a < alphaTestRef) { // alpha test
 	discard; // don't bother writing
 }
 ```
 
 - The first step multiplies the color by `glcolor` to get the biome tint.
 - The second step multiplies the color by Minecraft's defualt lighting color. You should remove this, as we are going to do our own lighting.
-- Finally, if the color's alpha (transparency) is less than 0.1, we `discard`, which tells the shader program to return and not write anything. This potentially saves us some texture writes.
+- Finally, if the color's alpha (transparency) is less than `alphaTestRef` (this is set by Iris, but usually 0.1), we `discard`, which tells the shader program to return and not write anything. This potentially saves us some texture writes.
 
 ## Writing Extra Data
+
 So, since we are going to do lighting in `composite`, we need to send the normal and the lightmap data to it. We do this by storing it in a texture. Let's append our `RENDERTARGETS` so we can write to more textures, and bind some variables to these other two textures.
 
 ```glsl
@@ -157,12 +173,13 @@ layout(location = 2) out vec4 encodedNormal;
 
 :::caution[Warning]
 It is important to note that `location = 0` is not because we are writing to `colortex0`, but because the first element in the `RENDERTARGETS` directive is at index 0. For example, if we had `/* RENDERTARGETS: 5,3 */`, then we would have
+
 ```glsl
 layout(location = 0) out vec4 someData; // writes to colortex5
 layout(location = 1) out vec4 someMoreData; // writes to colortex3
 ```
-:::
 
+:::
 
 :::note[Note]
 Iris implements by default something known as 'buffer flipping'. This means that the texture you write to is not actually the same one you read from. This is because different instances of the shader might run at different times and if multiple of them try to access the same pixel, the output could be different depending on which one gets to it first. For more information, see [the docs](/current/reference/shadersproperties/rendering/#flip)
@@ -175,7 +192,7 @@ lightmapData = vec4(lmcoord, 0.0, 1.0);
 encodedNormal = vec4(normal * 0.5 + 0.5, 1.0);
 ```
 
-There are a couple of things here to note. First of all, we *always set the alpha to 1.0*. This is to ensure that the data always gets written, because if the alpha is 0, Iris may decide that it shouldn't be written anyway. This is because of alpha blending. See [LearnOpenGL's page on blending](https://learnopengl.com/Advanced-OpenGL/Blending) for more info.
+There are a couple of things here to note. First of all, we _must set the alpha to 1.0_. This is to ensure that the data always gets written correctly, as otherwise your GPU may treat the values you are writing as transparent, and either blend or not write them at all. In most cases, a better option is to simply [stop the pass from blending to that buffer](/current/reference/shadersproperties/rendering/#blend) See [LearnOpenGL's page on blending](https://learnopengl.com/Advanced-OpenGL/Blending) for more info.
 
 Secondly, since textures by default can only store numbers between 0.0 and 1.0, we must convert our components - which can range from -1.0 to 1.0 - into the [0, 1] range.
 
