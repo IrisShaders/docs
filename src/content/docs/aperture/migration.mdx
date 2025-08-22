@@ -1,82 +1,187 @@
 ---
-title: Aperture Temporary Migration Guide
-description: Temporary documentation for the upcoming Aperture pipeline
+title: Aperture Tutorial (for legacy developers)
+description: How to migrate your legacy pack from the Iris/OptiFine Pipeline to the new Aperture pipeline.
 tableOfContents: true
 sidebar:
-  label: Temporary Migration Guide
-  order: 0
+  label: Legacy Migration Guide
+  order: 1
 ---
+
+:::note[Note]
+This guide is intended for those already familiar with shader development.
+:::
 
 :::caution[Warning]
 **Aperture is still in early development and not for public use.** Things can and will change, and parts of this section may be incomplete or outright incorrect.
 :::
 
-Aperture is a new pipeline for Iris, set to be released with Iris 2.0.
-- It uses pipeline code written by shader developers in TypeScript, allowing for fully customizable packs.
-- It has a mod API that allows for mods to apply custom vertex formats, vertex transformations, and (basic) fragment warping without interfering with shader developers.
-- It has no limits on the number of textures, buffers, or programs you can have, how complex they can be, or how they are running.
-- It has a new shadow mapping system based on cascaded shadow maps, allowing shadow maps that reach far beyond what OptiFine packs can without distortion.
-- Packs written on Aperture use a modern version of OpenGL that can be translated to other API's in the future.
-
-This serves as temporary documentation whilst Aperture is being developed.
+Aperture is a new take on shader packs utilizing TypeScript to create an extensible pipeline.
 
 ## `pack.ts`
-`pack.ts` is where the shaderpack is configured. All textures and programs are registered from here. When instantiating objects like textures and programs, options for them can be configured using builder syntax. For example, to set the format of a texture, I would call `.format(<FORMAT>)` on it. Once an object is built, the `.build()` function must be called. For example:
+
+The core of the pipeline; `pack.ts` is where you start registering programs. Unlike in OptiFine/Iris, there is no "_default_" setup; you **must** create one.
+
+The required parts of `pack.ts` are composed of two separate functions: `configureRenderer` and `configurePipeline`.
+
+### `configureRenderer`
+
+`configureRenderer` is where you configure the aspects of how Minecraft's default rendering should change to accomodate your pipeline. This is where you define:
+
+- If you will use shadow maps, and if so, their settings
+- If you want sun tilt, ambient occlusion, or directional shade
+- If you want point light shadows (documentation not ready)
+
+An example of `configureRenderer`:
 
 ```ts
-let sceneTex = new Texture("sceneTex")
-  .format(Format.RGB16F)
-  .clear(true)
+function configureRenderer(config: RendererConfig): void {
+  config.disableShade = true;
+  config.ambientOcclusionLevel = 0.0;
+
+  config.render.sun = false;
+
+  config.shadow.enabled = true;
+  config.shadow.resolution = 1024;
+}
+```
+
+### `configurePipeline`
+
+The actual meat of the pipeline; this is where you will configure the following:
+
+- Textures
+- Buffers
+- Object shaders (previously known as `gbuffer` programs)
+- Command lists (containing composite/compute shaders)
+
+There is no explicit order or way to do this, so we will cover these in order.
+
+First, let's define it.
+
+```ts
+function configurePipeline(pipeline: PipelineConfig): void {}
+```
+
+## Textures
+
+In Aperture, the only textures provided to you by default are depth textures; that being `mainDepthTex` (previously `depthtex0`) and `solidDepthTex` (previously `depthtex1`).
+
+All other textures, including color textures, must be created and provided by you.
+
+For the following, we will use the predefined variables `screenWidth` and `screenHeight`.
+
+Let's create two basic RGBA8 textures. (The reason for creating two will be explained later.)
+
+```ts
+let mainTex = pipeline
+  .createTexture("mainTexture") // The string provided here will be what is used to access this texture in shader code.
+  .format(Format.RGBA8)
+  .width(screenWidth)
+  .height(screenHeight)
+  .build();
+
+let finalTex = pipeline
+  .createTexture("finalTexture")
+  .format(Format.RGBA8)
+  .width(screenWidth)
+  .height(screenHeight)
   .build();
 ```
 
-To see a list of builder functions that can be called on an object (and what can be passed to them), you can go to the type definition in `iris.d.ts`.
+Remember that we created this, we will use this later.
 
-### Registering Textures
-Textures are registered in the `setupShader` function. They are instantiated by creating a new `Texture` object, or alternatively: 
-- `RawTexture` (which reads from a binary file)
-- `ArrayTexture` (required for the shadow map)
-- `PNGTexture` (guess what this does)
-
-### Registering Programs
-Shader programs are registered in the `setupShader` function with the `registerShader` function, which takes in one of the following
-
-- `ObjectShader` ('gbuffers' style)
-- `Composite` (fullscreen pass)
-- `Compute`
-
-`ObjectShader`s take a `programUsage`, these are predefined for you, for example `TERRAIN_SOLID`.
-
-`Composite` and `Compute` shaders require a `Stage` argument passed to `registerShader` before the shader object itself. This defines when the shader runs - for example `Stage.POST_RENDER` is equivalent to a `composite` pass in the OptiFine format.
-
-To add a vertex and fragment shader to your shader object, you can call `.vertex(<PATH_TO_VERTEX>)` and `.fragment(<PATH_TO_FRAGMENT>)`.
-
-To choose which buffers the fragment shader writes to, use `.target(<index>, <texture>)` - `index` is the index in your `layout(location = <index>)` definition. This essentially replaces `RENDERTARGETS`.
-
+In Aperture, there are many other types of textures, including array textures, PNG textures, and raw data textures. These will not be covered here.
 
 :::caution[Warning]
-You **must** register a combination pass, this is like `final` and writes the final color to the screen. This is done with `setCombinationPass()` which takes a `CombinationPass` object which itself takes the path to the fragment shader which handles this. Your combination program should provide an `out vec4 fragColor`, taking an `in vec2 uv`. This pass cannot write to any other buffers.
+**Aperture does not contain buffer flipping. You cannot read from and write to a texture at two different positions in the same pass** (unless using `image` variables.)
 :::
 
+## Combination pass
 
-## Object Shaders
+Let's get this out of the way first. The "combination pass" is the final stage of rendering, and is required; it will state what is sent as the final image.
 
-Object shaders require special handling to allow for mod support
+Let's make a dummy one quickly.
 
-### Vertex
-Vertex shaders should define two functions:
+```ts
+pipeline.createCombinationPass("programs/combination.fsh").build();
+```
 
-#### `void iris_emitVertex(inout VertexData data)`
-Set `data.clipPos` as you would `gl_Position`. Usually this can just be `iris_projectionMatrix * iris_modelViewMatrix * data.modelPos`
+Create `programs/combination.fsh`, and put this in.
+
+```glsl
+#version 460 core
+
+uniform sampler2D finalTexture;
+in vec2 uv;
+
+layout(location = 0) out vec4 finalColor;
+
+void main() {
+    finalColor = texture(finalTexture, uv);
+}
+```
+
+## Object shaders
+
+Previously known as `gbuffer_` shaders, these are the shaders run on world geometry. These differ in many ways from in Optifine/Iris.
+
+Time to define our first shader.
+
+```ts
+pipeline
+  .createObjectShader("basic", Usage.BASIC)
+  .vertex("programs/basic.vsh")
+  .fragment("programs/basic.fsh")
+  .target(0, mainTex)
+  .compile();
+```
+
+We have just defined an object shader for the `BASIC` program usage; this will be the shader all others fall back to when there isn't a more specialized alternative.
+
+We have defined that output 0 will write to the `mainTex` we specified earlier.
+
+### Vertex shader
+
+Time to create the vertex shader. This is quite different than what you are used to.
+
+```glsl
+#version 460 core
+
+out vec2 uv;
+out vec2 light;
+out vec4 color;
+
+void iris_emitVertex(inout VertexData data) {
+    data.clipPos = iris_projectionMatrix * iris_modelViewMatrix * data.modelPos;
+}
+
+void iris_sendParameters(VertexData data) {
+    uv = data.uv;
+    light = data.light;
+    color = vec4(data.color.rgb * data.ao, data.color.a); // Ambient occlusion is split by default in Aperture.
+}
+```
 
 :::note[Info]
-`iris_projectionMatrix` and `iris_modelViewMatrix` are patched to make sense for the relevant usage, in the same way `gl_ModelViewMatrix` is in OptiFine.
+`iris_projectionMatrix` and `iris_modelViewMatrix` are patched to make sense for the relevant usage, in the same way `gl_ModelViewMatrix` etc are in Iris/OptiFine.
 :::
 
-#### `void iris_sendParameters(VertexData data)`
-This is where you can write to your `out` declarations.
+So, what's going on here? Let's break this down.
 
-Both of these functions make use of the `VertexData` struct.
+First, note the two separate functions. `iris_emitVertex` contains an `inout` copy of the VertexData, hinting that it should be edited, while `iris_sendParameters` does not.
+
+Indeed, the job of `iris_emitVertex` is to _modify the vertex position._ It contains two jobs: modifying the position as the shader wishes, and converting said position to clip space.
+
+Why are these two separate functions? Simply put, because `iris_emitVertex` _can be called more than once per vertex_, while `iris_sendParameters` is guaranteed to _only be called once_. As the names hint, you should send vertex parameters within `sendParameters` for this reason.
+However, this is not a hard limit; if needed, you can mix and match these. Just beware the unexpected.
+
+:::note[Info]
+In Iris/Optifine, you need to use texture matrices to put `light` into 0-1 range. This is not needed in Aperture, and this range is the default.
+:::
+
+#### `VertexData`
+
+The full set of data available is as follows
 
 ```glsl
 struct VertexData {
@@ -89,52 +194,139 @@ struct VertexData {
 	vec4 tangent; // model space tangent
 	vec4 overlayColor; // stuff like the red damage flash, equivalent to entityColor
 	vec3 midBlock; // equivalent to at_midBlock
-	uint blockId; // hooray
-	uint textureId; // ???
+	uint blockId;
+	uint textureId;
 	float ao; // vanilla ambient occlusion
 };
 ```
 
-### Fragment
+#### Block IDs
 
-Fragment shaders are a lot simpler, you just define `void iris_emitFragment()` instead of `void main()`.
+The `VertexData` object passed to `iris_sendParameters` has a `blockId` attribute. The following functions can be used on the ID:
 
-## Composite Shaders
+```
+vec4 iris_getLightColor
+uint iris_getMetadata // Raw bitmask, only use if nothing else is enough
+bool iris_isFullBlock
+bool iris_hasFluid
+int iris_getEmission
+```
 
-### Vertex
+The metadata comes in the form of an 18 bit uint with the following structure
 
-Since Aperture uses the core profile, `ftransform()` is not patched. Instead, the position of the vertex and the UV must be manually calculated as follows.
+```
+0-5:   IS_SIDE_SOLID (6 bits) // DOWN, UP, NORTH, SOUTH, WEST, EAST
+6-9:   EMISSION (4 bits)
+10-13: LIGHT_BLOCK (4 bits)
+14-16: DIRECTION (3 bits)
+17:    IS_LOWER (1 bit)
+18:    IS_FLUID (1 bit)
+```
+
+### Fragment shader
+
+Time for the other side.
 
 ```glsl
-#version 450 core
+#version 460 core
 
-out vec2 uv;
+in vec2 uv;
+in vec2 light;
+in vec4 color;
 
-void main() {
-    vec2 position = vec2(gl_VertexID % 2, gl_VertexID / 2) * 4.0 - 1.0;
+layout(location = 0) out vec4 outColor; // Remember when we put location 0 in `pack.ts`? This is where it's used.
 
-    uv = (position + 1.0) * 0.5;
+void iris_emitFragment() {
+    vec2 mUV = uv, mLight = light;
+    vec4 mColor = color;
 
-    gl_Position = vec4(position, 0.0, 1.0);
+    iris_modifyBase(mUV, mColor, mLight);
+
+    outColor = iris_sampleBaseTex(mUV) * iris_sampleLightmap(mLight) * mColor;
+
+    if (iris_discardFragment(outColor)) discard;
 }
 ```
 
-## Buffers
+Less going on here, but still notable. Let's go through it.
 
-The depth textures are `mainDepthTex` and `solidDepthTex`, replacing `depthtex0` and `depthtex1`.
+First of all, `main` is now `iris_emitFragment`. Second of all, you must define your outputs; no more `gl_FragData`.
+
+Now, these copies of the outputs; why do we need them? Simply, to allow greater mod support. `iris_modifyBase` is a default hook for mods to modify per-fragment data, without impacting the final image significantly.
+
+(No, you cannot edit the `in` values directly; they're read only.)
+
+**It is always recommended, but not required to have this hook when possible.**
+
+Second, `iris_discardFragment`. Alpha testing (the act of transparent objects being transparent) is not implicit in Aperture; this simple `if` statement takes care of all those situations.
+
+Third, notice the lack of uniforms for sampling the base texture and lightmap. These are handled using built-in functions instead; examples include:
+
+- `iris_sampleBaseTex`
+- `iris_sampleLightmap`
+- `iris_sampleNormalMap`
+- `iris_sampleSpecularMap`
+
+## Command lists (composite/compute)
+
+The functions of composite and compute shaders have been merged into a single "idea", known as a command list. These "lists" run at certain points in the pipeline, similar to `composite`, `deferred`, and `prepare` stages.
+
+Command lists are also capable of having sub-lists, which is helpful for debugging.
+
+Let's create a basic command list with a single composite. Computes will not be covered in this page.
+
+```ts
+let postRenderList = pipeline.forStage(Stage.POST_RENDER);
+
+postRenderList
+  .createComposite("brighten")
+  .fragment("programs/brighten.fsh")
+  .target(0, finalTex)
+  .compile();
+
+postRenderList.end();
+```
+
+(You are not required to have a vertex shader for composites; although it is allowed, we will not cover them.)
+
+Let's write it! Unlike with object shaders, these don't contain much special syntax.
+
+```glsl
+#version 460 core
+
+uniform sampler2D mainTexture;
+
+in vec2 uv;
+
+layout(location = 0) out vec4 finalTex;
+
+void main() {
+    vec4 col = texture(mainTexture, uv);
+
+    finalTex = vec4(pow(col.rgb, 2.2), col.a);
+}
+```
+
+Computes and buffers will be covered in a separate page. Unlike with composites, they differ greatly in functionality, with buffers being significantly more powerful.
 
 ## Uniforms
 
-A list of available uniforms is printed to the console on Iris startup in the form of the structs they are stored in. As an example of how to access these values, `cameraPosition` is now the `pos` member of the `CameraData` struct, and to access it, we would use `ap.camera.pos`. The same pattern can be applied to any struct. 
+A list of available uniforms is printed to the console on startup in the form of the structs they are stored in. As an example of how to access these values, `cameraPosition` is now the `pos` member of the `CameraData` struct, and to access it, we would use `ap.camera.pos`. The same pattern can be applied to any struct.
 
 ## Shadows
-Iris makes use of cascaded shadow maps, which means everything is a lot more complicated.
+
+Aperture makes use of cascaded shadow maps, which means things are a bit more complicated.
 
 ### Setting Up the Shadow Pass
+
+The shadow pass is created as an object shader with `Usage.SHADOW`.
+
 You do not need to declare the shadow map, as it is automatically defined. If you want any `shadowcolor` style buffers, declare them as an `ArrayTexture`.
 
 ### Sampling the Shadow Map
+
 Aperture defines two shadow maps.
+
 - `shadowMap` (equivalent to `shadowtex0`)
 - `solidShadowMap` (equivalent to `shadowtex1`)
 
@@ -158,6 +350,7 @@ for(cascade = 0; cascade < 4; cascade++){
 ```
 
 ### Hardware Filtering
+
 If you want hardware filtering, you can instead use a `sampler2DArrayShadow` and suffix `filtered` to the sampler names (i.e `shadowMapFiltered`. Due to reasons known only to the developers over at Khronos, the cascade is still the `z` component of the coordinate you pass in, so it becomes
 
 ```glsl
@@ -165,25 +358,3 @@ float shadow = texture(shadowMap, vec4(shadowScreenPos.xy, cascade, shadowScreen
 ```
 
 ![](../../../assets/aperture/sampler2darrayshadow.webp)
-
-## Block IDs
-The `VertexData` object passed to `iris_sendParameters` has a `blockId` attribute. The following functions can be used on the ID:
-
-```
-vec4 iris_getLightColor
-uint iris_getMetadata // Raw bitmask, only use if nothing else is enough
-bool iris_isFullBlock
-bool iris_hasFluid
-int iris_getEmission
-```
-
-The metadata comes in the form of an 18 bit uint with the following structure
-
-```
-0-5:   IS_SIDE_SOLID (6 bits) // DOWN, UP, NORTH, SOUTH, WEST, EAST
-6-9:   EMISSION (4 bits)
-10-13: LIGHT_BLOCK (4 bits)
-14-16: DIRECTION (3 bits)
-17:    IS_LOWER (1 bit)
-18:    IS_FLUID (1 bit)
-```
