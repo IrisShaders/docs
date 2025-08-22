@@ -1,0 +1,131 @@
+
+# -- TODO THE REST --
+
+## Object Shaders
+
+Object shaders require special handling to allow for mod support
+
+### Vertex
+Vertex shaders should define two functions:
+
+#### `void iris_emitVertex(inout VertexData data)`
+Set `data.clipPos` as you would `gl_Position`. Usually this can just be `iris_projectionMatrix * iris_modelViewMatrix * data.modelPos`
+
+:::note[Info]
+`iris_projectionMatrix` and `iris_modelViewMatrix` are patched to make sense for the relevant usage, in the same way `gl_ModelViewMatrix` is in OptiFine.
+:::
+
+#### `void iris_sendParameters(VertexData data)`
+This is where you can write to your `out` declarations.
+
+Both of these functions make use of the `VertexData` struct.
+
+```glsl
+struct VertexData {
+	vec4 modelPos; // model space position you are given
+	vec4 clipPos; // clip space position you must set
+	vec2 uv; // texture coordinate in the atlas
+	vec2 light; // lightmap texture coordinate - x is blocklight, y is skylight
+	vec4 color; // vertex color, equivalent to gl_Color
+	vec3 normal; // model space normal
+	vec4 tangent; // model space tangent
+	vec4 overlayColor; // stuff like the red damage flash, equivalent to entityColor
+	vec3 midBlock; // equivalent to at_midBlock
+	uint blockId; // hooray
+	uint textureId; // ???
+	float ao; // vanilla ambient occlusion
+};
+```
+
+### Fragment
+
+Fragment shaders are a lot simpler, you just define `void iris_emitFragment()` instead of `void main()`.
+
+## Composite Shaders
+
+### Vertex
+
+Since Aperture uses the core profile, `ftransform()` is not patched. Instead, the position of the vertex and the UV must be manually calculated as follows.
+
+```glsl
+#version 450 core
+
+out vec2 uv;
+
+void main() {
+    vec2 position = vec2(gl_VertexID % 2, gl_VertexID / 2) * 4.0 - 1.0;
+
+    uv = (position + 1.0) * 0.5;
+
+    gl_Position = vec4(position, 0.0, 1.0);
+}
+```
+
+## Buffers
+
+The depth textures are `mainDepthTex` and `solidDepthTex`, replacing `depthtex0` and `depthtex1`.
+
+## Uniforms
+
+A list of available uniforms is printed to the console on Iris startup in the form of the structs they are stored in. As an example of how to access these values, `cameraPosition` is now the `pos` member of the `CameraData` struct, and to access it, we would use `ap.camera.pos`. The same pattern can be applied to any struct.
+
+## Shadows
+Iris makes use of cascaded shadow maps, which means everything is a lot more complicated.
+
+### Setting Up the Shadow Pass
+You do not need to declare the shadow map, as it is automatically defined. If you want any `shadowcolor` style buffers, declare them as an `ArrayTexture`.
+
+### Sampling the Shadow Map
+Aperture defines two shadow maps.
+- `shadowMap` (equivalent to `shadowtex0`)
+- `solidShadowMap` (equivalent to `shadowtex1`)
+
+Both of these should be defined as `sampler2DArray`s. To sample them, you pass the cascade as the `z` component of your coordinate, i.e:
+
+```glsl
+float shadow = step(shadowScreenPos.z, texture(shadowMap, vec3(shadowScreenPos.xy, cascade)));
+```
+
+Cascade 0 is the smallest, containing only a small area around the player, and cascade 3 is the largest.
+
+Bear in mind that the shadow projection is also an array, because each cascade has a different projection. As such, to sample the shadow map, you must loop through each projection until your position is inside the frustum.
+
+```glsl
+int cascade;
+for(cascade = 0; cascade < 4; cascade++){
+	shadowClipPos = shadowProjection[cascade] * shadowViewPos;
+
+	if(clamp(shadowClipPos.xy, vec2(-1.0), vec2(1.0)) == shadowClipPos.xy) break;
+}
+```
+
+### Hardware Filtering
+If you want hardware filtering, you can instead use a `sampler2DArrayShadow` and suffix `filtered` to the sampler names (i.e `shadowMapFiltered`. Due to reasons known only to the developers over at Khronos, the cascade is still the `z` component of the coordinate you pass in, so it becomes
+
+```glsl
+float shadow = texture(shadowMap, vec4(shadowScreenPos.xy, cascade, shadowScreenPos.z));
+```
+
+![](../../../assets/aperture/sampler2darrayshadow.webp)
+
+## Block IDs
+The `VertexData` object passed to `iris_sendParameters` has a `blockId` attribute. The following functions can be used on the ID:
+
+```
+vec4 iris_getLightColor
+uint iris_getMetadata // Raw bitmask, only use if nothing else is enough
+bool iris_isFullBlock
+bool iris_hasFluid
+int iris_getEmission
+```
+
+The metadata comes in the form of an 18 bit uint with the following structure
+
+```
+0-5:   IS_SIDE_SOLID (6 bits) // DOWN, UP, NORTH, SOUTH, WEST, EAST
+6-9:   EMISSION (4 bits)
+10-13: LIGHT_BLOCK (4 bits)
+14-16: DIRECTION (3 bits)
+17:    IS_LOWER (1 bit)
+18:    IS_FLUID (1 bit)
+```

@@ -1,0 +1,256 @@
+---
+title: Aperture Tutorial (for legacy devs)
+description: Temporary documentation for the upcoming Aperture pipeline
+tableOfContents: true
+sidebar:
+  label: Legacy -> Aperture Tutorial
+  order: 1
+---
+
+:::note[Note]
+This guide is intended for those already familiar with shader development.
+:::
+
+:::caution[Warning]
+**Aperture is still in early development and not for public use.** Things can and will change, and parts of this section may be incomplete or outright incorrect.
+:::
+
+Aperture is a new take on shader packs utilizing TypeScript to create an extensible pipeline.
+
+This serves as temporary documentation whilst Aperture is being developed.
+
+## `pack.ts`
+
+The core of the pipeline; `pack.ts` is where you start registering programs. Unlike in OptiFine/Iris, there is no "*default*" setup; you **must** create one.
+
+The required parts of `pack.ts` are composed of two separate functions: `configureRenderer` and `configurePipeline`.
+
+### `configureRenderer`
+
+`configureRenderer` is where you configure the aspects of how Minecraft's default rendering should change to accomodate your pipeline. This is where you define:
+
+- If you will use shadow maps, and if so, their settings
+- If you want sun tilt, ambient occlusion, or directional shade
+- If you want point light shadows (documentation not ready)
+
+An example of `configureRenderer`:
+
+```ts
+function configureRenderer(config : RendererConfig) : void {
+    config.disableShade = true;
+    config.ambientOcclusionLevel = 0.0;
+
+    config.render.sun = false;
+
+    config.shadow.enabled = true;
+    config.shadow.resolution = 1024;
+}
+```
+
+### `configurePipeline`
+
+The actual meat of the pipeline; this is where you will configure the following:
+
+- Textures
+- Buffers
+- Object shaders (previously known as `gbuffer` programs)
+- Command lists (containing composite/compute shaders)
+
+There is no explicit order or way to do this, so we will cover these in order.
+
+First, let's define it.
+
+```ts
+function configurePipeline(pipeline : PipelineConfig) : void {
+
+}
+```
+
+### Textures
+
+In Aperture, the only textures provided to you by default are depth textures; that being `mainDepthTex` (previously `depthtex0`) and `solidDepthTex` (previously `depthtex1`).
+
+All other textures, including color textures, must be created and provided by you.
+
+For the following, we will use the predefined variables `screenWidth` and `screenHeight`.
+
+Let's create two basic RGBA8 textures. (The reason for creating two will be explained later.)
+
+```ts
+let mainTex = pipeline.createTexture('mainTexture') // The string provided here will be what is used to access this texture in shader code.
+        .format(Format.RGBA8)
+        .width(screenWidth)
+        .height(screenHeight)
+        .build();
+
+let finalTex = pipeline.createTexture('finalTexture')
+        .format(Format.RGBA8)
+        .width(screenWidth)
+        .height(screenHeight)
+        .build();
+```
+
+Remember that we created this, we will use this later.
+
+In Aperture, there are many other types of textures, including array textures, PNG textures, and raw data textures. These will not be covered here.
+
+**Aperture does not contain buffer flipping. You cannot read and write to a texture in the same pass** (unless using `image` variables.)
+
+### Combination pass
+
+Let's get this out of the way first. The "combination pass" is the final stage of rendering, and is required; it will state what is sent as the final image.
+
+Let's make a dummy one quickly.
+
+```ts
+pipeline.createCombinationPass("programs/combination.fsh").build();
+```
+
+Create `programs/combination.fsh`, and put this in.
+
+```glsl
+#version 460 core
+
+uniform sampler2D finalTexture;
+in vec2 uv;
+
+layout(location = 0) out vec4 finalColor;
+
+void main() {
+    finalColor = texture(finalTexture, uv);
+}
+```
+### Object shaders
+
+Previously known as `gbuffer_` shaders, these are the shaders run on world geometry. These differ in many ways from in Optifine/Iris.
+
+Time to define our first shader.
+
+```ts
+pipeline.createObjectShader("basic", Usage.BASIC)
+    .vertex("programs/basic.vsh")
+    .fragment("programs/basic.fsh")
+    .target(0, mainTex)
+    .compile();
+```
+
+We have just defined an object shader for the `BASIC` program usage; this will be the shader all others fall back to when there isn't a more specialized alternative.
+
+We have defined that output 0 will write to the `mainTex` we specified earlier.
+
+#### Vertex shader
+
+Time to create the vertex shader. This is quite different than what you are used to.
+
+```glsl
+#version 460 core
+
+out vec2 uv;
+out vec2 light;
+out vec4 color;
+
+void iris_emitVertex(inout VertexData data) {
+    data.clipPos = iris_projectionMatrix * iris_modelViewMatrix * data.modelPos;
+}
+
+void iris_sendParameters(VertexData data) {
+    uv = data.uv;
+    light = data.light;
+    color = vec4(data.color.rgb * data.ao, data.color.a); // Ambient occlusion is split by default in Aperture.
+}
+```
+
+So. What is going on here? Let's break this down.
+
+First, note the two separate functions. `iris_emitVertex` contains an `inout` copy of the VertexData, hinting that it should be edited, while `iris_sendParameters` does not.
+
+Indeed, the job of `iris_emitVertex` is to *modify the vertex position.* It contains two jobs: modifying the position as the shader wishes, and converting said position to clip space.
+
+Why are these two separate functions? Simply put, because `iris_emitVertex` *can be called more than once per vertex*, while `iris_sendParameters` is guaranteed to *only be called once*. As the names hint, you should send vertex parameters within `sendParameters` for this reason.
+However, this is not a hard limit; if needed, you can mix and match these. Just beware the unexpected.
+
+Small note: If you've used Optifine, you may know that you need to use texture matrices to put `light` into 0-1 range. This is not needed in Aperture, and this range is the default range.
+
+#### Fragment shader
+
+Time for the other side.
+
+```glsl
+#version 460 core
+
+in vec2 uv;
+in vec2 light;
+in vec4 color;
+
+layout(location = 0) out vec4 outColor; // Remember when we put location 0 in `pack.ts`? This is where it's used.
+
+void iris_emitFragment() {
+    vec2 mUV = uv, mLight = light;
+    vec4 mColor = color;
+
+    iris_modifyBase(mUV, mColor, mLight);
+
+    outColor = iris_sampleBaseTex(mUV) * iris_sampleLightmap(mLight) * mColor;
+
+    if (iris_discardFragment(outColor)) discard;
+}
+```
+
+Less going on here, but still notable. Let's go through it.
+
+First of all, `main` is now `iris_emitFragment`. Second of all, you must define your outputs; no more `gl_FragData`.
+
+Now, these copies of the outputs; why do we need them? Simply, to allow greater mod support. `iris_modifyBase` is a default hook for mods to modify per-fragment data, without impacting the final image significantly.
+
+(No, you cannot edit the `in` values directly; they're read only.)
+
+**It is always recommended, but not required to have this hook when possible.**
+
+Second, `iris_discardFragment`. Alpha testing (the act of transparent objects being transparent) is not implicit in Aperture; this simple `if` statement takes care of all those situations.
+
+Third, notice the lack of uniforms for sampling the base texture and lightmap. These are handled using built-in functions instead; examples include:
+- `iris_sampleBaseTex`
+- `iris_sampleLightmap`
+- `iris_sampleNormalMap`
+- `iris_sampleSpecularMap`
+
+### Command lists (composite/compute)
+
+The functions of composite and compute shaders have been merged into a single "idea", known as a command list. These "lists" run at certain points in the pipeline, similar to `composite`, `deferred`, and `prepare` stages.
+
+Command lists are also capable of having sub-lists, which is helpful for debugging.
+
+Let's create a basic command list with a single composite. Computes will not be covered in this page.
+
+```ts
+let postRenderList = pipeline.forStage(Stage.POST_RENDER);
+
+postRenderList.createComposite("brighten")
+    .fragment("programs/brighten.fsh")
+    .target(0, finalTex)
+    .compile();
+
+postRenderList.end();
+```
+
+(You are not required to have a vertex shader for composites; although it is allowed, we will not cover them.)
+
+Let's write it! Unlike with object shaders, these don't contain much special syntax.
+
+```glsl
+#version 460 core
+
+uniform sampler2D mainTexture;
+
+in vec2 uv;
+
+layout(location = 0) out vec4 finalTex;
+
+void main() {
+    vec4 col = texture(mainTexture, uv);
+
+    finalTex = vec4(pow(col.rgb, 2.2), col.a);
+}
+```
+
+Computes and buffers will be covered in a separate page. Unlike with composites, they differ greatly in functionality, with buffers being significantly more powerful.
