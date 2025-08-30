@@ -103,21 +103,14 @@ The value of [`gbufferProjection`](/current/reference/uniforms/matrices/#gbuffer
 ----------------
 
 
-## modelViewMatrix
+## gl_ModelViewMatrix
 ```glsl
-uniform mat4 modelViewMatrix;
+gl_ModelViewMatrix
 ```
 Transforms coordinates from model/local space to view/eye space.
 
 Equal to `mat4(1.0)` in [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), [`composite`](/current/reference/programs/composite/) and [`final`](/current/reference/programs/final/) programs.
-```glsl
-vec3 model_pos = vaPosition + chunkOffset;
-vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);
-vec4 clip_pos = projectionMatrix * view_pos;
 
-gl_Position = clip_pos;
-```
-Equivalent to `gl_ModelViewMatrix` in the `compatibility` profile and older GLSL versions.
 ```glsl
 vec3 model_pos = gl_Vertex.xyz;
 vec4 view_pos = gl_ModelViewMatrix * vec4(model_pos, 1.0);
@@ -126,10 +119,31 @@ vec4 clip_pos = gl_ProjectionMatrix * view_pos;
 gl_Position = clip_pos;
 ```
 
+Equivalent to `modelViewMatrix` in the [`core` profile](/current/how-to/compatibility_vs_core).
+
+```glsl
+uniform mat4 modelViewMatrix;
+
+[...]
+
+vec3 model_pos = vaPosition + chunkOffset;
+vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);
+vec4 clip_pos = projectionMatrix * view_pos;
+
+gl_Position = clip_pos;
+```
+
+
+
 ----------------
 
 
 ## modelViewMatrixInverse
+
+:::danger
+This uniform only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
+:::
+
 ```glsl
 uniform mat4 modelViewMatrixInverse;
 ```
@@ -138,19 +152,12 @@ Equal to [`inverse(modelViewMatrix)`](/current/reference/uniforms/matrices/#mode
 ----------------
 
 
-## projectionMatrix
+## gl_ProjectionMatrix
 ```glsl
-uniform mat4 projectionMatrix;
+gl_ProjectionMatrix
 ```
 Transforms coordinates from view/eye space to clip space.
-```glsl
-vec3 model_pos = vaPosition + chunkOffset;
-vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);
-vec4 clip_pos = projectionMatrix * view_pos;
 
-gl_Position = clip_pos;
-```
-Equivalent to `gl_ProjectionMatrix` in the `compatibility` profile and older GLSL versions.
 ```glsl
 vec3 model_pos = gl_Vertex.xyz;
 vec4 view_pos = gl_ModelViewMatrix * vec4(model_pos, 1.0);
@@ -159,10 +166,30 @@ vec4 clip_pos = gl_ProjectionMatrix * view_pos;
 gl_Position = clip_pos;
 ```
 
+Equivalent to `projectionMatrix` in the [`core` profile](/current/how-to/compatibility_vs_core).
+
+```glsl
+uniform mat4 projectionMatrix;
+
+[...]
+
+vec3 model_pos = vaPosition + chunkOffset;
+vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);
+vec4 clip_pos = projectionMatrix * view_pos;
+
+gl_Position = clip_pos;
+```
+
+
+
 ----------------
 
 
 ## projectionMatrixInverse
+:::danger
+This uniform only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
+:::
+
 ```glsl
 uniform mat4 projectionMatrixInverse;
 ```
@@ -171,36 +198,64 @@ Equal to [`inverse(projectionMatrix)`](/current/reference/uniforms/matrices/#pro
 ----------------
 
 
-## normalMatrix
+## gl_NormalMatrix
 ```glsl
-uniform mat3 normalMatrix;
+gl_NormalMatrix
 ```
-Matrix to transform a model space normal vector to view space.
-Equivalent to [`mat3(transpose(modelViewMatrixInverse))`](/current/reference/uniforms/matrices/#modelviewmatrixinverse), or `gl_NormalMatrix` in the `compatibility` profile and older GLSL versions.
 
-```glsl
-vec3 normal = normalMatrix * vaNormal;
-```
 ```glsl
 vec3 normal = gl_NormalMatrix * gl_Normal;
 ```
 
+Matrix to transform a model space normal vector to view space.
+Equivalent to `normalMatrix` in the [`core` profile](/current/how-to/compatibility_vs_core).
+
+```glsl
+uniform mat4 normalMatrix;
+
+[...]
+
+vec3 normal = normalMatrix * vaNormal;
+```
+
+
 ----------------
 
 
-## textureMatrix
+## gl_TextureMatrix[0]
 ```glsl
-uniform mat4 textureMatrix;
+gl_TextureMatrix[0]
 ```
-Transforms texture coordinates. Mainly used in [`gbuffers_armor_glint`](/current/reference/programs/gbuffers/) to scroll the texture over time, but may be applied to other geometry as well (especially by mods). It is therefore strongly recommended to use this matrix in all [gbuffers-style](/current/reference/programs/overview/#program-order) programs utilizing [`vaUV0`](/current/reference/attributes/vauv0/).
-```glsl
-vec2 coord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
-```
-Equivalent to `gl_TextureMatrix[0]` in the `compatibility` profile and older GLSL versions.
+Transforms texture coordinates. Mainly used in [`gbuffers_armor_glint`](/current/reference/programs/gbuffers/) to scroll the texture over time, but may be applied to other geometry as well (especially by mods). It is therefore strongly recommended to use this matrix in all [gbuffers-style](/current/reference/programs/overview/#program-order) programs utilizing [`gl_MultiTexCoord0`](/current/reference/attributes/gl_multitexcoord0/).
 ```glsl
 vec2 coord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 ```
 
+Equivalent to `textureMatrix` in the [`core` profile](/current/how-to/compatibility_vs_core).
+
+```glsl
+vec2 coord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
+```
+
+
 ----------------
 
+## gl_TextureMatrix[1]
+```glsl
+gl_TextureMatrix[1]
+```
+Transforms lightmap texture coordinates.  It is therefore strongly recommended to use this matrix in all [gbuffers-style](/current/reference/programs/overview/#program-order) programs utilizing [`gl_MultiTexCoord1`](/current/reference/attributes/gl_multitexcoord1/).
+```glsl
+vec2 lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+```
 
+An equivalent matrix for the [`core` profile](/current/how-to/compatibility_vs_core) can be formulated as follows.
+
+```glsl
+const mat4 TEXTURE_MATRIX_2 = mat4(vec4(0.00390625, 0.0, 0.0, 0.0), vec4(0.0, 0.00390625, 0.0, 0.0), vec4(0.0, 0.0, 0.00390625, 0.0), vec4(0.03125, 0.03125, 0.03125, 1.0));
+
+vec2 lmcoord = (TEXTURE_MATRIX_2 * vec4(vaUV2, 0.0, 1.0)).xy;
+```
+
+
+----------------

@@ -1,0 +1,38 @@
+---
+title: gl_Vertex
+description: The vertex position in model space.
+sidebar:
+  label: gl_Vertex
+  order: 2
+---
+
+### `gl_Vertex`
+
+**Valid Programs**: `gbuffers_*.vsh`, `shadow.vsh`
+
+---
+
+The vertex position attribute in model space (which varies for different geometry). It can be converted to view space using [`gl_ModelViewMatrix`](/current/reference/uniforms/matrices/#gl_modelviewmatrix)
+
+```glsl
+vec3 model_pos = gl_Vertex.xyz;
+vec4 view_pos = gl_ModelViewMatrix * vec4(model_pos, 1.0);
+vec4 clip_pos = gl_ProjectionMatrix * view_pos;
+
+gl_Position = clip_pos;
+```
+
+### `in vec3 vaPosition;`
+:::danger
+This attribute only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
+:::
+
+For terrain this is relative to the chunk and you must add [`chunkOffset`](/current/reference/uniforms/rendering/#chunkoffset) as shown below. For all other geometry, `vaPosition` directly stores the model space position. It can be converted to view space using [`modelViewMatrix`](/current/reference/uniforms/matrices/#gl_modelviewmatrix)
+
+```glsl
+vec3 model_pos = vaPosition + chunkOffset;
+vec4 view_pos = modelViewMatrix * vec4(model_pos, 1.0);
+vec4 clip_pos = projectionMatrix * view_pos;
+
+gl_Position = clip_pos;
+```

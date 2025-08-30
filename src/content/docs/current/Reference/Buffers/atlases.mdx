@@ -15,12 +15,12 @@ coord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
 coord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
 ```
 
-For more information, see [`vaUV0`](/current/reference/attributes/vauv0/).
+For more information, see [`gl_MultiTexCoord0`](/current/reference/attributes/gl_multitexcoord0/).
 
 Texture atlases are *not bound* in non-gbuffers passes. To access them in other passes, [custom textures](/current/reference/buffers/custom_textures/#texture-types) can be used.
 
 ### `uniform sampler2D gtexture`
-`gtexture` is the main texture atlas, used to obtain the albedo color of any geometry rendered in a gbuffers pass. It is usually multiplied by the result of [`gl_Color`](/current/reference/attributes/overview/)/[`vaColor`](/current/reference/attributes/vacolor/) (passed through from the vertex shader) to obtain the final color value. 
+`gtexture` is the main texture atlas, used to obtain the albedo color of any geometry rendered in a gbuffers pass. It is usually multiplied by the result of [`gl_Color`](/current/reference/attributes/overview/)/[`vaColor`](/current/reference/attributes/vacolor/) (passed through from the vertex shader) to obtain the final color value.
 
 :::caution[Warning]
 Some shaderpacks may use other aliases such as `tex`, as samplers using texture names that do not exist will simply bind to the atlas. *This is undefined behavior and should not be relied upon.*

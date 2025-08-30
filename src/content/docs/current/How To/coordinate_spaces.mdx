@@ -3,7 +3,7 @@ title: Coordinate Spaces
 description: Model space, clip space, and everything in-between
 sidebar:
   label: Coordinate Spaces
-  order: 1
+  order: 2
 ---
 
 At the start of a shader program, the vertex position is provided in the form of `gl_Vertex` (or `VAPosition`). This position is in *model space*. By the time it reaches the fragment shader, the position is in *screen space*. Between these two are a number of other coordinate spaces.
@@ -23,7 +23,7 @@ This page is designed to be read in tandem with this cheatsheet, which shows eve
 In Iris (and OptiFine), **model space** is whatever coordinate space the vertex position attribute is sent in. The exact coordinate space varies based on the specific geometry, and has the potential to vary across different Minecraft versions. As a result, it is always recommended to treat *model space* like an unknown space and convert to view space with the `gl_ModelViewMatrix`/[`modelViewMatrix`](/current/reference/uniforms/matrices/#modelviewmatrix). **Model space** is also sometimes known as "**local space**".
 
 
-If using the core profile (and as such using [`vaPosition`](/current/reference/attributes/vaposition) instead of `gl_Vertex`), the *model space* position for terrain should be offset with [`chunkOffset`](/current/reference/uniforms/rendering/#chunkoffset). The conversion sheet assumes this has already been done. Here's an example of what that should look like:
+If using the core profile (and as such using [`vaPosition`](/current/reference/attributes/gl_position#in-vec3-vaposition) instead of `gl_Vertex`), the *model space* position for terrain should be offset with [`chunkOffset`](/current/reference/uniforms/rendering/#chunkoffset). The conversion sheet assumes this has already been done. Here's an example of what that should look like:
 ```glsl
 vec3 model_pos = vaPosition + chunkOffset;
 ```

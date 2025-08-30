@@ -49,13 +49,22 @@ This uniform is designed to work with the modern syntax for fragment shader outp
 ```glsl
 uniform vec3 chunkOffset;
 ```
-The chunk offset in model space for the currently rendering chunk of terrain. Used in combination with [`vaPosition`](/current/reference/attributes/vaposition/) to get the model space position as follows:
+
+:::danger
+This uniform only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
+:::
+
+The chunk offset in model space for the currently rendering chunk of terrain. Used in combination with [`vaPosition`](/current/reference/attributes/gl_vertex#in-vec3-vaposition) to get the model space position as follows:
 
 ```glsl
 vec3 model_pos = vaPosition + chunkOffset;
 ```
 
 The value of `chunkOffset` is all 0s when not rendering terrain, or when using the `compatibility` profile.
+
+:::caution[Warning]
+In Minecraft 1.21.2, this attribute was renamed to `modelOffset` in the vanilla game. Iris has not reflected this change, so you should still use `chunkOffset`.
+:::
 
 ----------------
 
@@ -194,5 +203,3 @@ This uniform encodes the fog shape used for vanilla fog, based on the current bi
 - `1`: cylinder
 
 ----------------
-
-
