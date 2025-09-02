@@ -16,12 +16,14 @@ The vertex color attribute.
 
 The color attribute is often used to apply tints to colored blocks such as leaves, grass, water, etc. It also contains the [vanilla ambient occlusion](/current/reference/constants/ambientocclusionlevel/) and, if enabled, the [old lighting](/current/reference/shadersproperties/features/#oldlighting).
 
-Enabling [`separateAo`](/current/reference/shadersproperties/features/#separateao) will move the ambient occlusion from the `rgb` components of `vaColor` to the `a` component, which can be applied later like this:
+Enabling [`separateAo`](/current/reference/shadersproperties/features/#separateao) will move the ambient occlusion from the `rgb` components of `gl_Color` to the `a` component, which can be applied later like this:
+
 ```glsl
 vec3 color = gl_Color.rgb * gl_Color.a;
 ```
 
-### `in vec3 vaColor;`
+### `in vec4 vaColor;`
+
 :::danger
 This attribute only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
 :::
