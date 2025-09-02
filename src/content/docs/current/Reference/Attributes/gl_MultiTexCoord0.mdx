@@ -1,0 +1,31 @@
+---
+title: gl_MultiTexCoord0
+description: The vertex UV for the texture atlas.
+sidebar:
+  label: gl_MultiTexCoord0
+  order: 3
+---
+
+### `gl_MultiTexCoord0`
+
+**Valid Programs**: `gbuffers_*.vsh`, `shadow.vsh`, any composite-style pass.
+
+---
+
+The vertex texture coordinate attribute.
+
+Usually the coordinate in `gl_MultiTexCoord0` corresponds directly to the atlas texture coordinate, however some geometry (such as enchantment glint) requires a texture matrix. Therefore, it is always recommended to use [`gl_TextureMatrix[0]`](/current/reference/uniforms/matrices/#gl_texturematrix0).
+```glsl
+vec2 coord = (gl_TextureMatrix[0] * gl_MultiTexCoord0).xy;
+```
+
+### `in vec2 vaUV0;`
+:::danger
+This attribute only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
+:::
+
+It is always recommended to use [`textureMatrix`](/current/reference/uniforms/matrices/#gl_texturematrix0).
+
+```glsl
+vec2 coord = (textureMatrix * vec4(vaUV0, 0.0, 1.0)).xy;
+```

@@ -1,0 +1,33 @@
+---
+title: gl_Normal
+description: The normal vector in model space.
+sidebar:
+  label: gl_Normal
+  order: 2
+---
+
+### `gl_Normal`
+**Valid Programs**: `gbuffers_*.vsh`, `shadow.vsh`
+
+---
+
+The vertex normal vector attribute.
+
+:::note
+The vector is not guaranteed to be normalized.
+:::
+
+The normal vector from `gl_Normal` is approximate, and in model space (which varies for different geometry). It can be converted to view space using [`gl_NormalMatrix`](/current/reference/uniforms/matrices/#gl_normalmatrix)
+```glsl
+vec3 normal = gl_NormalMatrix * normalize(gl_Normal);
+```
+
+### `in vec3 vaNormal;`
+:::danger
+This attribute only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
+:::
+
+Can be converted to view space using [`normalMatrix`](/current/reference/uniforms/matrices/#gl_normalmatrix)
+```glsl
+vec3 normal = normalMatrix * normalize(vaNormal);
+```

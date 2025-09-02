@@ -1,0 +1,37 @@
+---
+title: gl_MultiTexCoord1
+description: The block and sky lightmap UV coordinates.
+sidebar:
+  label: gl_MultiTexCoord1
+  order: 3
+---
+
+### `gl_MultiTexCoord1`
+
+**Valid Programs**: `gbuffers_*.vsh`, `shadow.vsh`
+
+---
+
+:::note
+`gl_MultiTexCoord2` is also valid for the same purposes.
+:::
+
+`gl_MultiTexCoord1` stores the block light level in the `x` component, and the sky light level in the `y` component. However, the exact range of the values is indeterminate (though it is currently `0-240`). Therefore, it is recommended to use [`gl_TextureMatrix[1]`](/current/reference/uniforms/matrices/#gl_texturematrix1).
+
+```glsl
+vec2 lmcoord = (gl_TextureMatrix[1] * gl_MultiTexCoord1).xy;
+```
+
+### `in ivec2 vaUV2;`
+
+:::danger
+This attribute only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support.
+:::
+
+It is recommended to use the following matrix:
+
+```glsl
+const mat4 TEXTURE_MATRIX_2 = mat4(vec4(0.00390625, 0.0, 0.0, 0.0), vec4(0.0, 0.00390625, 0.0, 0.0), vec4(0.0, 0.0, 0.00390625, 0.0), vec4(0.03125, 0.03125, 0.03125, 1.0));
+
+vec2 lmcoord = (TEXTURE_MATRIX_2 * vec4(vaUV2, 0.0, 1.0)).xy;
+```

@@ -1,0 +1,42 @@
+---
+title: Compatibility vs. Core Profiles
+description: An explanation of the difference between the compatibility and core profiles.
+sidebar:
+  label: Compatibility vs. Core Profiles
+  order: 1
+---
+
+## TL;DR
+Use the `compatibility` profile.
+
+## The `compatibility` and `core` Profiles
+In OpenGL, each new release introduced a new specification for the GLSL language. To indicate which specification is used when compiling the shader, a `#version` directive is provided. Historically, Minecraft used OpenGL 2.0. Newer versions of OpenGL/GLSL dropped support for legacy GLSL features including many predefined attributes starting with `gl_` (for example, `gl_Color`). It is, however, possible to use newer versions of GLSL on an engine using an older version of OpenGL, provided that the hardware supports the version of OpenGL the GLSL version shipped with, through the `compatibility` profile introduced in `#version 150`. By default, the `core` profile is used (disallowing the use of legacy features), however by passing either `compatibility` or `core` after the GLSL version, you can explicitly set which profile is used. In the case of Minecraft for example, it was possible to use `#version 330 compatibility` while still on a version of the game running OpenGL 2.0.
+
+When Minecraft 1.17 released, the game was upgraded to use OpenGL 3.2. This meant that the `compatibility` profile was no longer accessable (note that on most systems apart from MacOS, it can still be used). Since this meant that legacy attributes like `gl_Color` are no longer available, the game provides new attributes such as `vaColor`.
+
+This, however, posed a problem. Existing shaderpacks which used the `compatibility` profile would theoretically no longer function in this new OpenGL version. The solution to this was that shaderpacks would be 'patched' by OptiFine/Iris to use the core profile internally, without any external modifications to the code being required. This means that it is now possible to use either the `core` profile or the `compatibility` profile in an Optifine/Iris shaderpack.
+
+## Which One Should I Use?
+
+There is a common misconception that since the `core` profile is more 'modern', it is preferable over the `compatibility` profile for Minecraft shaderpacks. However, internally, using either will still result in a shaderpack that uses the core profile (on Minecraft 1.17 and newer), and as such, there is no difference in functionality between the two.
+
+However, there are a few reasons why using the `core` profile is *not recommended*. Firstly, the core attributes provided by the game are subject to change. For example, in Minecraft 1.21.2, the attribute `chunkOffset` was renamed to `modelOffset`. However, in Iris, only `chunkOffset` continues to be supported. Thus far, there has been no risk of existing code being broken by changes to the vanilla core profile, however this is not a guarantee.
+
+Secondly, the Iris patcher has been tested much less on core profile code, and there is therefore a higher risk of compilation errors being introduced which can be very difficult to debug when the issue is not actually with your code, but just a quirk of the patcher.
+
+With all of this in mind, it is therefore **recommended that you use the `compatibility` profile**, and *not* the `core` profile.
+
+## Equivalent Attributes/Uniforms
+The following is a table showing the mapping between uniforms/attributes from the `compatibility` profile to those in the `core` profile.
+
+| Compatibility							  	   			| Core																	   		| Description			|
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
+| [`gl_Vertex`](/current/reference/attributes/gl_vertex)	 				| [`vaPosition`](/current/reference/attributes/gl_vertex/#in-vec3-vaposition) + [`chunkOffset`](/current/reference/uniforms/rendering#chunkoffset)   	| vertex position		|
+| [`gl_Color`](/current/reference/attributes/gl_color/)	  					| [`vaColor`](/current/reference/attributes/gl_color/#in-vec3-vacolor)									   		| vertex color	   		|
+| [`gl_Normal`](/current/reference/attributes/gl_normal)	  					| [`vaNormal`](/current/reference/attributes/gl_normal#in-vec3-vanormal)									 	| vertex normal	  		|
+| [`gl_NormalMatrix`](/current/reference/uniforms/matrices#gl_normalmatrix)			| [`normalMatrix`](/current/reference/uniforms/matrices#normalmatrix)											| normal matrix	  		|
+| [`gl_MultiTexCoord0`](/current/reference/attributes/gl_multitexcoord0)   			| [`vaUV0`](/current/reference/attributes/gl_multitexcoord0#in-vec2-vauv0)									   	| texture uv coordinate  	|
+| [`gl_TextureMatrix[0]`](/current/reference/uniforms/matrices/#gl_texturematrix0)		| [`textureMatrix`](/current/reference/uniforms/matrices#gl_texturematrix0)								  		| texture uv matrix	  	|
+| [`entityColor`](/current/reference/uniforms/rendering#entitycolor) 				| [`vaUV1`](/current/reference/attributes/vauv1) (not recommended, even in `core`)								   	| entity overlay	 	|
+| [`gl_MultiTexCoord1` / `gl_MultiTexCoord2`](/current/reference/attributes/gl_multitexcoord1)	| [`vaUV2`](/current/reference/attributes/gl_multitexcoord1#in-ivec2-vauv2)									 	| lightmap coordinate		|
+| [`gl_TextureMatrix[1]`](/current/reference/uniforms/matrices/#gl_texturematrix0)		| [`TEXTURE_MATRIX_2`](/current/reference/uniforms/matrices/#gl_texturematrix0) (user-defined matrix)					   		| lightmap coordinate matrix 	|
