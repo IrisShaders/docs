@@ -12,9 +12,9 @@
   "dependencies": {
     "@astrojs/check": "^0.5.10",
     "@astrojs/markdown-remark": "^6.1.0",
-    "@astrojs/starlight": "^0.28.2",
-    "@lorenzo_lewis/starlight-utils": "^0.2.0",
-    "astro": "^4.16.1",
+    "@astrojs/starlight": "^0.36.1",
+    "@lorenzo_lewis/starlight-utils": "^0.3.2",
+    "astro": "^5.15.1",
     "astro-og-canvas": "^0.5.0",
     "canvaskit-wasm": "^0.39.1",
     "rehype-autolink-headings": "^7.1.0",
