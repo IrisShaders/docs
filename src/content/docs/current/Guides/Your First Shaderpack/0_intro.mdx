@@ -7,7 +7,7 @@ sidebar:
 ---
 
 
-## Foreward
+## Foreword
 This tutorial is based on one written by [saadam1n](https://github.com/saadam1n/MinecraftShaderProgramming). This newer tutorial has been necessitated by the fact that since the tutorial was written, the general state of development on Minecraft shaders has advanced somewhat, and other developers have identified several areas where this can be improved.
 
 ## Prerequisites
@@ -36,10 +36,10 @@ For the next part it is important to note that since most of the game's developm
 
 ## How Shaders Work
 
-A "shader" is, by definition, any program that is executed on the GPU. For Minecraft, these shader programs (also know as passes) can be sorted into two distinct categories: fullscreen passes, which execute for the entire screen, and gbuffers passes, which execute only for specific geometry. Each individual program is composed of several shader stages, two of which are required: a vertex shader, which executes once for each vertex of the geometry, and a fragment shader, which executes once for every pixel that covers the geometry. You can optionally include a compute, geometry, and/or tessellation stage for each pass.
+A "shader" is, by definition, any program that is executed on the GPU. For Minecraft, these shader programs (also known as passes) can be sorted into two distinct categories: fullscreen passes, which execute for the entire screen, and gbuffers passes, which execute only for specific geometry. Each individual program is composed of several shader stages, two of which are required: a vertex shader, which executes once for each vertex of the geometry, and a fragment shader, which executes once for every pixel that covers the geometry. You can optionally include a compute, geometry, and/or tessellation stage for each pass.
 
 :::tip[CPU vs GPU]
-Odds are, all your previous code has been executed on the CPU. Shaders are instead executed on the GPU (also know as a graphics or video card). CPUs are great at performing complex sequential tasks, whereas GPUs are great are executing simple tasks in parallel. In fact, modern high-end graphics cards are capable of performing *trillions* of calculations per second! You can read more about the differences [here](https://www.intel.com/content/www/us/en/products/docs/processors/cpu-vs-gpu.html).
+Odds are, all your previous code has been executed on the CPU. Shaders are instead executed on the GPU (also known as a graphics or video card). CPUs are great at performing complex sequential tasks, whereas GPUs are great at executing simple tasks in parallel. In fact, modern high-end graphics cards are capable of performing *trillions* of calculations per second! You can read more about the differences [here](https://www.intel.com/content/www/us/en/products/docs/processors/cpu-vs-gpu.html).
 :::
 
 For a full list of programs and what they do, see the [Iris Docs](/current/reference/programs/overview/).

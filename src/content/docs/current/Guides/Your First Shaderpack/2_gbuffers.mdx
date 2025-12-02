@@ -92,7 +92,7 @@ normal = gl_NormalMatrix * gl_Normal; // this gives us the normal in view space
 normal = mat3(gbufferModelViewInverse) * normal; // this converts the normal to world/player space
 ```
 
-If you reload your shader, you will notice that there is an error that we have not defined `gbufferModelViewInverse`. To get this value, we declare it as a `uniform` before the `main` function. Uniforms are accessable by any shader program and have the same value wherever you access them. They are calculated on the CPU and uploaded to the GPU.
+If you reload your shader, you will notice that there is an error that we have not defined `gbufferModelViewInverse`. To get this value, we declare it as a `uniform` before the `main` function. Uniforms are accessible by any shader program and have the same value wherever you access them. They are calculated on the CPU and uploaded to the GPU.
 
 ```glsl
 uniform mat4 gbufferModelViewInverse;
@@ -157,7 +157,7 @@ if (color.a < alphaTestRef) { // alpha test
 ```
 
 - The first step multiplies the color by `glcolor` to get the biome tint.
-- The second step multiplies the color by Minecraft's defualt lighting color. You should remove this, as we are going to do our own lighting.
+- The second step multiplies the color by Minecraft's default lighting color. You should remove this, as we are going to do our own lighting.
 - Finally, if the color's alpha (transparency) is less than `alphaTestRef` (this is set by Iris, but usually 0.1), we `discard`, which tells the shader program to return and not write anything. This potentially saves us some texture writes.
 
 ## Writing Extra Data
