@@ -64,7 +64,7 @@ Every shader's first line must be a version declaration. GLSL has two profiles: 
 out vec2 texcoord;
 ```
 
-This is a variable declaration, but a special one. The `out` keyword means that the value will be passed to the fragment shader. The fragment shader can then have a corresponding `in` declaration which allows it to recieve this value. In older versions of GLSL, both `in` and `out` were represented with the `varying` keyword, thus variables passed between programs are often referred to as 'varyings'.
+This is a variable declaration, but a special one. The `out` keyword means that the value will be passed to the fragment shader. The fragment shader can then have a corresponding `in` declaration which allows it to receive this value. In older versions of GLSL, both `in` and `out` were represented with the `varying` keyword, thus variables passed between programs are often referred to as 'varyings'.
 
 :::note[Note]
 Values passed from vertex shaders to fragment shaders are interpolated! This means that if one vertex has a value of 0, and another has a value of 1, then a pixel halfway between these two vertices will have a value of 0.5. This can be prevented by adding the `flat` keyword the `in` and `out` declarations.
