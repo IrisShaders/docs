@@ -37,6 +37,10 @@ separateEntityDraws=<true|false>
 ```
 If `separateEntityDraws` is true in shaders.properties, translucent entities and block entities will wait to be drawn until after the deferred pass, and then will be drawn in the `gbuffers_entities_translucent` and `gbuffers_block_translucent` programs. If those programs are not present they will fall back to `gbuffers_entites` and `gbuffers_block` respectively, but will still be rendered after deferred.
 
+:::caution[Warning]
+In newer Iris versions, this feature is broken and may not work at all.
+:::
+
 ----------------
 
 
