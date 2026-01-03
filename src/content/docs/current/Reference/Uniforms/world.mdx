@@ -136,3 +136,26 @@ This value stores the world day, which is the amount of in-game days that have p
 
 
 ----------------
+
+## endFlashPosition <Badge text="Iris Exclusive" variant="tip" size="medium" />
+```glsl
+uniform vec3 endFlashPosition;
+```
+This value stores the position of the current end flash in view space. The length of the vector is always `100.0`, as it represents a position and not a direction. If [`endFlashShadows`](/current/reference/shadersproperties/features/#endFlashShadows) are enabled, it will be identical to [`shadowLightPosition`].
+
+----------------
+
+## endFlashIntensity <Badge text="Iris Exclusive" variant="tip" size="medium" />
+```glsl
+uniform float endFlashIntensity;
+```
+
+This value stores the intensity of the current end flash, maxing out at `1.0`. The sound cue is played at `0.1`. The value will be `0.0` if there is no flash currently occuring.
+
+----------------
+
+## previousEndFlashIntensity <Badge text="Iris Exclusive" variant="tip" size="medium" />
+```glsl
+uniform float previousEndFlashIntensity;
+```
+This value stores the intensity of the previous end flash, maxing out at `1.0`.

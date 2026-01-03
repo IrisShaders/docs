@@ -89,20 +89,23 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [heldBlockLightValue2](/current/reference/uniforms/id/#heldblocklightvalue2)       | int  | [0,15]          | Light value of the item held in the player's offhand                    |                                              |
 
 ## World/Weather
-| Uniform                                                                           | Type  | Value range | Description                                                   | Tag                                          |
-| --------------------------------------------------------------------------------- | ----- | ----------- | ------------------------------------------------------------- | -------------------------------------------- |
-| [sunPosition](/current/reference/uniforms/world/#sunposition)                     | vec3  | [0,100]     | Position of the sun in view space, length of 100              |                                              |
-| [moonPosition](/current/reference/uniforms/world/#moonposition)                   | vec3  | [0,100]     | Position of the moon in view space, length of 100             |                                              |
-| [shadowLightPosition](/current/reference/uniforms/world/#shadowlightposition)     | vec3  | [0,100]     | Position of shadow source in view space, length of 100        |                                              |
-| [sunAngle](/current/reference/uniforms/world/#sunangle)                           | float | [0,1]       | Angle of the sun within the complete day-night cycle          |                                              |
-| [shadowAngle](/current/reference/uniforms/world/#shadowangle)                     | float | [0,0.5]     | Angle of shadow source (whichever is higher in the sky)       |                                              |
-| [moonPhase](/current/reference/uniforms/world/#moonphase)                         | int   | [0,7]       | Current moon phase                                            |                                              |
-| [rainStrength](/current/reference/uniforms/world/#rainstrength)                   | float | [0,1]       | Current strength of rain                                      |                                              |
-| [wetness](/current/reference/uniforms/world/#wetness)                             | float | [0,1]       | `rainStrength` but smoothed over time with `wetnessHalfLife`  |                                              |
-| [thunderStrength](/current/reference/uniforms/world/#thunderstrength)             | float | [0,1]       | Current strength of thunderstorm                              | <Badge text="Iris Exclusive" variant="tip"/> |
-| [lightningBoltPosition](/current/reference/uniforms/world/#lightningboltposition) | vec4  |             | Position of a lightning bolt being rendered, or `vec4(0.0)`   | <Badge text="Iris Exclusive" variant="tip"/> |
-| [worldTime](/current/reference/uniforms/world/#worldtime)                         | int   | [0, 23999]  | Current in-game time                                          |                                              |
-| [worldDay](/current/reference/uniforms/world/#worldday)                           | int   | [0 - )      | Number of in-game days passed                                 |                                              |
+| Uniform                                                                                   | Type  | Value range | Description                                                   | Tag                                          |
+| ----------------------------------------------------------------------------------------- | ----- | ----------- | ------------------------------------------------------------- | -------------------------------------------- |
+| [sunPosition](/current/reference/uniforms/world/#sunposition)                             | vec3  | [0,100]     | Position of the sun in view space, length of 100              |                                              |
+| [moonPosition](/current/reference/uniforms/world/#moonposition)                           | vec3  | [0,100]     | Position of the moon in view space, length of 100             |                                              |
+| [shadowLightPosition](/current/reference/uniforms/world/#shadowlightposition)             | vec3  | [0,100]     | Position of shadow source in view space, length of 100        |                                              |
+| [sunAngle](/current/reference/uniforms/world/#sunangle)                                   | float | [0,1]       | Angle of the sun within the complete day-night cycle          |                                              |
+| [shadowAngle](/current/reference/uniforms/world/#shadowangle)                             | float | [0,0.5]     | Angle of shadow source (whichever is higher in the sky)       |                                              |
+| [moonPhase](/current/reference/uniforms/world/#moonphase)                                 | int   | [0,7]       | Current moon phase                                            |                                              |
+| [rainStrength](/current/reference/uniforms/world/#rainstrength)                           | float | [0,1]       | Current strength of rain                                      |                                              |
+| [wetness](/current/reference/uniforms/world/#wetness)                                     | float | [0,1]       | `rainStrength` but smoothed over time with `wetnessHalfLife`  |                                              |
+| [thunderStrength](/current/reference/uniforms/world/#thunderstrength)                     | float | [0,1]       | Current strength of thunderstorm                              | <Badge text="Iris Exclusive" variant="tip"/> |
+| [lightningBoltPosition](/current/reference/uniforms/world/#lightningboltposition)         | vec4  |             | Position of a lightning bolt being rendered, or `vec4(0.0)`   | <Badge text="Iris Exclusive" variant="tip"/> |
+| [worldTime](/current/reference/uniforms/world/#worldtime)                                 | int   | [0, 23999]  | Current in-game time                                          |                                              |
+| [worldDay](/current/reference/uniforms/world/#worldday)                                   | int   | [0 - )      | Number of in-game days passed                                 |                                              |
+| [endFlashPosition](/current/reference/uniforms/world/#endflashposition)                   | vec3  | [0,100]     | Position of the end flash in view space, length of 100        | <Badge text="Iris Exclusive" variant="tip"/> |
+| [endFlashIntensity](/current/reference/uniforms/world/#endflashintensity)                 | float | [0,1]       | The intensity of the current flash, 0 when there is no flash  | <Badge text="Iris Exclusive" variant="tip"/> |
+| [previousEndFlashIntensity](/current/reference/uniforms/world/#previousendflashintensity) | float | [0,1]       | The intensity of the previous flash, 0 when there was no flash| <Badge text="Iris Exclusive" variant="tip"/> |
 
 ## Biome/Dimension
 | Uniform                                                                       | Type  | Value range   | Description                                                         | Tag                                               |

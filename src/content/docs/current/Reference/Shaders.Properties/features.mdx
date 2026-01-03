@@ -129,3 +129,10 @@ Enables or disables weather (rain & snow) geometry and rain splash particles. Bo
 This directive requires an Iris version supporting [`CAN_DISABLE_WEATHER`](/current/reference/shadersproperties/flags/), and is recommended to be used with that feature flag specified.
 
 ----------------
+
+## endFlashShadows <Badge text="Iris Exclusive" variant="tip" size="medium" />
+```properties
+endFlashShadows=<true|false>
+```
+
+If enabled, shadows in the End will be projected from the End flashes instead of a random point in the sky. [`shadowLightPosition`](/current/reference/uniforms/world/#shadowlightposition) will also be set equal to [`endFlashPosition`](/current/reference/uniforms/world/#endflashposition).
