@@ -69,9 +69,13 @@ Replace:
 ```properties
 flip.<program>.<bufferName>=<true|false>
 ```
-For each color attachment sampler, there is actually two buffers, the "main" and "alt" buffers. [`gbuffers`](/current/reference/programs/gbuffers/) and [`shadow`](/current/reference/programs/shadow/) programs read from the "main" buffer and write to the "main" buffer, which means that reading to and writing from the same buffer will cause artifacting. [`begin`](/current/reference/programs/begin/), [`shadowcomp`](/current/reference/programs/shadow_comp/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), and [`composite`](/current/reference/programs/composite/) passes however read from the "main" buffer and write to the "alt" buffer, allowing them to read and write to the same buffer, and after that program the "main" and "alt" buffers are swapped so data written by the current program is read by the next program.
+For each color attachment sampler, there are actually two buffers, the "main" and "alt" buffers. [`gbuffers`](/current/reference/programs/gbuffers/) and [`shadow`](/current/reference/programs/shadow/) programs read from the "main" buffer and write to the "main" buffer, which means that reading to and writing from the same buffer will cause artifacting. [`begin`](/current/reference/programs/begin/), [`shadowcomp`](/current/reference/programs/shadow_comp/), [`prepare`](/current/reference/programs/prepare/), [`deferred`](/current/reference/programs/deferred/), and [`composite`](/current/reference/programs/composite/) passes however read from the "main" buffer and write to the "alt" buffer, allowing them to read and write to the same buffer, and after that program the "main" and "alt" buffers are swapped so data written by the current program is read by the next program.
 
 This behavior can be controlled with the `flip.<program>.<bufferName>` directive. Replace `<program>` with the program name (i.e. `composite2`), `<bufferName>` with the sampler name (i.e. `colortex5`), setting the value to `false` will disable the buffer flip that would happen after the end of that program. The default behavior is for buffer flipping to be enabled for all programs.
+
+:::caution[Warning]
+Flips will not occur after passes which *do not have a fragment shader*. A pass which only has a compute shader will not trigger a flip.
+:::
 
 ----------------
 
