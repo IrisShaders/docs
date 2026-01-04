@@ -21,4 +21,4 @@ The fade-in progress of the geometry. This value is a `float` automatically decl
 
 In `gbuffers_terrain.vsh`, the value will be a float in the range 0-1. In all other gbuffers programs, it will be declared as `const float mc_chunkFade = -1.0;`.
 
-The variable will only be declared if the `FADE_VARIABLE` [feature flag](/current/reference/shadersproperties/flags/) is available and enabled.
+The variable will not be declared if the `FADE_VARIABLE` [feature flag](/current/reference/shadersproperties/flags/) is not available. You should check if the feature is available when using the variable.
