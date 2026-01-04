@@ -6,6 +6,7 @@ sidebar:
   order: 8
 ---
 import { Aside } from '@astrojs/starlight/components';
+import { Badge } from '@astrojs/starlight/components';
 
 These uniforms store information related to rendering, such as near/far planes, chunk offsets, fog parameters, and more.
 
@@ -203,3 +204,20 @@ This uniform encodes the fog shape used for vanilla fog, based on the current bi
 - `1`: cylinder
 
 ----------------
+
+
+## textureFilteringMode <Badge text="Iris Exclusive" variant="tip" size="medium" />
+```glsl
+uniform int textureFilteringMode; 
+```
+
+This uniform reports the texture filtering mode selected by the user in the Sodium quality settings. It will have one of the following values.
+- `0`: Disabled/Nearest Filtering
+- `1`: RGSS (Rotated-Grid Supersampling)
+- `2`: Anisotropic Filtering
+
+**The `TEXTURE_FILTERING` [feature flag](/current/reference/shadersproperties/flags/) must be enabled for this uniform to be defined.** If this feature is not enabled, the user will not be able to select texture filtering options in the Sodium settings.
+
+----------------
+
+

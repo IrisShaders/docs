@@ -124,23 +124,24 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [logicalHeightLimit](/current/reference/uniforms/biome/#logicalheightlimit)   | int   |               | Logical height of the current dimension                             | <Badge text="Iris Exclusive" variant="tip"/>      |
 
 ## Rendering
-| Uniform                                                             | Type  | Value range      | Description                                                       | Tag |
-| ------------------------------------------------------------------- | ----- | ---------------- | ----------------------------------------------------------------- | --- |
-| [near](/current/reference/uniforms/rendering/#near)                 | float | 0.05             | Near clipping plane distance                                      |     |
-| [far](/current/reference/uniforms/rendering/#far)                   | float | (0, - )          | Current render distance in blocks                                 |     |
-| [alphaTestRef](/current/reference/uniforms/rendering/#alphatestref) | float | [0,1]            | Cutout alpha discard threshold                                    |     |
-| [chunkOffset](/current/reference/uniforms/rendering/#chunkoffset)   | vec3  |                  | Chunk offset for terrain model space position                     |     |
-| [entityColor](/current/reference/uniforms/rendering/#entitycolor)   | vec4  | [0,1]            | Entity tint color                                                 |     |
-| [blendFunc](/current/reference/uniforms/rendering/#blendfunc)       | ivec4 |                  | Alpha blending function multipliers: (srcRGB, dstRGB, srcA, dstA) |     |
-| [atlasSize](/current/reference/uniforms/rendering/#atlassize)       | ivec2 | [0, - )          | Resolution of the texture atlas, `0` if not bound                 |     |
-| [renderStage](/current/reference/uniforms/rendering/#renderstage)   | int   |                  | "Render stage" of the current geometry                            |     |
-| [fogColor](/current/reference/uniforms/rendering/#fogcolor)         | vec3  | [0,1]            | Horizon fog color                                                 |     |
-| [skyColor](/current/reference/uniforms/rendering/#skycolor)         | vec3  | [0,1]            | Upper sky color                                                   |     |
-| [fogDensity](/current/reference/uniforms/rendering/#fogdensity)     | float | [0,1]            | Relative fog density                                              |     |
-| [fogStart](/current/reference/uniforms/rendering/#fogstart)         | float | (0, - )          | Starting fog distance in blocks                                   |     |
-| [fogEnd](/current/reference/uniforms/rendering/#fogend)             | float | (0, - )          | Ending fog distance in blocks                                     |     |
-| [fogMode](/current/reference/uniforms/rendering/#fogmode)           | int   | 2048, 2049, 9729 | Fog type used for vanilla fog                                     |     |
-| [fogShape](/current/reference/uniforms/rendering/#fogshape)         | int   | 0,1              | Fog shape used for vanilla fog                                    |     |
+| Uniform                                                                             | Type  | Value range      | Description                                                       | Tag                                          |
+| ----------------------------------------------------------------------------------- | ----- | ---------------- | ----------------------------------------------------------------- | -------------------------------------------- |
+| [near](/current/reference/uniforms/rendering/#near)                                 | float | 0.05             | Near clipping plane distance                                      |                                              |
+| [far](/current/reference/uniforms/rendering/#far)                                   | float | (0, - )          | Current render distance in blocks                                 |                                              |
+| [alphaTestRef](/current/reference/uniforms/rendering/#alphatestref)                 | float | [0,1]            | Cutout alpha discard threshold                                    |                                              |
+| [chunkOffset](/current/reference/uniforms/rendering/#chunkoffset)                   | vec3  |                  | Chunk offset for terrain model space position                     |                                              |
+| [entityColor](/current/reference/uniforms/rendering/#entitycolor)                   | vec4  | [0,1]            | Entity tint color                                                 |                                              |
+| [blendFunc](/current/reference/uniforms/rendering/#blendfunc)                       | ivec4 |                  | Alpha blending function multipliers: (srcRGB, dstRGB, srcA, dstA) |                                              |
+| [atlasSize](/current/reference/uniforms/rendering/#atlassize)                       | ivec2 | [0, - )          | Resolution of the texture atlas, `0` if not bound                 |                                              |
+| [renderStage](/current/reference/uniforms/rendering/#renderstage)                   | int   |                  | "Render stage" of the current geometry                            |                                              |
+| [fogColor](/current/reference/uniforms/rendering/#fogcolor)                         | vec3  | [0,1]            | Horizon fog color                                                 |                                              |
+| [skyColor](/current/reference/uniforms/rendering/#skycolor)                         | vec3  | [0,1]            | Upper sky color                                                   |                                              |
+| [fogDensity](/current/reference/uniforms/rendering/#fogdensity)                     | float | [0,1]            | Relative fog density                                              |                                              |
+| [fogStart](/current/reference/uniforms/rendering/#fogstart)                         | float | (0, - )          | Starting fog distance in blocks                                   |                                              |
+| [fogEnd](/current/reference/uniforms/rendering/#fogend)                             | float | (0, - )          | Ending fog distance in blocks                                     |                                              |
+| [fogMode](/current/reference/uniforms/rendering/#fogmode)                           | int   | 2048, 2049, 9729 | Fog type used for vanilla fog                                     |                                              |
+| [fogShape](/current/reference/uniforms/rendering/#fogshape)                         | int   | 0,1              | Fog shape used for vanilla fog                                    |                                              |
+| [textureFilteringMode](/current/reference/uniforms/rendering/#texturefilteringmode) | int   | 0,1,2            | User selected texture filtering mode                              | <Badge text="Iris Exclusive" variant="tip"/> |
 
 ## Matrices
 | Uniform                                                                                      | Type | Value range | Description                                                            | Tag |

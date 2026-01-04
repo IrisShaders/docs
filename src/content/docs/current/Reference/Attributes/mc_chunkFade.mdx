@@ -1,0 +1,24 @@
+---
+title: mc_chunkFade
+description: The fade-in progress of the geometry
+sidebar:
+  label: mc_chunkFade
+  order: 2
+  badge:
+    text: Iris Only
+    variant: tip
+---
+
+import { Badge } from '@astrojs/starlight/components';
+
+### `mc_chunkFade` <Badge text="Iris Exclusive" variant="tip" size="medium" />
+
+**Valid Programs**: `gbuffers_*.vsh`
+
+---
+
+The fade-in progress of the geometry. This value is a `float` automatically declared in all gbuffers programs which represents the progress of the chunk fade animation introduced in Minecraft version 1.21.11.
+
+In `gbuffers_terrain.vsh`, the value will be a float in the range 0-1. In all other gbuffers programs, it will be declared as `const float mc_chunkFade = -1.0;`.
+
+The variable will only be declared if the `FADE_VARIABLE` [feature flag](/current/reference/shadersproperties/flags/) is available and enabled.

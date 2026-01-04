@@ -31,16 +31,18 @@ Then you could check for this with
 
 The following is an index of all supported feature flags. Any feature flag marked as "**Required For Use**" must be set in `iris.features.required` or `iris.features.optional` in order to use the feature, otherwise Iris will throw an error.
 
-| Feature Flag                                   | Required For Use | Description                                                                                                          |
-| ---------------------------------------------- | :--------------: | -------------------------------------------------------------------------------------------------------------------- |
-| `BLOCK_EMISSION_ATTRIBUTE`                     | ❌               | Queries support for the [block emission attribute](/current/reference/attributes/at_midblock/) (`at_midBlock.w`)     |
-| `CAN_DISABLE_WEATHER`                          | ❌               | Queries support for the [`weather`](/current/reference/shadersproperties/features/#weather) directive                |
-| `COMPUTE_SHADERS`                              | ❌               | Queries support for compute shaders                                                                                  |
-| `CUSTOM_IMAGES`                                | ✔️               | Enables [custom images](/current/reference/buffers/custom_images/)                                                   |
-| `ENTITY_TRANSLUCENT`                           | ❌               | Queries support for [`gbuffers_entities_translucent`](/current/reference/programs/gbuffers#iris-additional-programs) |
-| `HIGHER_SHADOWCOLOR`                           | ✔️               | Enables [additional shadowcolor](/current/reference/buffers/shadowcolor/#extended-shadowcolor) buffers               |
-| `PER_BUFFER_BLENDING`                          | ❌               | Queries hardware support for per-buffer blending                                                                     |
-| `REVERSED_CULLING`                             | ❌               | Queries support for [reverse shadow culling](/current/reference/constants/voxeldistance/)                            |
-| `SEPARATE_HARDWARE_SAMPLERS`                   | ✔️               | Enables [separate hardware shadow samplers](/current/reference/buffers/shadowtex/#hardware-sampling)                 |
-| `SSBO`                                         | ✔️               | Enables [SSBOs](/current/reference/buffers/ssbo/)                                                                    |
-| `TESSELATION_SHADERS` / `TESSELLATION_SHADERS` | ✔️               | Enables tessellation shaders                                                                                         |
+| Feature Flag                                   | Required For Use | Description                                                                                                                                                             |
+| ---------------------------------------------- | :--------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `BLOCK_EMISSION_ATTRIBUTE`                     | ❌               | Queries support for the [block emission attribute](/current/reference/attributes/at_midblock/) (`at_midBlock.w`)                                                        |
+| `CAN_DISABLE_WEATHER`                          | ❌               | Queries support for the [`weather`](/current/reference/shadersproperties/features/#weather) directive                                                                   |
+| `COMPUTE_SHADERS`                              | ❌               | Queries support for compute shaders                                                                                                                                     |
+| `CUSTOM_IMAGES`                                | ✔️               | Enables [custom images](/current/reference/buffers/custom_images/)                                                                                                      |
+| `ENTITY_TRANSLUCENT`                           | ❌               | Queries support for [`gbuffers_entities_translucent`](/current/reference/programs/gbuffers#iris-additional-programs)                                                    |
+| `HIGHER_SHADOWCOLOR`                           | ✔️               | Enables [additional shadowcolor](/current/reference/buffers/shadowcolor/#extended-shadowcolor) buffers                                                                  |
+| `PER_BUFFER_BLENDING`                          | ❌               | Queries hardware support for per-buffer blending                                                                                                                        |
+| `REVERSED_CULLING`                             | ❌               | Queries support for [reverse shadow culling](/current/reference/constants/voxeldistance/)                                                                               |
+| `SEPARATE_HARDWARE_SAMPLERS`                   | ✔️               | Enables [separate hardware shadow samplers](/current/reference/buffers/shadowtex/#hardware-sampling)                                                                    |
+| `SSBO`                                         | ✔️               | Enables [SSBOs](/current/reference/buffers/ssbo/)                                                                                                                       |
+| `TESSELATION_SHADERS` / `TESSELLATION_SHADERS` | ✔️               | Enables tessellation shaders                                                                                                                                            |
+| `FADE_VARIABLE`                                | ✔️               | Enables [the chunk fade attribute](/current/reference/attributes/mc_chunkFade) (`mc_chunkFade`)                                                                         |
+| `TEXTURE_FILTERING`                            | ✔️               | Reports to Iris that the shader supports texture filtering, and enables the [`textureFilteringMode`](/current/reference/uniforms/rendering#texturefilteringmode) uniform|
