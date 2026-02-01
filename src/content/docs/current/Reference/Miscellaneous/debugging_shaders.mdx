@@ -16,10 +16,10 @@ The 'Use no error context' setting will prevent the game from loading on some AM
 # Finding Compilation Errors
 Iris does not have proper support for line numbers in error messages. Line numbers in error messages correspond to the patched version of your shader code, which will not necessarily line up with the line numbers in your original code, especially if you have made use of the `#include` directive. The patched shader output can be found in the `.minecraft/patched_shaders`. Here's an example.
 
-![`deferred2.fsh: ERROR: 0:336: 'something' : undeclared identifier`](../../../../assets/debugging/compilationerror.webp)
+![`deferred2.fsh: ERROR: 0:336: 'something' : undeclared identifier`](../../../../../assets/debugging/compilationerror.webp)
 In this error message, we can see that the error occurs on line 336 of `deferred2.fsh`.
 
-![line 336 says "something = 0;"](../../../../assets/debugging/patchederror.webp)
+![line 336 says "something = 0;"](../../../../../assets/debugging/patchederror.webp)
 Opening `.minecraft/patched_shaders/005_deferred2.fsh` and navigating to line 336, we can see the line causing the error. Using the surrounding context, and perhaps the find+replace option in your text editor/IDE, you should be able to find the offending line.
 
 # Attaching a Debugger

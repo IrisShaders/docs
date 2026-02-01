@@ -16,14 +16,24 @@ This tutorial is based on one written by [saadam1n](https://github.com/saadam1n/
 :::
 
 You will need:
-- A suitable text editor for modifying shader code. One popular choice is [Visual Studio Code](https://code.visualstudio.com/), but any program which can edit text files is sufficient. A simpler but popular editor is [Notepad++](https://notepad-plus-plus.org/).
+- A suitable text editor for modifying shader code (see below).
 - A computer capable of running OpenGL 3.3. If your computer was manufactured in the last 15 years it likely supports OpenGL 3.3. Note that whilst OpenGL works on macOS, Apple will not update the drivers to support any version past OpenGL 4.1 and some things may not work correctly.
 - A willingness to learn. Shaders are hard, and you can't just pick them up overnight. Do not expect to complete this tutorial and become the next Sonic Ether.
 - An instance of Minecraft with Iris, Optifine, or Oculus installed. Since this tutorial is in the Iris documentation, it is assumed you are using Iris.
 
+## Development Environment
+
+Any text editor is suitable for shader development. One popular choice is [Visual Studio Code](https://code.visualstudio.com/), but any program which can edit text files is sufficient. A simpler but popular editor is [Notepad++](https://notepad-plus-plus.org/).
+
+If you are using Visual Studio Code (which we recommend), there are a couple of extensions you can use which can help with development.
+
+- [GLSL Syntax for VS Code](https://marketplace.visualstudio.com/items?itemName=GeForceLegend.vscode-glsl)
+- [Language Server for Minecraft Shaderpacks](https://marketplace.visualstudio.com/items?itemName=GeForceLegend.vscode-mcshader)
+
 It's helpful to be able to see your game logs as the game is running. In the vanilla Minecraft launcher, you can do this by enabling 'keep the Launcher open while games are running' and 'Open output log when Minecraft: Java Edition starts" in the settings.
 If you do not use the vanilla launcher, but your launcher does not support viewing logs in realtime, a popular choice is [Prism Launcher](https://prismlauncher.org/).
-In Iris, it is also useful to enable debug mode. You can do this by pressing <kbd>Ctrl</kbd>+<kbd>D</kbd> in the shader selection screen.
+
+It is also useful to enable debug mode. You can do this by pressing <kbd>Ctrl</kbd>+<kbd>D</kbd> in the shader selection screen. For more info, see [debugging shaders](/current/reference/miscellaneous/debugging_shaders/).
 
 
 ## OpenGL and GLSL
@@ -43,3 +53,4 @@ Odds are, all your previous code has been executed on the CPU. Shaders are inste
 :::
 
 For a full list of programs and what they do, see the [Iris Docs](/current/reference/programs/overview/).
+

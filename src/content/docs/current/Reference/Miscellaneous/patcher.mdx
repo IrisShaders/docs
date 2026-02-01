@@ -8,16 +8,16 @@ sidebar:
 
 The source code of a shader pack is not the final code that is compiled and executed. In order to ensure maximum compatibility, Iris runs the shader code through [glsl-transformer](https://github.com/IrisShaders/glsl-transformer), which generates **patched shader code**. This is the code that actually ends up on the GPU. In the context of developing shaders, there are several important consequences to note:
 
-- Since the patcher removes non-necessary whitespace in the code, line numbers in errors will not match up with the line numbers in your code
+- Since the patcher removes non-necessary whitespace in the code, line numbers in errors will not match up with the line numbers in your code.
 - You cannot name your functions or variables in a similar manner as internal Iris variables:
     - `iris_`
     - `irisMain`
     - `moj_import`
-- The patcher will sometimes fix code that should otherwise fail
-- Conversely, the patcher may not be flawless. If you're experiencing a bug and have exhausted all other possibilites, its worth checking the patched shader code
+- The patcher will sometimes fix code that should otherwise fail.
+- Conversely, the patcher may not be flawless. If you're experiencing a bug and have exhausted all other possibilites, it's worth checking the patched shader code.
 
 :::tip
-When [debug mode](/current/reference/miscellaneous/patcher/) is enabled, the patched shader code can be found in the `/patched_shaders/` folder in the root of your Minecraft directory.
+When [debug mode](/current/reference/miscellaneous/debugging_shaders/) is enabled, the patched shader code can be found in the `/patched_shaders/` folder in the root of your Minecraft directory.
 :::
 
 More information can be found [here](https://github.com/IrisShaders/Iris/blob/1.21/docs/usage/debugging.md).
