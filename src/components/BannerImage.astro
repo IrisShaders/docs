@@ -1,20 +1,39 @@
 ---
-import fs from 'fs';
-
-import type { Props } from '@astrojs/starlight/props';
-
-const imageFiles = fs.readdirSync("./public/banners");
+const darkImages = Object.values(
+	import.meta.glob('/src/assets/banners/dark/*', {
+		eager: true,
+		as: 'url',
+	})
+);
+const lightImages = Object.values(
+	import.meta.glob('/src/assets/banners/light/*', {
+		eager: true,
+		as: 'url',
+	})
+);
 ---
 
-<div id="banner-img">a</div>
+<div id="banner-img"></div>
 
-<script define:vars={{imageFiles}}>
-  document.addEventListener('DOMContentLoaded', () => {
+<script define:vars={{ darkImages, lightImages }}>
+  function applyBannerImage() {
     const bannerImage = document.querySelector("#banner-img");
-    const randomIndex = Math.floor(Math.random() * imageFiles.length);
-    const randomImage = `/banners/${imageFiles[randomIndex]}`;
-    
-    bannerImage.style.backgroundImage = `url(${randomImage})`;
-  });
-</script>
+    const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const images = theme === 'light' ? lightImages : darkImages;
+    const randomIndex = Math.floor(Math.random() * images.length);
+    const randomImage = images[randomIndex];
 
+    bannerImage.style.backgroundImage = `url(${randomImage})`;
+  }
+
+  document.addEventListener('DOMContentLoaded', applyBannerImage); // I'm like 90 percent sure this is wrong
+
+  new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.attributeName === 'data-theme') {
+        applyBannerImage();
+        return;
+      }
+    }
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>

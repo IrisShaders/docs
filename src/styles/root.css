@@ -18,7 +18,7 @@
 	--sl-color-gray-6: #24272e;
 	--sl-color-black: #17181c;
 
-	--background-image-opacity: 0.4;
+	--background-image-opacity: 1.0;
 }
 /* Light mode colors. */
 :root[data-theme='light'] {
@@ -38,16 +38,109 @@
 	--background-image-opacity: 1.0;
 }
 
+html[data-has-hero] {
+	height: 100vh;
+	overflow: hidden;
+}
+html[data-has-hero] body {
+	height: 100%;
+}
+html[data-has-hero] .page {
+	height: 100%;
+}
+html[data-has-hero] .main-frame {
+	height: calc(100% - var(--sl-nav-height));
+	overflow: hidden;
+}
+
 #banner-img {
 	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 130vh;
+	height: 100vh;
 	opacity: var(--background-image-opacity);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+
 	z-index: -1;
 }
+
+.sidebar-pane {
+	isolation: isolate;
+	overflow-x: hidden;
+}
+
+.sidebar-pane::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image: var(--sidebar-bg-image);
+	background-size: cover;
+	background-position: center;
+	filter: blur(20px);
+	opacity: 0.2;
+	z-index: 0;
+	pointer-events: none;
+}
+
+.sidebar-pane > * {
+	position: relative;
+	z-index: 1;
+}
+
+header.header {
+	background: rgba(23, 24, 28, 0.6) !important;
+	backdrop-filter: blur(16px) saturate(1.4) !important;
+	-webkit-backdrop-filter: blur(16px) saturate(1.4) !important;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+:root[data-theme='light'] header.header {
+	background: rgba(255, 255, 255, 0.65) !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-has-hero] .hero {
+	padding-block: clamp(1.5rem, calc(0.5rem + 4vmin), 3rem) !important;
+}
+
+[data-has-hero] .hero > img {
+	width: min(70%, 14rem) !important;
+}
+
+[data-has-hero] .hero .copy {
+	position: relative;
+	z-index: 0;
+}
+[data-has-hero] .hero .copy::before {
+	content: '';
+	position: absolute;
+	inset: -3rem -16rem;
+	background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
+	z-index: -1;
+	pointer-events: none;
+}
+[data-theme='light'][data-has-hero] .hero .copy::before {
+	background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, transparent 70%);
+}
+
+[data-theme='light'][data-has-hero] .hero h1 {
+	color: #ffffff !important;
+}
+[data-theme='light'][data-has-hero] .hero .tagline {
+	color: rgba(255, 255, 255, 0.85) !important;
+}
+
+[data-has-hero] .card {
+	background: rgba(23, 24, 28, 0.5) !important;
+	backdrop-filter: blur(16px) saturate(1.4) !important;
+	-webkit-backdrop-filter: blur(16px) saturate(1.4) !important;
+	border: 1px solid rgba(255, 255, 255, 0.1) !important;
+	border-radius: 1rem !important;
+}
+[data-theme='light'][data-has-hero] .card {
+	background: rgba(255, 255, 255, 0.55) !important;
+	border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+

@@ -13,7 +13,6 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			components: {
-				// Relative path to the custom component.
 				Head: './src/components/Head.astro',
 			},
 			title: 'Iris Docs',
@@ -23,10 +22,10 @@ export default defineConfig({
 			customCss: [
 				'/src/styles/root.css',
 			],
-			social: {
-				github: 'https://github.com/IrisShaders/DocsPage/',
-				discord: 'https://discord.com/invite/jQJnav2jPu',
-			},
+			social: [
+			   	{ icon: 'github', label: 'GitHub', href: 'https://github.com/IrisShaders/DocsPage/' },
+   				{ icon: 'discord', label: 'Discord', href: 'https://discord.com/invite/jQJnav2jPu' },
+			],
 			editLink: {
 				baseUrl: 'https://github.com/IrisShaders/DocsPage/edit/main/',
 			},
