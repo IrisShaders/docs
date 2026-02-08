@@ -53,6 +53,16 @@ html[data-has-hero] .main-frame {
 	overflow: hidden;
 }
 
+/* fixes scrolling on phone */
+@media (max-width: 50rem) {
+	html[data-has-hero] {
+		overflow-y: auto;
+	}
+	html[data-has-hero] .main-frame {
+		overflow-y: auto;
+	}
+}
+
 #banner-img {
 	position: absolute;
 	top: 0;
