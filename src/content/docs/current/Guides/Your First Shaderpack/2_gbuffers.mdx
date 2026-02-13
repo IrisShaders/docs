@@ -60,7 +60,7 @@ In the previous tutorial, we had a variable called `texcoord`, which gave us the
 Minecraft calculates two values that represent how lit a block is: the exposure to emissive blocks (torches, lava, glowstone, etc.) and the exposure to the sky. These values are stored in `gl_MultiTexCoord1` as "lightmap coordinates", where the x channel encodes block exposure and the y channel sky exposure. The actual range of these values varies between Minecraft versions, but by multiplying it by `gl_TextureMatrix[1]` we instead get it in the approximate range [0.033, 0.97]. This still isn't very useful but we can fix this ourselves. Let's add a new line below the one assigning `lmcoord`.
 
 ```glsl
-lmcoord / (30.0 / 32.0) - (1.0 / 32.0);
+lmcoord = lmcoord / (30.0 / 32.0) - (1.0 / 32.0);
 ```
 
 This now gets us the correct light level. You will notice now that if you reload the shader, lighting is now broken. We will fix this later on.

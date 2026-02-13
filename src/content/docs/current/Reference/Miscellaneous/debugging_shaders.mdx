@@ -28,10 +28,17 @@ Graphics debuggers are very useful when developing shaders, as they can be used 
 ## RenderDoc
 [RenderDoc](https://renderdoc.org/) is an open source and cross platform graphics debugging tool. The method for hooking it into the game is operating system dependent.
 
-### Windows
-The [Nsight and RenderDoc loader](https://modrinth.com/mod/nsight-loader) mod can be used to inject RenderDoc into the game on Windows. Simply select RenderDoc in the popup that appears when the game launches, and within RenderDoc, select `File`>`Attach to Running Instance` and select the game. It will likely appear as `javaw`.
+### Using the Mod
 
-If the mod is not available for your version of the game, you can use process injection to hook into the game. Navigate to `Tools`>`Settings` and enable `Enable process injection (restart required)`, then restart the application.
+The [GFX-Debuggers](https://modrinth.com/mod/gfx-debuggers) mod can be used to inject RenderDoc into the game on Windows. Simply select RenderDoc in the popup that appears when the game launches, and within RenderDoc, select `File`>`Attach to Running Instance` and select the game. It will likely appear as `javaw`.
+
+:::tip[Tip]
+If the mod isn't available for your version of Minecraft, try using the latest version anyway.
+:::
+
+### Without the Mod (Windows)
+
+On Windows, if the mod doesn't work for you for some reason (or you are not using Fabric), you can use process injection to hook into the game. Navigate to `Tools`>`Settings` and enable `Enable process injection (restart required)`, then restart the application.
 
 You can then select `File`>`Inject into Process`. Start the game, quickly search for `java` in the list, and press `Refresh`. Select the game, and press `Inject`.
 
@@ -39,23 +46,13 @@ You can then select `File`>`Inject into Process`. Start the game, quickly search
 Process injection must happen before Minecraft initialises OpenGL. You need to be quick!
 :::
 
-### Linux
+### Without the Mod (Linux)
+
 On Linux, the game must be made to initialise RenderDoc by itself. This can be done by setting the `LD_PRELOAD` environment variable to the path to `librenderdoc.so`. This can commonly be found at `/usr/lib64/renderdoc/librenderdoc.so`, but you can find the exact path with the below command.
-
-
-```bash title="Finding librenderdoc.so"
-$ find / -type f -name "librenderdoc.so" 2>/dev/null
-```
-
-The method for setting the value of the environment variable is launcher dependent. In [Prism Launcher](https://prismlauncher.org/), the option can be found in the `Settings` tab when editing an instance.
-
-:::caution[Warning]
-The launcher you are using *must* have permission to access the `librenderdoc.so` file. Applications running in a sandboxed environment like Flatpak do not have general filesystem access by default.
-:::
 
 ## Nsight
 [Nsight](https://developer.nvidia.com/nsight-graphics) is an NVIDIA exclusive graphics debugger. It can provide much more detailed performance statistics.
 
-The [Nsight and RenderDoc loader](https://modrinth.com/mod/nsight-loader) mod can be used to inject Nsight into the game.
+The [GFX-Debuggers](https://modrinth.com/mod/gfx-debuggers) mod can be used to inject Nsight into the game.
 
 Alternatively, you can launch your launcher of choice from within Nsight by pointing it to the launcher executable, and it should automatically hook into Minecraft.
