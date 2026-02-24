@@ -80,6 +80,10 @@ The entity tint color. The `rgb` components store the color, and the `a` compone
 color.rgb = mix(color.rgb, entityColor.rgb, entityColor.a);
 ```
 
+:::caution[Warning]
+This variable may be patched to a non-uniform value despite the `uniform` storage qualifier.
+:::
+
 ----------------
 
 
@@ -208,7 +212,7 @@ This uniform encodes the fog shape used for vanilla fog, based on the current bi
 
 ## textureFilteringMode <Badge text="Iris Exclusive" variant="tip" size="medium" />
 ```glsl
-uniform int textureFilteringMode; 
+uniform int textureFilteringMode;
 ```
 
 This uniform reports the texture filtering mode selected by the user in the Sodium quality settings. It will have one of the following values.
@@ -219,5 +223,3 @@ This uniform reports the texture filtering mode selected by the user in the Sodi
 **The `TEXTURE_FILTERING` [feature flag](/current/reference/shadersproperties/flags/) must be enabled for this uniform to be defined.** If this feature is not enabled, the user will not be able to select texture filtering options in the Sodium settings.
 
 ----------------
-
-

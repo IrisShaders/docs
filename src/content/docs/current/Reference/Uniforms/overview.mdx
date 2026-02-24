@@ -26,6 +26,8 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [relativeEyePosition](/current/reference/uniforms/camera/#relativeeyeposition)                 | vec3  |              | World space offset from the player head to the camera              | <Badge text="Iris Exclusive" variant="tip"/> |
 | [playerBodyVector](/current/reference/uniforms/camera/#playerbodyvector)                       | vec3  | [0,1]        | World aligned direction of player model's body                     | <Badge text="Iris Exclusive" variant="tip"/> |
 | [playerLookVector](/current/reference/uniforms/camera/#playerlookvector)                       | vec3  | [0,1]        | World aligned direction of player model's head                     | <Badge text="Iris Exclusive" variant="tip"/> |
+| [vehicleLookVector](/current/reference/uniforms/camera/#vehiclelookvector)                     | vec3  |              | World aligned direction of current vehicle model's head            | <Badge text="Iris Exclusive" variant="tip"/> |
+| [relativeVehiclePosition](/current/reference/uniforms/camera/#relativevehicleposition)         | vec3  |              | | <Badge text="Iris Exclusive" variant="tip"/> |
 | [upPosition](/current/reference/uniforms/camera/#upposition)                                   | vec3  | [0, 100]     | Upwards direction in view space, length of 100                     |                                              |
 | [eyeBrightness](/current/reference/uniforms/camera/#eyebrightness)                             | ivec2 | [0, 240]     | Light value at the player's location: (block, sky)                 |                                              |
 | [eyeBrightnessSmooth](/current/reference/uniforms/camera/#eyebrightnesssmooth)                 | ivec2 | [0, 240]     | `eyeBrightness` smoothed over time by `eyeBrightnessHalfLife`      |                                              |
@@ -52,6 +54,11 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [maxPlayerHealth](/current/reference/uniforms/status/#maxplayerhealth)         | float | -1, [0, 1024] | Maximum player health value                                    | <Badge text="Iris Exclusive" variant="tip"/>      |
 | [currentPlayerHunger](/current/reference/uniforms/status/#currentplayerhunger) | float | -1, [0,1]     | Normalized hunger level of player                              | <Badge text="Iris Exclusive" variant="tip"/>      |
 | [maxPlayerHunger](/current/reference/uniforms/status/#maxplayerhunger)         | float | 20            | Maximum player hunger value                                    | <Badge text="Iris Exclusive" variant="tip"/>      |
+| [vehicleInWater](/current/reference/uniforms/status/#vehicleinwater)           | bool  | true / false  | Whether the vehicle currently used by the player is in water   | <Badge text="Iris Exclusive" variant="tip"/>      |
+| [isRiding](/current/reference/uniforms/status/#isriding)                       | bool  | true / false  | Whether the player is riding an entity                         | <Badge text="Iris Exclusive" variant="tip"/>      |
+| [inSwimmingAnimation](/current/reference/uniforms/status/#inswimminganimation) | bool  | true / false  | Whether the player currently has the swimming animation        | <Badge text="Iris Exclusive" variant="tip"/>      |
+| [feetInWater](/current/reference/uniforms/status/#feetinwater)                 | bool  | true / false  | Whether the player's feet are currently in water               | <Badge text="Iris Exclusive" variant="tip"/>      |
+| [isElytraFlying](/current/reference/uniforms/status/#isElytraFlying)           | bool  | true / false  | Whether the player is currently flying with an elytra          | <Badge text="Iris Exclusive" variant="tip"/>      |
 | [is_burning](/current/reference/uniforms/status/#is_burning)                   | bool  | true / false  | Whether the player is currently on fire                        | <Badge text="OptiFine CU / Iris" variant="note"/> |
 | [is_hurt](/current/reference/uniforms/status/#is_hurt)                         | bool  | true / false  | Whether the player is currently taking damage                  | <Badge text="OptiFine CU / Iris" variant="note"/> |
 | [is_invisible](/current/reference/uniforms/status/#is_invisible)               | bool  | true / false  | Whether the player is invisible                                | <Badge text="OptiFine CU / Iris" variant="note"/> |
@@ -80,6 +87,7 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | ---------------------------------------------------------------------------------- | ---- | --------------- | ----------------------------------------------------------------------- | -------------------------------------------- |
 | [entityId](/current/reference/uniforms/id/#entityid)                               | int  | [0, 65535]      | ID of the currently rendering entity (gbuffers_entities)                |                                              |
 | [blockEntityId](/current/reference/uniforms/id/#blockentityid)                     | int  | [-32768, 32767] | ID of the currently rendering block entity (gbuffers_block)             |                                              |
+| [vehicleId](/current/reference/uniforms/id/#vehicleid)                             | int  |                 | ID of the vehicle currently used by the player                          | <Badge text="Iris Exclusive" variant="tip"/> |
 | [currentRenderedItemId](/current/reference/uniforms/id/#currentrendereditemid)     | int  | [0,65535]       | Item ID of currently rendering item/armor/trim                          | <Badge text="Iris Exclusive" variant="tip"/> |
 | [currentSelectedBlockId](/current/reference/uniforms/id/#currentselectedblockid)   | int  | [-32768, 32767] | Block ID of block selected by the player                                | <Badge text="Iris Exclusive" variant="tip"/> |
 | [currentSelectedBlockPos](/current/reference/uniforms/id/#currentselectedblockpos) | vec3 |                 | Player space position of the center of the block selected by the player | <Badge text="Iris Exclusive" variant="tip"/> |
@@ -144,22 +152,22 @@ Below is an index of all uniforms available in Iris. Uniforms marked as <Badge t
 | [textureFilteringMode](/current/reference/uniforms/rendering/#texturefilteringmode) | int   | 0,1,2            | User selected texture filtering mode                              | <Badge text="Iris Exclusive" variant="tip"/> |
 
 ## Matrices
-| Uniform                                                                                      | Type | Value range | Description                                                            | Tag |
-| -------------------------------------------------------------------------------------------- | ---- | ----------- | ---------------------------------------------------------------------- | --- |
-| [gbufferModelView](/current/reference/uniforms/matrices/#gbuffermodelview)                   | mat4 |             | Player space to view space in general                                  |     |
-| [gbufferModelViewInverse](/current/reference/uniforms/matrices/#gbuffermodelviewinverse)     | mat4 |             | Converts from view space to player space in general                    |     |
-| [gbufferProjection](/current/reference/uniforms/matrices/#gbufferprojection)                 | mat4 |             | Converts from view space to clip space in general                      |     |
-| [gbufferProjectionInverse](/current/reference/uniforms/matrices/#gbufferprojectioninverse)   | mat4 |             | Converts from clip/screen to view space in general                     |     |
-| [shadowModelView](/current/reference/uniforms/matrices/#shadowmodelview)                     | mat4 |             | Converts from player space to shadow view space in general             |     |
-| [shadowModelViewInverse](/current/reference/uniforms/matrices/#shadowmodelviewinverse)       | mat4 |             | Converts from shadow view space to player space in general             |     |
-| [shadowProjection](/current/reference/uniforms/matrices/#shadowprojection)                   | mat4 |             | Converts from shadow view space to shadow clip space in general        |     |
-| [shadowProjectionInverse](/current/reference/uniforms/matrices/#shadowprojectioninverse)     | mat4 |             | Converts from shadow clip/screen space to shadow view space in general |     |
-| [gbufferPreviousModelView](/current/reference/uniforms/matrices/#gbufferpreviousmodelview)   | mat4 |             | Value of `gbufferModelView` from the previous frame                    |     |
-| [gbufferPreviousProjection](/current/reference/uniforms/matrices/#gbufferpreviousprojection) | mat4 |             | Value of `gbufferProjection` from the previous frame                   |     |
-| [modelViewMatrix](/current/reference/uniforms/matrices/#modelviewmatrix)                     | mat4 |             | Converts from model space to view space in general                     |     |
-| [modelViewMatrixInverse](/current/reference/uniforms/matrices/#modelviewmatrixinverse)       | mat4 |             | Converts from view space to model space for current geometry           |     |
-| [projectionMatrix](/current/reference/uniforms/matrices/#projectionmatrix)                   | mat4 |             | Converts from view space to clip space for current geometry            |     |
-| [projectionMatrixInverse](/current/reference/uniforms/matrices/#projectionmatrixinverse)     | mat4 |             | Converts from clip/screen space to view space for current geometry     |     |
-| [normalMatrix](/current/reference/uniforms/matrices/#normalmatrix)                           | mat3 |             | Converts normals from model space to view space for current geometry   |     |
-| [textureMatrix](/current/reference/uniforms/matrices/#texturematrix)                         | mat4 |             | Transforms texture coordinates before sampling                         |     |
-
+| Uniform                                                                                            | Type | Value range | Description                                                            | Tag |
+| -------------------------------------------------------------------------------------------------- | ---- | ----------- | ---------------------------------------------------------------------- | --- |
+| [gbufferModelView](/current/reference/uniforms/matrices/#gbuffermodelview)                         | mat4 |             | Player space to view space in general                                  |     |
+| [gbufferModelViewInverse](/current/reference/uniforms/matrices/#gbuffermodelviewinverse)           | mat4 |             | Converts from view space to player space in general                    |     |
+| [gbufferProjection](/current/reference/uniforms/matrices/#gbufferprojection)                       | mat4 |             | Converts from view space to clip space in general                      |     |
+| [gbufferProjectionInverse](/current/reference/uniforms/matrices/#gbufferprojectioninverse)         | mat4 |             | Converts from clip/screen to view space in general                     |     |
+| [shadowModelView](/current/reference/uniforms/matrices/#shadowmodelview)                           | mat4 |             | Converts from player space to shadow view space in general             |     |
+| [shadowModelViewInverse](/current/reference/uniforms/matrices/#shadowmodelviewinverse)             | mat4 |             | Converts from shadow view space to player space in general             |     |
+| [shadowProjection](/current/reference/uniforms/matrices/#shadowprojection)                         | mat4 |             | Converts from shadow view space to shadow clip space in general        |     |
+| [shadowProjectionInverse](/current/reference/uniforms/matrices/#shadowprojectioninverse)           | mat4 |             | Converts from shadow clip/screen space to shadow view space in general |     |
+| [gbufferPreviousModelView](/current/reference/uniforms/matrices/#gbufferpreviousmodelview)         | mat4 |             | Value of `gbufferModelView` from the previous frame                    |     |
+| [gbufferPreviousProjection](/current/reference/uniforms/matrices/#gbufferpreviousprojection)       | mat4 |             | Value of `gbufferProjection` from the previous frame                   |     |
+| [gl_ModelViewMatrix](/current/reference/uniforms/matrices/#gl_modelviewmatrix)                     | mat4 |             | Converts from model space to view space in general                     |     |
+| [gl_ModelViewMatrixInverse](/current/reference/uniforms/matrices/#gl_modelviewmatrixinverse)       | mat4 |             | Converts from view space to model space for current geometry           |     |
+| [gl_ProjectionMatrix](/current/reference/uniforms/matrices/#gl_projectionmatrix)                   | mat4 |             | Converts from view space to clip space for current geometry            |     |
+| [gl_ProjectionMatrixInverse](/current/reference/uniforms/matrices/#gl_projectionmatrixinverse)     | mat4 |             | Converts from clip/screen space to view space for current geometry     |     |
+| [gl_ModelViewProjectionMatrix](/current/reference/uniforms/matrices/#gl_modelviewprojectionmatrix) | mat4 |             | Converts from model space to clip space for current geometry           |     |
+| [gl_NormalMatrix](/current/reference/uniforms/matrices/#gl_normalmatrix)                           | mat3 |             | Converts normals from model space to view space for current geometry   |     |
+| [gl_TextureMatrix\[0\]](/current/reference/uniforms/matrices/#gl_texturematrix0)                   | mat4 |             | Transforms texture coordinates before sampling                         |     |
