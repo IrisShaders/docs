@@ -32,7 +32,7 @@ This uniform stores the ID (from [`block.properties`](/current/reference/miscell
 ```glsl
 uniform int vehicleId;
 ```
-This uniform stores the ID (from [`entity.properties`](/current/reference/miscellaneous/entity_properties/)) of the vehicle currently used by the player.
+This uniform stores the ID (from [`entity.properties`](/current/reference/miscellaneous/entity_properties/)) of the vehicle currently used by the player. Value is `0` if no [`entity.properties`](/current/reference/miscellaneous/entity_properties/) is present. Value `65535` if [`entity.properties`](/current/reference/miscellaneous/entity_properties/) is present and the entity is not in the file.
 
 ----------------
 

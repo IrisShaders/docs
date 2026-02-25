@@ -175,7 +175,7 @@ This value stores the maximum player hunger value, which is twice the number of 
 ```glsl
 uniform bool vehicleInWater;
 ```
-This value is `true` when a vehicle currently used by the player is in water, and `false` otherwise.
+This value is `true` when a vehicle currently used by the player is touching a water surface, and `false` otherwise.
 
 ----------------
 
@@ -191,7 +191,7 @@ This value is `true` when the player is riding an entity and `false` otherwise.
 
 ## inSwimmingAnimation <Badge text="Iris Exclusive" variant="tip" size="medium" />
 ```glsl
-uniform bool isRiding;
+uniform bool inSwimmingAnimation;
 ```
 This value is `true` when the player is currently in a state where the swimming animation is used, and `false` otherwise.
 
@@ -202,7 +202,7 @@ This value is `true` when the player is currently in a state where the swimming 
 ```glsl
 uniform bool feetInWater;
 ```
-This value is `true` when the player's feet are in water and `false` otherwise.
+This value is `true` when the player is touching a water surface and `false` otherwise.
 
 ----------------
 
