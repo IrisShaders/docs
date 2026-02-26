@@ -201,7 +201,7 @@ uniform mat4 projectionMatrixInverse;
 ```glsl
 gl_ModelViewProjectionMatrix
 ```
-Equal to `gl_ModelViewMatrix * gl_ProjectionMatrix`, not accounting for possible rounding differences.
+Equal to `gl_ProjectionMatrix * gl_ModelViewMatrix`, not accounting for possible rounding differences.
 
 ```glsl
 vec3 model_pos = gl_Vertex.xyz;
