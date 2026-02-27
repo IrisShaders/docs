@@ -100,7 +100,7 @@ Equivalent to [`playerMood`](/current/reference/uniforms/status/#playermood) exc
 
 
 ## currentPlayerAir <Badge text="Iris Exclusive" variant="tip" size="medium" />
-```
+```glsl
 uniform float currentPlayerAir;
 ```
 This value stores the relative player air when underwater ranging from `0` to `1`. That means when the player is at full air, this value is `1`, and when they are out of air (e.g. drowning) the value is `0`. The value is `-1` in creative and spectator modes. To absolute air of the player, multiply this value by the uniform [`maxPlayerAir`](/current/reference/uniforms/status/#maxplayerair).
