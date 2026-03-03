@@ -257,6 +257,13 @@ Our shadows now look nice and sharp near the player!
 
 ![](../../../../../assets/beginner_tutorial/distortedshadows.webp)
 
+While we're here, it's a good idea to set another value - [`shadowDistanceRenderMul`](/current/reference/constants/shadowdistancerendermul/). This tells Iris not to render terrain outside the shadow distance when rendering the shadow map. This functionality is disabled by default for legacy reasons, but there's no reason not to set it.
+
+```glsl
+const float shadowDistanceRenderMul = 1.0;
+```
+
+
 ## Transparent Shadows
 
 If you look at something like stained glass, you'll see that it casts a solid shadow. This doesn't really make sense, since (it being partially translucent) it should be letting some light through. Handily, there are a couple of extra shadowmaps we can access to help us with this.
