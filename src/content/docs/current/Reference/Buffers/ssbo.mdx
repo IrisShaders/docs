@@ -44,8 +44,6 @@ Like with fixed sized SSBOs, replace `<index>` with a unique value from 0 to 8.
 ## Using SSBOs in your shader
 To use an SSBO in a shader, you must define it's layout. Here is an example definition of a SSBO, where bufferName can be any name:
 
-**This layout must be the same across all shaders, otherwise the data will get corrupted.**
-
 ```glsl
 layout(std430, binding = index) buffer bufferName {
     vec4 someData; // 16 bytes
