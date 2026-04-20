@@ -28,6 +28,15 @@ This uniform stores the ID (from [`block.properties`](/current/reference/miscell
 ----------------
 
 
+## vehicleId <Badge text="Iris Exclusive (1.10.4+)" variant="tip" size="medium" />
+```glsl
+uniform int vehicleId;
+```
+This uniform stores the ID (from [`entity.properties`](/current/reference/miscellaneous/entity_properties/)) of the vehicle currently used by the player. Value is `0` if no [`entity.properties`](/current/reference/miscellaneous/entity_properties/) is present. Value `65535` if [`entity.properties`](/current/reference/miscellaneous/entity_properties/) is present and the entity is not in the file.
+
+----------------
+
+
 ## currentRenderedItemId <Badge text="Iris Exclusive" variant="tip" size="medium" />
 ```glsl
 uniform int currentRenderedItemId;
@@ -96,7 +105,4 @@ uniform int heldBlockLightValue2;
 ```
 The light strength of the item held in the player's offhand. This ranges from `0`-`15` for vanilla blocks, however some modded blocks may have a higher value.
 
-
 ----------------
-
-

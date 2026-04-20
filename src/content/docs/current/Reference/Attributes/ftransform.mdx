@@ -1,0 +1,27 @@
+---
+title: ftransform
+description: The vertex position in clip space.
+sidebar:
+  label: ftransform
+  order: 2
+---
+
+### `ftransform`
+
+**Valid Programs**: `*.vsh`
+
+---
+
+Function returning the vertex position in clip space.
+
+```glsl
+/*
+	vec3 model_pos = gl_Vertex.xyz;
+	vec4 view_pos = gl_ModelViewMatrix * vec4(model_pos, 1.0);
+	vec4 clip_pos = gl_ProjectionMatrix * view_pos;
+*/
+
+vec4 clip_pos = ftransform(); // Equivalent to the above, not accounting for possible rounding differences.
+
+gl_Position = clip_pos;
+```
