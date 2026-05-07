@@ -100,7 +100,7 @@ Equivalent to [`playerMood`](/current/reference/uniforms/status/#playermood) exc
 
 
 ## currentPlayerAir <Badge text="Iris Exclusive" variant="tip" size="medium" />
-```
+```glsl
 uniform float currentPlayerAir;
 ```
 This value stores the relative player air when underwater ranging from `0` to `1`. That means when the player is at full air, this value is `1`, and when they are out of air (e.g. drowning) the value is `0`. The value is `-1` in creative and spectator modes. To absolute air of the player, multiply this value by the uniform [`maxPlayerAir`](/current/reference/uniforms/status/#maxplayerair).
@@ -167,6 +167,51 @@ This value stores the relative player hunger ranging from `0` to `1`. That means
 uniform float maxPlayerHunger;
 ```
 This value stores the maximum player hunger value, which is twice the number of hunger icons in the user interface (one value for each half-hunger icon). In a default survival world this value is `20` unless changed by mods. Modes without hunger (such as creative and spectator modes) will still indicate the same maximum hunger value.
+
+----------------
+
+
+## vehicleInWater <Badge text="Iris Exclusive (1.10.4+)" variant="tip" size="medium" />
+```glsl
+uniform bool vehicleInWater;
+```
+This value is `true` when a vehicle currently used by the player is touching a water surface, and `false` otherwise.
+
+----------------
+
+
+## isRiding <Badge text="Iris Exclusive (1.10.4+)" variant="tip" size="medium" />
+```glsl
+uniform bool isRiding;
+```
+This value is `true` when the player is riding an entity and `false` otherwise.
+
+----------------
+
+
+## inSwimmingAnimation <Badge text="Iris Exclusive (1.10.4+)" variant="tip" size="medium" />
+```glsl
+uniform bool inSwimmingAnimation;
+```
+This value is `true` when the player is currently in a state where the swimming animation is used, and `false` otherwise.
+
+----------------
+
+
+## feetInWater <Badge text="Iris Exclusive (1.10.4+)" variant="tip" size="medium" />
+```glsl
+uniform bool feetInWater;
+```
+This value is `true` when the player is touching a water surface and `false` otherwise.
+
+----------------
+
+
+## isElytraFlying <Badge text="Iris Exclusive (1.10.6+)" variant="tip" size="medium" />
+```glsl
+uniform bool isElytraFlying;
+```
+This value is `true` when the player is flying with an elytra and `false` otherwise.
 
 ----------------
 

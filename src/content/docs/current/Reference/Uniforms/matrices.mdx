@@ -35,7 +35,7 @@ Equal to [`inverse(gbufferModelView)`](/current/reference/uniforms/matrices/#gbu
 ```glsl
 uniform mat4 gbufferProjection;
 ```
-Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices/#projectionmatrix) used by all [gbuffers programs](/current/reference/programs/gbuffers/) except for `gbuffers_hand` and `gbuffers_hand_water`, where the [`projectionMatrix`](/current/reference/uniforms/matrices/#projectionmatrix) multiplies the Z axis by `MC_HAND_DEPTH` to move the hand closer to the camera than the rest of the world.
+Equal to the [`gl_ProjectionMatrix`](/current/reference/uniforms/matrices/#gl_projectionmatrix) used by all [gbuffers programs](/current/reference/programs/gbuffers/) except for `gbuffers_hand` and `gbuffers_hand_water`, where the [`gl_ProjectionMatrix`](/current/reference/uniforms/matrices/#gl_projectionmatrix) multiplies the Z axis by `MC_HAND_DEPTH` to move the hand closer to the camera than the rest of the world.
 
 ----------------
 
@@ -53,7 +53,7 @@ Equal to [`inverse(gbufferProjection)`](/current/reference/uniforms/matrices/#gb
 ```glsl
 uniform mat4 shadowModelView;
 ```
-Equal to the [`modelViewMatrix`](/current/reference/uniforms/matrices/#modelviewmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow/).
+Equal to the [`gl_ModelViewMatrix`](/current/reference/uniforms/matrices/#gl_modelviewmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow/).
 
 ----------------
 
@@ -71,7 +71,7 @@ Equal to [`inverse(shadowModelView)`](/current/reference/uniforms/matrices#shado
 ```glsl
 uniform mat4 shadowProjection;
 ```
-Equal to the [`projectionMatrix`](/current/reference/uniforms/matrices/#projectionmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow).
+Equal to the [`gl_ProjectionMatrix`](/current/reference/uniforms/matrices/#gl_projectionmatrix) when the shadow map was generated in the [shadow program](/current/reference/programs/shadow).
 
 ----------------
 
@@ -137,17 +137,17 @@ gl_Position = clip_pos;
 
 ----------------
 
+## gl_ModelViewMatrixInverse
+```glsl
+gl_ModelViewMatrixInverse
+```
+Equal to [`inverse(gl_ModelViewMatrix)`](/current/reference/uniforms/matrices/#gl_modelviewmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
-## modelViewMatrixInverse
-
-:::danger
-This uniform only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
-:::
+Equivalent to `modelViewMatrixInverse` in the [`core` profile](/current/how-to/compatibility_vs_core).
 
 ```glsl
 uniform mat4 modelViewMatrixInverse;
 ```
-Equal to [`inverse(modelViewMatrix)`](/current/reference/uniforms/matrices/#modelviewmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
@@ -180,23 +180,37 @@ vec4 clip_pos = projectionMatrix * view_pos;
 gl_Position = clip_pos;
 ```
 
-
-
 ----------------
 
+## gl_ProjectionMatrixInverse
+```glsl
+gl_ProjectionMatrixInverse
+```
+Equal to [`inverse(gl_ProjectionMatrix)`](/current/reference/uniforms/matrices/#gl_projectionmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
-## projectionMatrixInverse
-:::danger
-This uniform only works with the `core` profile in Minecraft 1.17 and newer. It is recommended to use the `compatibility` profile with Iris for better support. See [this page](/current/how-to/compatibility_vs_core) for more information.
-:::
+Equivalent to `projectionMatrixInverse` in the [`core` profile](/current/how-to/compatibility_vs_core).
 
 ```glsl
 uniform mat4 projectionMatrixInverse;
 ```
-Equal to [`inverse(projectionMatrix)`](/current/reference/uniforms/matrices/#projectionmatrix), but calculated on the CPU to avoid running the expensive `inverse()` function on the GPU.
 
 ----------------
 
+
+## gl_ModelViewProjectionMatrix
+```glsl
+gl_ModelViewProjectionMatrix
+```
+Equal to `gl_ProjectionMatrix * gl_ModelViewMatrix`, not accounting for possible rounding differences.
+
+```glsl
+vec3 model_pos = gl_Vertex.xyz;
+vec4 clip_pos = gl_ModelViewProjectionMatrix * vec4(model_pos, 1.0);
+
+gl_Position = clip_pos;
+```
+
+----------------
 
 ## gl_NormalMatrix
 ```glsl
