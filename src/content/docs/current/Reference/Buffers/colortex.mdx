@@ -11,7 +11,7 @@ import { Badge } from '@astrojs/starlight/components';
 ### `uniform sampler2D colortexN;`
 ### `layout (<format>) uniform image2D colorimgN;`
 
-There are 16 color attachments available through the `colortex0` through `colortex15` samplers. These samplers can be read from any program, and can be written to from the fragment stage of any [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`gbuffers`](/current/reference/programs/gbuffers/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite/) program. 
+There are 16 color attachments available through the `colortex0` through `colortex15` samplers. In Iris version 1.10.5, this was increased to 32. These samplers can be read from any program, and can be written to from the fragment stage of any [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`gbuffers`](/current/reference/programs/gbuffers/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite/) program. 
 
 :::caution[Warning]
 `colortex`es `0`-`3` cannot be read from in gbuffers programs. Sampling these buffers in these programs will sample the atlas instead.
@@ -20,7 +20,12 @@ There are 16 color attachments available through the `colortex0` through `colort
 #### Writing
 Any [`begin`](/current/reference/programs/begin/), [`prepare`](/current/reference/programs/prepare/), [`gbuffers`](/current/reference/programs/gbuffers/), [`deferred`](/current/reference/programs/deferred/), or [`composite`](/current/reference/programs/composite) program can write to a colortex buffer, the buffers to write to can be selected with the [`RENDERTARGETS`](/current/reference/constants/rendertargets/) or [`DRAWBUFFERS`](/current/reference/constants/drawbuffer/) directive.
 
-Additionally, you can read and write to the first 6 colortex buffer in OptiFine or any colortex buffer in Iris using `colorimgN` where `N` is replaced with the colortex index. This is the only way to write to colortex buffers from compute shaders, but also works in any program. For more information on image load/store, see the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Image_Load_Store).
+Additionally, you can read and write to any colortex buffer in Iris using `colorimgN` where `N` is replaced with the colortex index. This is the only way to write to colortex buffers from compute shaders, but also works in any program. For more information on image load/store, see the [Khronos Wiki](https://www.khronos.org/opengl/wiki/Image_Load_Store). 
+
+:::caution[Warning]
+On OptiFine, only the first 6 colortex buffers can be written using the `colorimgN` binding.
+:::
+
 
 #### Size
 These buffers default to the display resolution, although this can be configured with the [`size.buffer`](/current/reference/shadersproperties/rendering/#sizebuffer) define in shaders.properties. However, changing the buffer size will prevent any [`gbuffer`](/current/reference/programs/gbuffers/) program from writing to the texture.
