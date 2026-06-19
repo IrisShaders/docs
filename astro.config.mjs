@@ -1,14 +1,15 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightImageZoom from 'starlight-image-zoom';
-import starlightUtils from "@lorenzo_lewis/starlight-utils";
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
+import { rehypeHeadingIds, unified } from '@astrojs/markdown-remark'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 export default defineConfig({
 	site: 'https://shaders.properties',
 	markdown: {
-		rehypePlugins: [rehypeHeadingIds, rehypeAutolinkHeadings],
+		processor: unified({
+			rehypePlugins: [rehypeHeadingIds, rehypeAutolinkHeadings],
+		}),
 	},
 	integrations: [
 		starlight({
@@ -32,21 +33,11 @@ export default defineConfig({
 			sidebar: [
 				{
 					label: 'Iris',
-					autogenerate: { directory: 'current', collapsed: true },
-				},
-				{
-					label: 'Aperture',
-					autogenerate: { directory: 'aperture', collapsed: true },
-					badge: "Beta",
+					items: [{ autogenerate: { directory: 'current', collapsed: true } }],
 				},
 			],
 			plugins: [
-				starlightImageZoom(),
-				starlightUtils({
-					multiSidebar: {
-						switcherStyle: "horizontalList",
-					},
-				}),
+				starlightImageZoom()
 			]
 		}),
 	]

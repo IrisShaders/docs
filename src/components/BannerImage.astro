@@ -2,13 +2,15 @@
 const darkImages = Object.values(
 	import.meta.glob('/src/assets/banners/dark/*', {
 		eager: true,
-		as: 'url',
+		query: '?url',
+		import: 'default',
 	})
 );
 const lightImages = Object.values(
 	import.meta.glob('/src/assets/banners/light/*', {
 		eager: true,
-		as: 'url',
+		query: '?url',
+		import: 'default',
 	})
 );
 ---
