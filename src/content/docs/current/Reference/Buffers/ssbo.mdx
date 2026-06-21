@@ -25,14 +25,14 @@ SSBOs require OpenGL 4.3 support, which macOS does not have. For more informatio
 ### Fixed Size SSBOs
 To define the SSBO with a fixed size, put the following in [`shaders.properties`](/current/reference/shadersproperties/overview/) and replace `<totalByteSize>` with the total size of the SSBO in bytes and replace `<index>` with a unique value from 0 to 8.
 
-```
+```properties
 bufferObject.<index> = <byteSize>
 ```
 
 ### Screen-Sized SSBOs
 SSBOs can also be defined as screen-sized (Iris 1.6.6 and later), where their size is relative to the screen dimensions. This is useful for storing data per-pixel. To use this, put the following in [`shaders.properties`](/current/reference/shadersproperties/overview/).
 
-```
+```properties
 bufferObject.<index> = <byteSize> <isRelative> <scaleX> <scaleY>
 ```
 
