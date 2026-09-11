@@ -1,0 +1,20 @@
+---
+title: include
+description: Allows the shader to be split across multiple files
+sidebar:
+  label: include
+  order: 2
+---
+
+### `#include "<path>"`
+
+This preprocessor directive is replaced with the contents of the included file.
+
+Absolute imports have a leading slash, and are treated as relative to the top-level `shaders/` folder.
+
+Relative imports lack a leading slash, and are treated as relative to the current file.
+
+```glsl title="shaders/overworld/foo"
+#include "/bar" // includes shaders/bar
+#include "bar"  // includes shaders/overworld/bar
+```
